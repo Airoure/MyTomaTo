@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_dialog_todo_bg"
+        android:paddingBottom="5dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_color_primary_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="添加待办"
+            app:titleTextColor="@color/white" />
+
+        <EditText
+            android:id="@+id/et_todo_name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:hint="请输入待办项名称"
+            android:maxLength="20"
+            android:maxLines="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
+            app:layout_constraintRight_toRightOf="@id/et_todo_name"
+            app:layout_constraintTop_toBottomOf="@id/et_todo_name" />
+
+        <TextView
+            android:id="@+id/tv_set_time"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/et_todo_name"
+            app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
+            android:layout_marginTop="15dp"
+            android:text="设定时间:"/>
+
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/picker_hour"
+            app:layout_constraintLeft_toLeftOf="@id/tv_set_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_set_time"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            app:npv_ItemPaddingHorizontal="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_ShownCount="3"
+            app:npv_RespondChangeOnDetached="false"
+            app:npv_TextSizeNormal="10sp"
+            app:npv_TextSizeSelected="20sp"
+            app:npv_WrapSelectorWheel="false"
+            app:npv_TextArray="@array/hour_picker"
+            app:npv_DividerColor="?attr/colorPrimary"
+            app:npv_TextColorSelected="?attr/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/picker_hour"
+            app:layout_constraintBottom_toBottomOf="@id/picker_hour"
+            app:layout_constraintLeft_toRightOf="@id/picker_hour"
+            app:layout_constraintRight_toLeftOf="@id/picker_minute"
+            android:textColor="@color/black"
+            android:text="时"/>
+
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/picker_minute"
+            app:layout_constraintLeft_toRightOf="@id/tv_hour"
+            app:layout_constraintTop_toTopOf="@id/picker_hour"
+            app:layout_constraintBottom_toBottomOf="@id/picker_hour"
+            app:layout_constraintRight_toLeftOf="@id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            app:npv_ItemPaddingHorizontal="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_ShownCount="3"
+            app:npv_RespondChangeOnDetached="false"
+            app:npv_TextSizeNormal="10sp"
+            app:npv_TextSizeSelected="20sp"
+            app:npv_WrapSelectorWheel="false"
+            app:npv_TextArray="@array/minute_picker"
+            app:npv_DividerColor="?attr/colorPrimary"
+            app:npv_TextColorSelected="?attr/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/picker_hour"
+            app:layout_constraintBottom_toBottomOf="@id/picker_hour"
+            app:layout_constraintLeft_toRightOf="@id/picker_minute"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/black"
+            android:text="分"/>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
+            app:layout_constraintTop_toBottomOf="@id/picker_hour"
+            android:layout_marginTop="10dp"
+            android:text="确定"/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="@id/et_todo_name"
+            app:layout_constraintTop_toBottomOf="@id/picker_hour"
+            android:layout_marginTop="10dp"
+            android:text="取消"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

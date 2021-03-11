@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.zjl.mytomato.BaseFragment
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.ActivityMainBinding
 import com.zjl.mytomato.ui.mine.MineFragment
