@@ -7,6 +7,7 @@ import com.zjl.mytomato.R
 import com.zjl.mytomato.database.DatabaseManager
 import com.zjl.mytomato.databinding.DialogSetTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
+import java.util.*
 
 class SetTodoDialog constructor(context: Context,listener: ButtonClickListener) :
     Dialog(context, R.style.BaseDialog) {
@@ -23,7 +24,7 @@ class SetTodoDialog constructor(context: Context,listener: ButtonClickListener) 
                 }else if(hour == 0 && minute == 0){
                     CommonDialog(context,content = "时间不能设置为0").show()
                 }else{
-                    listener.onConfirmClick(TodoEntity(todoName,hour,minute))
+                    listener.onConfirmClick(TodoEntity(todoName,hour,minute,UUID.randomUUID().toString()))
                     dismiss()
                 }
             }

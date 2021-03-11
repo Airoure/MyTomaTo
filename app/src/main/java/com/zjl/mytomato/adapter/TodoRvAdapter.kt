@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.ItemRvTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
+import com.zjl.mytomato.view.WorkWindow
 import java.util.*
 
 class TodoRvAdapter() : RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
@@ -26,20 +28,6 @@ class TodoRvAdapter() : RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
     }
 
     class ViewHolder(private val ui: ItemRvTodoBinding) : RecyclerView.ViewHolder(ui.root) {
-        init {
-            ui.tvStart.setOnClickListener {
-                Log.e("123", "开始")
-            }
-            ui.ivBackground.apply {
-                val uuid = UUID.randomUUID()
-                Log.e("UUID","$uuid")
-                Glide.with(context)
-                    .load("https://source.unsplash.com/1600x900/?nature/$uuid")
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(this)
-            }
-        }
-
         fun bind(todoEntity: TodoEntity) {
             if (todoEntity != null) {
                 ui.apply {
@@ -52,7 +40,15 @@ class TodoRvAdapter() : RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
                     }
                     tvTime.text = time.toString()
                     tvTitle.text = todoEntity.name
-
+                    ivBackground.apply {
+                        Glide.with(context)
+                            .load("https://source.unsplash.com/1600x900/?nature/${todoEntity.imageUrl}")
+                            .placeholder(resources.getDrawable(R.color.black))
+                            .into(this)
+                    }
+                    tvStart.setOnClickListener {
+                        WorkWindow(ui.tvStart.context,todoEntity.imageUrl).show()
+                    }
                 }
             }
         }

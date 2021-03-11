@@ -1,7 +1,26 @@
 package com.zjl.mytomato
 
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 
-class BaseActivity :AppCompatActivity() {
+abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
+    protected lateinit var ui: V
 
+    abstract fun initUI() : V
+
+    protected open fun init(){}
+    override fun onCreate(savedInstanceState: Bundle?)  {
+        super.onCreate(savedInstanceState)
+        Log.e("123","123")
+        ui = initUI()
+        setContentView(ui.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        init()
+    }
 }

@@ -6,5 +6,6 @@ import androidx.room.Entity
 data class TodoEntity(
     var name: String,
     var hour: Int,
-    var minute: Int
+    var minute: Int,
+    var imageUrl: String = ""
 )
