@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.glance.guolindev.extension.dp
+import com.zjl.mytomato.util.dp
 
 
 class SpacingDecoration(

@@ -6,4 +6,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="CornerImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15%</item>
+    </style>
 </resources>

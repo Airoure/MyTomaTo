@@ -24,7 +24,7 @@ class SetTodoDialog constructor(context: Context,listener: ButtonClickListener) 
                 }else if(hour == 0 && minute == 0){
                     CommonDialog(context,content = "时间不能设置为0").show()
                 }else{
-                    listener.onConfirmClick(TodoEntity(todoName,hour,minute,UUID.randomUUID().toString()))
+                    listener.onConfirmClick(TodoEntity(todoName,hour,minute,imageUrl = UUID.randomUUID().toString()))
                     dismiss()
                 }
             }

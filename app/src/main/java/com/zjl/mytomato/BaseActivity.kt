@@ -14,7 +14,6 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected open fun init(){}
     override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
-        Log.e("123","123")
         ui = initUI()
         setContentView(ui.root)
     }

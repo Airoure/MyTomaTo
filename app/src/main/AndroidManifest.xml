@@ -14,6 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTomato">
+        <activity android:name=".ui.Lock.LockActivity"></activity>
+
+        <service
+            android:name=".service.LockService"
+            android:enabled="true"
+            android:exported="false">
+
+        </service>
+
         <activity
             android:name=".ui.launch.LaunchActivity"
             android:theme="@style/Theme.launch">
@@ -22,12 +31,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
