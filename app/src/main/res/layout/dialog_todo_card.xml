@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_dialog_todo_bg"
+        android:paddingBottom="5dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_color_primary_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="修改"
+            app:titleTextColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/tv_set_time"/>
+
+        <TextView
+            android:id="@+id/et_todo_name"
+            android:layout_width="250dp"
+            android:text="123"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/black"
+            android:shadowDx="10"
+            android:shadowDy="5"
+            android:shadowRadius="10"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:maxLength="20"
+            android:maxLines="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iv_back"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintRight_toRightOf="@id/iv_back"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_refresh"/>
+
+        <ImageView
+            android:id="@+id/iv_photo_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iv_back"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintRight_toLeftOf="@id/iv_refresh"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_photo_album"/>
+
+
+        <TextView
+            android:id="@+id/tv_set_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="设定时间:"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
+            app:layout_constraintTop_toBottomOf="@id/et_todo_name" />
+
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/picker_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="@id/tv_set_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_set_time"
+            app:npv_DividerColor="?attr/colorPrimary"
+            app:npv_ItemPaddingHorizontal="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_RespondChangeOnDetached="false"
+            app:npv_ShownCount="3"
+            app:npv_TextArray="@array/hour_picker"
+            app:npv_TextColorSelected="?attr/colorPrimary"
+            app:npv_TextSizeNormal="10sp"
+            app:npv_TextSizeSelected="20sp"
+            app:npv_WrapSelectorWheel="false" />
+
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/picker_hour"
+            app:layout_constraintLeft_toRightOf="@id/picker_hour"
+            app:layout_constraintRight_toLeftOf="@id/picker_minute"
+            app:layout_constraintTop_toTopOf="@id/picker_hour" />
+
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/picker_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintBottom_toBottomOf="@id/picker_hour"
+            app:layout_constraintLeft_toRightOf="@id/tv_hour"
+            app:layout_constraintRight_toLeftOf="@id/tv_minute"
+            app:layout_constraintTop_toTopOf="@id/picker_hour"
+            app:npv_DividerColor="?attr/colorPrimary"
+            app:npv_ItemPaddingHorizontal="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_RespondChangeOnDetached="false"
+            app:npv_ShownCount="3"
+            app:npv_TextArray="@array/minute_picker"
+            app:npv_TextColorSelected="?attr/colorPrimary"
+            app:npv_TextSizeNormal="10sp"
+            app:npv_TextSizeSelected="20sp"
+            app:npv_WrapSelectorWheel="false" />
+
+        <TextView
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/picker_hour"
+            app:layout_constraintLeft_toRightOf="@id/picker_minute"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/picker_hour" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="确定"
+            app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
+            app:layout_constraintTop_toBottomOf="@id/picker_hour" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="取消"
+            app:layout_constraintRight_toRightOf="@id/et_todo_name"
+            app:layout_constraintTop_toBottomOf="@id/picker_hour" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

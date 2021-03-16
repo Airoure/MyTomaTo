@@ -12,7 +12,7 @@ interface TodoEntityDao {
     @Delete
     suspend fun delete(todoEntity: TodoEntity): Int
 
-    @Update
+    @Update()
     suspend fun update(todoEntity: TodoEntity): Int
 
     @Query("select * from TodoEntity where name = :name")

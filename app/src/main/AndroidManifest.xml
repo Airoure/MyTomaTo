@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
     <application
         android:name=".App"
@@ -14,15 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTomato">
-        <activity android:name=".ui.Lock.LockActivity"></activity>
+        <activity
+            android:launchMode="singleTask"
+            android:name=".ui.lock.LockActivity">
 
-        <service
-            android:name=".service.LockService"
-            android:enabled="true"
-            android:exported="false">
-
-        </service>
-
+        </activity>
         <activity
             android:name=".ui.launch.LaunchActivity"
             android:theme="@style/Theme.launch">

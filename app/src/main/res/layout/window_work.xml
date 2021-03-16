@@ -13,7 +13,6 @@
     <TextView
         android:id="@+id/tv_time"
         android:textSize="25sp"
-        android:text="11小时"
         android:textColor="@color/white"
         android:shadowColor="@color/black"
         android:shadowDx="10"
@@ -62,6 +61,16 @@
         android:src="@drawable/stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/iv_music"
+        app:layout_constraintRight_toLeftOf="@id/iv_white_list" />
+
+    <ImageView
+        android:id="@+id/iv_white_list"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_white_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/iv_stop"
         app:layout_constraintRight_toLeftOf="@id/iv_pause" />
 
     <ImageView
@@ -71,6 +80,6 @@
         android:layout_marginBottom="100dp"
         android:src="@drawable/pause"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/iv_stop"
+        app:layout_constraintLeft_toRightOf="@id/iv_white_list"
         app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

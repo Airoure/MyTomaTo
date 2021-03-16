@@ -12,6 +12,7 @@ class TodoVm: BaseViewModel() {
 
     val messageLiveData = MutableLiveData<Int>()
     val todoLiveData = MutableLiveData<TodoEntity>()
+    val removeLiveData = MutableLiveData<TodoEntity>()
     val firstLoadLiveData = MutableLiveData<MutableList<TodoEntity>>()
 
     private val repo by lazy { TodoRepo(viewModelScope) }
@@ -23,5 +24,14 @@ class TodoVm: BaseViewModel() {
     override fun load() {
         repo.getAllTodo(firstLoadLiveData)
     }
+
+    fun deleteTodo(todoEntity: TodoEntity) {
+        repo.deleteTodo(todoEntity,removeLiveData)
+    }
+
+    fun saveTodo(todoEntity: TodoEntity) {
+        repo.saveTodo(todoEntity,firstLoadLiveData,messageLiveData)
+    }
+
 
 }

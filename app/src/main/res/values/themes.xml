@@ -22,4 +22,6 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name ="android:windowBackground">@color/teal_700</item>
     </style>
+
+
 </resources>

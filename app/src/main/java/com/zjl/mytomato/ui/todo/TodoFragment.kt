@@ -19,9 +19,17 @@ import com.zjl.mytomato.view.SpacingDecoration
 
 class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
-    private val adapter: TodoRvAdapter = TodoRvAdapter()
+    private lateinit var adapter: TodoRvAdapter
     override fun initUi(): FragmentTodoBinding {
+        adapter = TodoRvAdapter(object :TodoRvAdapter.OnAdapterClickListener{
+            override fun onDeleteClick(todoEntity: TodoEntity) {
+                vm.deleteTodo(todoEntity)
+            }
 
+            override fun onSaveClick(todoEntity: TodoEntity) {
+                vm.saveTodo(todoEntity)
+            }
+        })
         return FragmentTodoBinding.inflate(layoutInflater).apply {
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -52,10 +60,13 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
     override fun init() {
         vm.messageLiveData.observe(this, Observer {
-            if (it == Constant.ADD_TODO_SUCCESS) {
-                Toast.makeText(context, "待办添加成功", Toast.LENGTH_SHORT).show()
-            } else if (it == Constant.ADD_TODO_FAIL) {
-                CommonDialog(context!!, content = "已经存在同名待办啦！").show()
+            when (it) {
+                Constant.ADD_TODO_SUCCESS -> {
+                    Toast.makeText(context, "待办添加成功", Toast.LENGTH_SHORT).show()
+                }
+                Constant.ADD_TODO_FAIL , Constant.UPDATE_TODO_FAIL -> {
+                    CommonDialog(context!!, content = "已经存在同名待办啦！").show()
+                }
             }
         })
 
@@ -65,6 +76,10 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
         vm.todoLiveData.observe(this, Observer {
             adapter.addTodoEntity(it)
+        })
+        vm.removeLiveData.observe(this, Observer {
+            adapter.remoeveItem(it)
+            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show()
         })
     }
 

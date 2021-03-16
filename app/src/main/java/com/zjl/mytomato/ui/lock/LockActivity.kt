@@ -1,24 +1,32 @@
-package com.zjl.mytomato.ui.Lock
+package com.zjl.mytomato.ui.lock
 
+import android.app.usage.UsageStats
+import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
+import com.zjl.mytomato.App
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.WindowWorkBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.main.MainActivity
 import com.zjl.mytomato.view.TipView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+
 
 class LockActivity : AppCompatActivity() {
     private lateinit var workView: View
@@ -33,7 +41,9 @@ class LockActivity : AppCompatActivity() {
         val tipView = TipView(
             this,
             content = "确定要退出吗",
-        )
+        ){
+            windowManager.removeView(it)
+        }
         tipView.setOnConfirmClickListener {
             startActivity(
                 Intent(this, MainActivity::class.java)
@@ -47,20 +57,20 @@ class LockActivity : AppCompatActivity() {
 
             }
             imgBack.apply {
-                Glide.with(context)
-                    .load("https://source.unsplash.com/1600x900/?nature/${todoEntity!!.imageUrl}")
+                Glide.with(applicationContext)
+                    .load("https://source.unsplash.com/1600x900/?nature/${todoEntity?.imageUrl}")
                     .placeholder(resources.getDrawable(R.color.black))
                     .into(this)
             }
             tvTodoName.text = todoEntity!!.name
         }
         workView = realUi.root
-        lockVm.timeLiveData.observe(this, Observer {
+        lockVm.timeLiveData.observe(this, {
             realUi.tvTime.text = it
         })
 
-        lockVm.finishLiveData.observe(this, Observer {
-            if(it){
+        lockVm.finishLiveData.observe(this, {
+            if (it) {
                 removeView()
             }
         })
@@ -79,20 +89,24 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST
         }
         mLayoutParam.packageName = AppUtils.getAppPackageName()
-        mLayoutParam.flags =
-            mLayoutParam.flags or WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
-        mLayoutParam.flags =
-            mLayoutParam.flags or (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
-        mLayoutParam.flags =
-            mLayoutParam.flags or (WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        mLayoutParam.flags = mLayoutParam.flags or
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED or
+                (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)or
+                (WindowManager.LayoutParams.FLAG_FULLSCREEN or
+                        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
+                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION or
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
         mLayoutParam.width = WindowManager.LayoutParams.MATCH_PARENT
         mLayoutParam.height = WindowManager.LayoutParams.MATCH_PARENT
         mLayoutParam.format = PixelFormat.TRANSPARENT
         try {
             mLayoutParam.x = 0
             mLayoutParam.y = 0
-            windowManager.addView(workView, mLayoutParam)
-            lockVm.startCountDonw(todoEntity!!)
+            if(!workView.isAttachedToWindow){
+                windowManager.addView(workView, mLayoutParam)
+                lockVm.startCountDonw(todoEntity!!)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "似乎没有悬浮窗权限哦！", Toast.LENGTH_SHORT).show()

@@ -1,9 +1,12 @@
 package com.zjl.mytomato.ui.main
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,6 +19,7 @@ import com.zjl.mytomato.ui.mine.MineFragment
 import com.zjl.mytomato.ui.statistics.StatisticFragment
 import com.zjl.mytomato.ui.todo.TodoFragment
 import com.zjl.mytomato.ui.todolist.TodoListFragment
+import com.zjl.mytomato.view.CommonDialog
 
 class MainActivity : AppCompatActivity() {
 

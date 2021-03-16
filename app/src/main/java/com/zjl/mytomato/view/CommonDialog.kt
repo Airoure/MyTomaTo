@@ -9,7 +9,9 @@ class CommonDialog(
     context: Context,
     title: String = "提示",
     content: String,
+    touchOutCamcel: Boolean = false,
     listener: DialogClickListener? = null
+
 ) : Dialog(context, R.style.BaseDialog) {
 
     private val ui: DialogCommonBinding
@@ -22,7 +24,7 @@ class CommonDialog(
                 listener?.onClick()
                 dismiss()
             }
-            setCanceledOnTouchOutside(true)
+            setCanceledOnTouchOutside(touchOutCamcel)
             setContentView(root)
         }
 
