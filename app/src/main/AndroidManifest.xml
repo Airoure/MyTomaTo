@@ -15,11 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTomato">
-        <activity
-            android:launchMode="singleTask"
-            android:name=".ui.lock.LockActivity">
+        <service
+            android:name=".service.LockService"
+            android:enabled="true"
+            android:exported="true"></service>
 
-        </activity>
+        <activity
+            android:name=".ui.lock.LockActivity"
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".ui.launch.LaunchActivity"
             android:theme="@style/Theme.launch">

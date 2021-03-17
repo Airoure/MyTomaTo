@@ -1,19 +1,14 @@
 package com.zjl.mytomato.ui.lock
 
-import android.app.usage.UsageStats
-import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
@@ -21,11 +16,9 @@ import com.zjl.mytomato.App
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.WindowWorkBinding
 import com.zjl.mytomato.entity.TodoEntity
+import com.zjl.mytomato.service.LockService
 import com.zjl.mytomato.ui.main.MainActivity
 import com.zjl.mytomato.view.TipView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 
 class LockActivity : AppCompatActivity() {
@@ -39,14 +32,14 @@ class LockActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lock)
         lockVm = ViewModelProvider(this).get(LockVm::class.java)
         val tipView = TipView(
-            this,
-            content = "确定要退出吗",
-        ){
+                this,
+                content = "确定要退出吗",
+        ) {
             windowManager.removeView(it)
         }
         tipView.setOnConfirmClickListener {
             startActivity(
-                Intent(this, MainActivity::class.java)
+                    Intent(this, MainActivity::class.java)
             )
             windowManager.removeView(tipView)
             removeView()
@@ -58,9 +51,9 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                    .load("https://source.unsplash.com/1600x900/?nature/${todoEntity?.imageUrl}")
-                    .placeholder(resources.getDrawable(R.color.black))
-                    .into(this)
+                        .load("https://source.unsplash.com/1600x900/?nature/${todoEntity?.imageUrl}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .into(this)
             }
             tvTodoName.text = todoEntity!!.name
         }
@@ -83,16 +76,16 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mLayoutParam.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
-        } else{
+        } else {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST
         }
         mLayoutParam.packageName = AppUtils.getAppPackageName()
         mLayoutParam.flags = mLayoutParam.flags or
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED or
                 (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)or
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL) or
                 (WindowManager.LayoutParams.FLAG_FULLSCREEN or
                         WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
                         WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION or
@@ -103,9 +96,11 @@ class LockActivity : AppCompatActivity() {
         try {
             mLayoutParam.x = 0
             mLayoutParam.y = 0
-            if(!workView.isAttachedToWindow){
+            if (!workView.isAttachedToWindow) {
                 windowManager.addView(workView, mLayoutParam)
                 lockVm.startCountDonw(todoEntity!!)
+                App.isLocking = true
+                startService(Intent(this,LockService::class.java))
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -118,6 +113,7 @@ class LockActivity : AppCompatActivity() {
         if (workView.isAttachedToWindow) {
             windowManager.removeView(workView)
             lockVm.stopCountDown()
+            App.isLocking = false
             MainActivity.open(this)
             finish()
         }
@@ -127,10 +123,10 @@ class LockActivity : AppCompatActivity() {
         var todoEntity: TodoEntity? = null
         fun open(context: Context, todoEntity: TodoEntity) {
             context.startActivity(
-                Intent(context, LockActivity::class.java).putExtra(
-                    "todoEntity",
-                    todoEntity
-                )
+                    Intent(context, LockActivity::class.java).putExtra(
+                            "todoEntity",
+                            todoEntity
+                    )
             )
             this.todoEntity = todoEntity
         }

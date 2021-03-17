@@ -21,6 +21,7 @@ class LockVm : BaseViewModel() {
     private var timer: CountDownTimer? = null
     @Volatile private var timerFlag = true
     @Volatile private var finishFlag = false
+    private val workManager:WorkManager = WorkManager.getInstance(App.appContext)
 
     val timeLiveData = MutableLiveData<String>()
     val finishLiveData = MutableLiveData<Boolean>()

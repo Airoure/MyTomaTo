@@ -79,4 +79,7 @@ dependencies {
 
     //workManager
     implementation "androidx.work:work-runtime:$work_manager_version"
+
+    //MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

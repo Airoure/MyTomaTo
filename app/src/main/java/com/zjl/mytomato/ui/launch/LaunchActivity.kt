@@ -19,7 +19,6 @@ class LaunchActivity : BaseActivity<ActivityLaunchBinding>() {
     override fun initUI() = ActivityLaunchBinding.inflate(layoutInflater)
 
     override fun init() {
-
         if (Settings.canDrawOverlays(this)) {
             val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
             val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
