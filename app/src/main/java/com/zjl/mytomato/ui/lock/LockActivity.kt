@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
 import com.zjl.mytomato.App
 import com.zjl.mytomato.R
+import com.zjl.mytomato.common.Constant.BASE_PIC_URL
 import com.zjl.mytomato.databinding.WindowWorkBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.service.LockService
@@ -30,6 +31,10 @@ class LockActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lock)
+        if (!App.isLocking) {
+            startService(Intent(this, LockService::class.java))
+            initParam()
+        }
         lockVm = ViewModelProvider(this).get(LockVm::class.java)
         val tipView = TipView(
                 this,
@@ -51,7 +56,7 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                        .load("https://source.unsplash.com/1600x900/?nature/${todoEntity?.imageUrl}")
+                        .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
                         .placeholder(resources.getDrawable(R.color.black))
                         .into(this)
             }
@@ -70,8 +75,7 @@ class LockActivity : AppCompatActivity() {
         show()
     }
 
-    @Synchronized
-    fun show() {
+    private fun initParam() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -93,41 +97,57 @@ class LockActivity : AppCompatActivity() {
         mLayoutParam.width = WindowManager.LayoutParams.MATCH_PARENT
         mLayoutParam.height = WindowManager.LayoutParams.MATCH_PARENT
         mLayoutParam.format = PixelFormat.TRANSPARENT
+    }
+
+    @Synchronized
+    fun show() {
         try {
             mLayoutParam.x = 0
             mLayoutParam.y = 0
             if (!workView.isAttachedToWindow) {
+                if (App.isLocking) {
+                    windowManager.removeView(workView)
+                }
                 windowManager.addView(workView, mLayoutParam)
                 lockVm.startCountDonw(todoEntity!!)
                 App.isLocking = true
-                startService(Intent(this,LockService::class.java))
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "似乎没有悬浮窗权限哦！", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun removeView() {
+
+        try {
+            if (workView.isAttachedToWindow) {
+                windowManager.removeView(workView)
+                lockVm.stopCountDown()
+                App.isLocking = false
+                MainActivity.open(this)
+                finish()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
 
-    private fun removeView() {
-        if (workView.isAttachedToWindow) {
-            windowManager.removeView(workView)
-            lockVm.stopCountDown()
-            App.isLocking = false
-            MainActivity.open(this)
-            finish()
+    override fun onBackPressed() {
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (App.isLocking) {
+            overridePendingTransition(R.anim.lock_enter, R.anim.lock_close)
         }
     }
 
     companion object {
         var todoEntity: TodoEntity? = null
         fun open(context: Context, todoEntity: TodoEntity) {
-            context.startActivity(
-                    Intent(context, LockActivity::class.java).putExtra(
-                            "todoEntity",
-                            todoEntity
-                    )
-            )
+            context.startActivity(Intent(context, LockActivity::class.java))
             this.todoEntity = todoEntity
         }
     }

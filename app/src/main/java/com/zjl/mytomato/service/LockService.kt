@@ -1,6 +1,10 @@
 package com.zjl.mytomato.service
 
+import android.app.ActivityManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
@@ -11,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
 import com.zjl.mytomato.App
@@ -24,10 +30,9 @@ import java.util.*
 
 
 class LockService : Service() {
-    private lateinit var workView: View
-    private lateinit var realUi: WindowWorkBinding
-    private lateinit var mWindowManager: WindowManager
-    private var mLayoutParam: WindowManager.LayoutParams = WindowManager.LayoutParams()
+
+    private lateinit var notificationManager: NotificationManager
+    private val notificationFlag = 1
     override fun onBind(intent: Intent): IBinder? {
         return null
 
@@ -35,65 +40,32 @@ class LockService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        mWindowManager = getSystemService(WindowManager::class.java)
-        initView()
+        addNotification()
     }
 
-    private fun initView() {
-        val tipView = TipView(
-            this,
-            content = "确定要退出吗",
-        ) {
-            mWindowManager.removeView(it)
-        }
-        tipView.setOnConfirmClickListener {
-            startActivity(
-                Intent(this, MainActivity::class.java)
-            )
-            mWindowManager.removeView(tipView)
-            removeView()
-        }
-        realUi = WindowWorkBinding.inflate(LayoutInflater.from(this)).apply {
-            ivStop.setOnClickListener {
-                mWindowManager.addView(tipView, mLayoutParam)
+    private fun addNotification() {
+        createNotificationChannel()
 
-            }
-            imgBack.apply {
-                Glide.with(applicationContext)
-                    .load("https://source.unsplash.com/1600x900/?nature/${LockActivity.todoEntity?.imageUrl}")
-                    .placeholder(resources.getDrawable(R.color.black))
-                    .into(this)
-            }
-            tvTodoName.text = LockActivity.todoEntity!!.name
-        }
-        workView = realUi.root
+        val mBuilder = NotificationCompat.Builder(applicationContext,"MyTomato")
+            .setSmallIcon(R.drawable.tomato)
+            .setLargeIcon(resources.getDrawable(R.drawable.tomato).toBitmap())
+            .setContentTitle("Tomato")
+            .setContentText("正在运行")
+            .setWhen(System.currentTimeMillis())
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                mLayoutParam.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            }
-        } else {
-            mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST
-        }
-        mLayoutParam.packageName = AppUtils.getAppPackageName()
-        mLayoutParam.flags = mLayoutParam.flags or
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED or
-                (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL) or
-                (WindowManager.LayoutParams.FLAG_FULLSCREEN or
-                        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
-                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION or
-                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        mLayoutParam.width = WindowManager.LayoutParams.MATCH_PARENT
-        mLayoutParam.height = WindowManager.LayoutParams.MATCH_PARENT
-        mLayoutParam.format = PixelFormat.TRANSPARENT
-
+        val notification = mBuilder.setAutoCancel(false).build()
+        startForeground(notificationFlag,notification)
     }
 
-    fun removeView() {
-
+    private fun createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            val chanel = NotificationChannel("MyTomato","name",NotificationManager.IMPORTANCE_DEFAULT)
+            chanel.description = "des"
+            chanel.setShowBadge(false)
+            notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(chanel)
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -101,25 +73,25 @@ class LockService : Service() {
             Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME),
             0
         )!!.activityInfo.packageName
-        val timerTask = object : TimerTask() {
-            override fun run() {
-                while (App.isLocking) {
-                    Log.e("123456", "${AppUsedUtil.getTopAppName()}   $homePackage ${AppUsedUtil.getTopAppName()?.contains("launcher")!!}")
-                    if (AppUsedUtil.getTopAppName()
-                            ?.contains("home")!! || AppUsedUtil.getTopAppName()
-                            ?.contains("launcher")!!
-                    ) {
-                        continue
+        Timer().schedule(
+                object :TimerTask(){
+                    override fun run() {
+                        while (App.isLocking) {
+                            Thread.sleep(100)
+//                            Log.e("777","${Thread.currentThread().name}")
+//                            Log.e("123456", "${AppUsedUtil.getTopAppName()}   $homePackage ${AppUsedUtil.getTopAppName()?.equals("com.zjl.mytomato")!!}")
+                            if (AppUsedUtil.getTopAppName()?.equals("com.zjl.mytomato")!!) {
+                                continue
+                            }
+                            startActivity(Intent(this@LockService,LockActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        }
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                            stopForeground(STOP_FOREGROUND_REMOVE)
+                        }
                     }
-                    startActivity(
-                        Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    )
-                    Thread.sleep(500)
-                }
-            }
-        }
-        Timer().schedule(timerTask, 0)
+
+                },0
+        )
         return START_STICKY
     }
 }

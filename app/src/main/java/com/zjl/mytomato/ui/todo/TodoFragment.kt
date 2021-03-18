@@ -1,5 +1,7 @@
 package com.zjl.mytomato.ui.todo
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
@@ -31,6 +33,16 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
             }
         })
         return FragmentTodoBinding.inflate(layoutInflater).apply {
+            ivTomato.apply {
+                setOnClickListener {
+                    val animatorSet = AnimatorSet()
+                    val xAnimator = ObjectAnimator.ofFloat(this,"scaleX",1f,1.5f,1f)
+                    val yAnimator = ObjectAnimator.ofFloat(this,"scaleY",1f,1.5f,1f)
+                    animatorSet.duration = 1000
+                    animatorSet.play(xAnimator).with(yAnimator)
+                    animatorSet.start()
+                }
+            }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.menu_add -> {

@@ -1,17 +1,22 @@
 package com.zjl.mytomato.adapter
 
+import android.animation.ObjectAnimator
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.zjl.mytomato.R
+import com.zjl.mytomato.common.Constant.BASE_PIC_URL
 import com.zjl.mytomato.databinding.ItemRvTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.lock.LockActivity
 import com.zjl.mytomato.view.TodoCardDialog
 
-class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) : RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
+class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) :
+    RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
 
     private var todoEntityList: MutableList<TodoEntity> = mutableListOf()
 
@@ -46,25 +51,30 @@ class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) 
                 tvTitle.text = todoEntity.name
                 ivBackground.apply {
                     Glide.with(context)
-                            .load("https://source.unsplash.com/1600x900/?nature/${todoEntity.imageUrl}")
-                            .placeholder(resources.getDrawable(R.color.black))
-                            .into(this)
+                        .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(this)
                 }
                 tvStart.apply {
                     setOnClickListener {
+                        val intent = Intent(context, LockActivity::class.java).putExtra(
+                            "todoEntity",
+                            todoEntity
+                        )
                         LockActivity.open(context, todoEntity)
                     }
                 }
                 ivBackground.setOnLongClickListener {
-                    if(ivDelete.visibility == View.GONE){
+                    if (ivDelete.visibility == View.GONE) {
                         ivDelete.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         ivDelete.visibility = View.GONE
                     }
                     true
                 }
                 ivBackground.setOnClickListener {
-                    TodoCardDialog(it.context,todoEntity){
+                    TodoCardDialog(it.context, todoEntity) {
                         onAdapterClickListener.onSaveClick(it)
                     }.show()
                 }
@@ -78,18 +88,18 @@ class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-                ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(todoEntityList[position],)
+        holder.bind(todoEntityList[position])
     }
 
     override fun getItemCount() = todoEntityList.size
 
-    interface OnAdapterClickListener{
+    interface OnAdapterClickListener {
         fun onDeleteClick(todoEntity: TodoEntity)
         fun onSaveClick(todoEntity: TodoEntity)
     }
