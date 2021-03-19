@@ -26,9 +26,9 @@ class DatabaseManager private constructor() {
 
     private val database by lazy {
         Room.databaseBuilder(
-            appContext!!,
-            TomatoDatabase::class.java,
-            DATABASE_NAME
+                appContext!!,
+                TomatoDatabase::class.java,
+                DATABASE_NAME
         ).build()
     }
 

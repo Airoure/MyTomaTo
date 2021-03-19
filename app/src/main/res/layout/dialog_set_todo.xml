@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@id/et_todo_name"
             app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
             android:layout_marginTop="15dp"
-            android:text="设定时间:"/>
+            android:text="设定时间:" />
 
         <cn.carbswang.android.numberpickerview.library.NumberPickerView
             android:id="@+id/picker_hour"
@@ -68,7 +68,7 @@
             app:npv_WrapSelectorWheel="false"
             app:npv_TextArray="@array/hour_picker"
             app:npv_DividerColor="?attr/colorPrimary"
-            app:npv_TextColorSelected="?attr/colorPrimary"/>
+            app:npv_TextColorSelected="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_hour"
@@ -79,7 +79,7 @@
             app:layout_constraintLeft_toRightOf="@id/picker_hour"
             app:layout_constraintRight_toLeftOf="@id/picker_minute"
             android:textColor="@color/black"
-            android:text="时"/>
+            android:text="时" />
 
         <cn.carbswang.android.numberpickerview.library.NumberPickerView
             android:id="@+id/picker_minute"
@@ -99,7 +99,7 @@
             app:npv_WrapSelectorWheel="false"
             app:npv_TextArray="@array/minute_picker"
             app:npv_DividerColor="?attr/colorPrimary"
-            app:npv_TextColorSelected="?attr/colorPrimary"/>
+            app:npv_TextColorSelected="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_minute"
@@ -110,7 +110,7 @@
             app:layout_constraintLeft_toRightOf="@id/picker_minute"
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/black"
-            android:text="分"/>
+            android:text="分" />
 
         <Button
             android:id="@+id/btn_confirm"
@@ -119,7 +119,7 @@
             app:layout_constraintLeft_toLeftOf="@id/et_todo_name"
             app:layout_constraintTop_toBottomOf="@id/picker_hour"
             android:layout_marginTop="10dp"
-            android:text="确定"/>
+            android:text="确定" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -128,7 +128,7 @@
             app:layout_constraintRight_toRightOf="@id/et_todo_name"
             app:layout_constraintTop_toBottomOf="@id/picker_hour"
             android:layout_marginTop="10dp"
-            android:text="取消"/>
+            android:text="取消" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

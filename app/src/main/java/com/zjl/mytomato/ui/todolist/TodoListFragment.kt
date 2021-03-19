@@ -5,7 +5,7 @@ import com.zjl.mytomato.BaseFragment
 import com.zjl.mytomato.databinding.FragmentTodoListBinding
 import com.zjl.mytomato.ui.todo.TodoVm
 
-class TodoListFragment :BaseFragment<FragmentTodoListBinding,TodoVm>() {
+class TodoListFragment : BaseFragment<FragmentTodoListBinding, TodoVm>() {
     override fun initUi(): FragmentTodoListBinding {
         return FragmentTodoListBinding.inflate(layoutInflater).apply {
 

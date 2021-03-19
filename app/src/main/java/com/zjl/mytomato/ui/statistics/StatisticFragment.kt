@@ -5,7 +5,7 @@ import com.zjl.mytomato.BaseFragment
 import com.zjl.mytomato.databinding.FragmentStatisticBinding
 import com.zjl.mytomato.ui.todo.TodoVm
 
-class StatisticFragment : BaseFragment<FragmentStatisticBinding,TodoVm>() {
+class StatisticFragment : BaseFragment<FragmentStatisticBinding, TodoVm>() {
     override fun initUi(): FragmentStatisticBinding {
         return FragmentStatisticBinding.inflate(layoutInflater).apply {
 

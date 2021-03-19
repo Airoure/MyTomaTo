@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 
 import static android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
 import static android.view.WindowManager.LayoutParams.TYPE_TOAST;
+
 /**
  * @author sun on 2018/7/5.
  */

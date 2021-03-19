@@ -33,8 +33,8 @@ class SpacingDecoration(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         var position = parent.getChildAdapterPosition(view)
-        when(parent.layoutManager){
-            is LinearLayoutManager->{
+        when (parent.layoutManager) {
+            is LinearLayoutManager -> {
                 if (mHeaderSpacing > 0 && position == 0) {
                     outRect.left = mHeaderSpacing
                 } else {
@@ -55,7 +55,7 @@ class SpacingDecoration(
                     }
                 }
             }
-            is GridLayoutManager->{
+            is GridLayoutManager -> {
 
             }
         }

@@ -11,22 +11,21 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.zjl.mytomato.App
-import java.text.SimpleDateFormat
 import java.util.*
 
 
 class ActivityGuard(context: Context, params: WorkerParameters) : Worker(context, params) {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun doWork(): Result {
-        while (App.isLocking){
+        while (App.isLocking) {
             Thread.sleep(1000)
             val mUsageStatsManager =
-                getSystemService(applicationContext, UsageStatsManager::class.java)
+                    getSystemService(applicationContext, UsageStatsManager::class.java)
             val time = System.currentTimeMillis()
             val calendar = Calendar.getInstance()
-            calendar.add(Calendar.HOUR_OF_DAY,-1)
+            calendar.add(Calendar.HOUR_OF_DAY, -1)
             val queryUsageStats =
-                mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST,0 , time)
+                    mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, time)
             var recentTask: UsageStats? = null
             if (!queryUsageStats.isNullOrEmpty()) {
                 for (item in queryUsageStats) {
@@ -36,12 +35,12 @@ class ActivityGuard(context: Context, params: WorkerParameters) : Worker(context
                     }
                 }
             }
-            Log.e("999","${recentTask?.packageName}")
+            Log.e("999", "${recentTask?.packageName}")
             if ("com.android.settings".equals(recentTask?.packageName)) {
                 applicationContext.startActivity(
-                    Intent().setAction("android.intent.action.MAIN")
-                        .addCategory("android.intent.category.HOME")
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        Intent().setAction("android.intent.action.MAIN")
+                                .addCategory("android.intent.category.HOME")
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 )
             }
         }

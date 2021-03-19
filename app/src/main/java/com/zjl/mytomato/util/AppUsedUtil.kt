@@ -2,21 +2,17 @@ package com.zjl.mytomato.util
 
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
-import android.content.Intent
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.zjl.mytomato.App
-import java.text.SimpleDateFormat
-import java.util.*
 
 object AppUsedUtil {
     private val mUsageStatsManager =
-        ContextCompat.getSystemService(App.appContext, UsageStatsManager::class.java)
+            ContextCompat.getSystemService(App.appContext, UsageStatsManager::class.java)
 
     fun getTopAppName(): String? {
         val now = System.currentTimeMillis()
         val queryUsageStats =
-            mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, now)
+                mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, now)
         var recentTask: UsageStats? = null
         if (!queryUsageStats.isNullOrEmpty()) {
             for (item in queryUsageStats) {

@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.AppUtils
@@ -19,7 +18,9 @@ import com.zjl.mytomato.databinding.WindowWorkBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.service.LockService
 import com.zjl.mytomato.ui.main.MainActivity
+import com.zjl.mytomato.util.SpUtil
 import com.zjl.mytomato.view.TipView
+import java.util.*
 
 
 class LockActivity : AppCompatActivity() {
@@ -36,18 +37,41 @@ class LockActivity : AppCompatActivity() {
             initParam()
         }
         lockVm = ViewModelProvider(this).get(LockVm::class.java)
-        val tipView = TipView(
-                this,
-                content = "确定要退出吗",
-        ) {
+        val tipView = TipView(this, content = "确定要退出吗") {
             windowManager.removeView(it)
         }
+        val infoView = TipView(this, content = "本月退出时间达到三次了，不能退出") {
+            windowManager.removeView(it)
+        }
+        infoView.setOnConfirmClickListener {
+            windowManager.removeView(infoView)
+        }
         tipView.setOnConfirmClickListener {
-            startActivity(
-                    Intent(this, MainActivity::class.java)
-            )
+            val calendar = Calendar.getInstance()
+            calendar.time = Date()
+            val month = calendar.get(Calendar.MONTH)
+            if (SpUtil.getLockMonth() == 0 || SpUtil.getLockMonth() != month) {
+                //非本月或未解锁过
+                SpUtil.setLockMonth()
+                SpUtil.setLockTimes(1)
+                startActivity(
+                        Intent(this, MainActivity::class.java)
+                )
+                removeView()
+            } else {
+                var times = SpUtil.getLockTimes()
+                if (times >= 3) {
+                    windowManager.addView(infoView, mLayoutParam)
+                } else {
+                    SpUtil.setLockTimes(times + 1)
+                    SpUtil.setLockMonth()
+                    startActivity(
+                            Intent(this, MainActivity::class.java)
+                    )
+                    removeView()
+                }
+            }
             windowManager.removeView(tipView)
-            removeView()
         }
         realUi = WindowWorkBinding.inflate(layoutInflater).apply {
             ivStop.setOnClickListener {

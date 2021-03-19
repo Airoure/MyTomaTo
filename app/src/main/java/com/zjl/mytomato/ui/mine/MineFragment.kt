@@ -5,7 +5,7 @@ import com.zjl.mytomato.BaseFragment
 import com.zjl.mytomato.databinding.FragmentMineBinding
 import com.zjl.mytomato.ui.todo.TodoVm
 
-class MineFragment :BaseFragment<FragmentMineBinding,TodoVm>(){
+class MineFragment : BaseFragment<FragmentMineBinding, TodoVm>() {
     override fun initUi(): FragmentMineBinding {
         return FragmentMineBinding.inflate(layoutInflater).apply {
 

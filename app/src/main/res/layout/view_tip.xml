@@ -45,7 +45,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="20dp"
             android:text="确定"
-            android:textColor="#03A9F4"/>
+            android:textColor="#03A9F4" />
 
         <TextView
             android:id="@+id/tv_cancel"
@@ -58,7 +58,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="20dp"
             android:text="取消"
-            android:textColor="#03A9F4"/>
+            android:textColor="#03A9F4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

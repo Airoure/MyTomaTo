@@ -11,7 +11,7 @@
         android:background="?attr/colorPrimaryVariant"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <ImageView
         app:layout_constraintLeft_toLeftOf="@id/toolbar"
@@ -20,6 +20,6 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         android:src="@drawable/tomato"
         android:layout_width="32dp"
-        android:layout_height="32dp"/>
+        android:layout_height="32dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

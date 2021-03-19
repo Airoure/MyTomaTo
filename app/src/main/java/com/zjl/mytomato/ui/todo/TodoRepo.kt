@@ -67,7 +67,7 @@ class TodoRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
                     getAllTodo(todoLiveData)
                 },
                 fail = {
-                    Log.e("123","fail")
+                    Log.e("123", "fail")
                     messageLiveData.postValue(Constant.UPDATE_TODO_FAIL)
                 }
         )

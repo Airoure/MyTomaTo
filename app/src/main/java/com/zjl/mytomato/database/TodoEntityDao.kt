@@ -16,7 +16,7 @@ interface TodoEntityDao {
     suspend fun update(todoEntity: TodoEntity): Int
 
     @Query("select * from TodoEntity where name = :name")
-    suspend fun queryByName(name:String): List<TodoEntity>
+    suspend fun queryByName(name: String): List<TodoEntity>
 
     @Query("select * from TodoEntity")
     suspend fun queryAll(): MutableList<TodoEntity>

@@ -2,15 +2,13 @@ package com.zjl.mytomato.view
 
 import android.app.Dialog
 import android.content.Context
-import android.widget.Toast
 import com.zjl.mytomato.R
-import com.zjl.mytomato.database.DatabaseManager
 import com.zjl.mytomato.databinding.DialogSetTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
 import java.util.*
 
-class SetTodoDialog constructor(context: Context,listener: ButtonClickListener) :
-    Dialog(context, R.style.BaseDialog) {
+class SetTodoDialog constructor(context: Context, listener: ButtonClickListener) :
+        Dialog(context, R.style.BaseDialog) {
     private val ui: DialogSetTodoBinding
 
     init {
@@ -19,12 +17,12 @@ class SetTodoDialog constructor(context: Context,listener: ButtonClickListener) 
                 val todoName = etTodoName.text.trim().toString()
                 val hour = pickerHour.value
                 val minute = pickerMinute.value
-                if(todoName.isEmpty()){
-                    CommonDialog(context,content = "待办名不能为空").show()
-                }else if(hour == 0 && minute == 0){
-                    CommonDialog(context,content = "时间不能设置为0").show()
-                }else{
-                    listener.onConfirmClick(TodoEntity(todoName,hour,minute,imageUrl = UUID.randomUUID().toString()))
+                if (todoName.isEmpty()) {
+                    CommonDialog(context, content = "待办名不能为空").show()
+                } else if (hour == 0 && minute == 0) {
+                    CommonDialog(context, content = "时间不能设置为0").show()
+                } else {
+                    listener.onConfirmClick(TodoEntity(todoName, hour, minute, imageUrl = UUID.randomUUID().toString()))
                     dismiss()
                 }
             }
@@ -37,7 +35,7 @@ class SetTodoDialog constructor(context: Context,listener: ButtonClickListener) 
         setCanceledOnTouchOutside(false)
     }
 
-    interface ButtonClickListener{
+    interface ButtonClickListener {
         fun onConfirmClick(todoEntity: TodoEntity)
         fun onCancelClick()
     }

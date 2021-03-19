@@ -13,10 +13,10 @@
     <item
         android:id="@+id/menu_statistics"
         android:title="统计"
-        android:icon="@drawable/statistics"/>
+        android:icon="@drawable/statistics" />
 
     <item
         android:id="@+id/menu_mine"
         android:title="我的"
-        android:icon="@drawable/mine"/>
+        android:icon="@drawable/mine" />
 </menu>
