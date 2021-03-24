@@ -13,7 +13,9 @@ import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
 import com.zjl.mytomato.App
 import com.zjl.mytomato.R
+import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.common.Constant.BASE_PIC_URL
+import com.zjl.mytomato.databinding.ActivityLockBinding
 import com.zjl.mytomato.databinding.WindowWorkBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.service.LockService
@@ -29,9 +31,17 @@ class LockActivity : AppCompatActivity() {
     private var mLayoutParam: WindowManager.LayoutParams = WindowManager.LayoutParams()
     private lateinit var lockVm: LockVm
 
+    private lateinit var ui: ActivityLockBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lock)
+        ui = ActivityLockBinding.inflate(layoutInflater)
+        setContentView(ui.root)
+        Glide.with(this)
+            .load("${Constant.BASE_PIC_URL}${todoEntity?.imageUrl}")
+            .dontAnimate()
+            .placeholder(resources.getDrawable(R.color.black))
+            .into(ui.ivBackground)
         if (!App.isLocking) {
             startService(Intent(this, LockService::class.java))
             initParam()
@@ -40,7 +50,7 @@ class LockActivity : AppCompatActivity() {
         val tipView = TipView(this, content = "确定要退出吗") {
             windowManager.removeView(it)
         }
-        val infoView = TipView(this, content = "本月退出时间达到三次了，不能退出") {
+        val infoView = TipView(this, content = "本月退出次数达到三次了，不能退出") {
             windowManager.removeView(it)
         }
         infoView.setOnConfirmClickListener {
@@ -55,18 +65,18 @@ class LockActivity : AppCompatActivity() {
                 SpUtil.setLockMonth()
                 SpUtil.setLockTimes(1)
                 startActivity(
-                        Intent(this, MainActivity::class.java)
+                    Intent(this, MainActivity::class.java)
                 )
                 removeView()
             } else {
-                var times = SpUtil.getLockTimes()
+                val times = SpUtil.getLockTimes()
                 if (times >= 3) {
                     windowManager.addView(infoView, mLayoutParam)
                 } else {
                     SpUtil.setLockTimes(times + 1)
                     SpUtil.setLockMonth()
                     startActivity(
-                            Intent(this, MainActivity::class.java)
+                        Intent(this, MainActivity::class.java)
                     )
                     removeView()
                 }
@@ -80,10 +90,20 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                        .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-                        .placeholder(resources.getDrawable(R.color.black))
-                        .into(this)
+                    .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                    .placeholder(resources.getDrawable(R.color.black))
+                    .into(this)
             }
+//            ivWhiteList.setOnClickListener {
+//                val whiteListView = WhiteListView(this@LockActivity, whiteList)
+//                whiteListView.apply {
+//                    setJumpClick {
+//                        windowManager.removeView(this)
+//                        removeView(true)
+//                    }
+//                }
+//                windowManager.addView(whiteListView, mLayoutParam)
+//            }
             tvTodoName.text = todoEntity!!.name
         }
         workView = realUi.root
@@ -104,7 +124,7 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mLayoutParam.layoutInDisplayCutoutMode =
-                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         } else {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST
@@ -129,7 +149,7 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.x = 0
             mLayoutParam.y = 0
             if (!workView.isAttachedToWindow) {
-                if (App.isLocking) {
+                if (App.isLocking && workView.isAttachedToWindow) {
                     windowManager.removeView(workView)
                 }
                 windowManager.addView(workView, mLayoutParam)
@@ -141,15 +161,17 @@ class LockActivity : AppCompatActivity() {
         }
     }
 
-    private fun removeView() {
-
+    private fun removeView(isLocking: Boolean = false) {
         try {
             if (workView.isAttachedToWindow) {
                 windowManager.removeView(workView)
                 lockVm.stopCountDown()
-                App.isLocking = false
-                MainActivity.open(this)
+                App.isLocking = isLocking
+                if (!isLocking) {
+                    MainActivity.open(this)
+                }
                 finish()
+
             }
         } catch (e: Exception) {
             e.printStackTrace()

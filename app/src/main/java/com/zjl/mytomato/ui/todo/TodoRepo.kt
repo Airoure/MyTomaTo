@@ -10,66 +10,75 @@ import kotlinx.coroutines.CoroutineScope
 
 class TodoRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
 
-    fun addTodo(todoEntity: TodoEntity, messageLiveData: MutableLiveData<Int>, todoLiveData: MutableLiveData<TodoEntity>) {
+    fun addTodo(
+        todoEntity: TodoEntity,
+        messageLiveData: MutableLiveData<Int>,
+        todoLiveData: MutableLiveData<TodoEntity>
+    ) {
         launch(
-                block = {
-                    DatabaseManager.get()
-                            .insertTodoEntity(todoEntity)
-                },
-                success = {
-                    messageLiveData.postValue(Constant.ADD_TODO_SUCCESS)
-                    todoLiveData.postValue(todoEntity)
-                },
-                fail = {
-                    messageLiveData.postValue(Constant.ADD_TODO_FAIL)
-                }
+            block = {
+                DatabaseManager.get()
+                    .insertTodoEntity(todoEntity)
+            },
+            success = {
+                messageLiveData.postValue(Constant.ADD_TODO_SUCCESS)
+                todoLiveData.postValue(todoEntity)
+            },
+            fail = {
+                it.printStackTrace()
+                messageLiveData.postValue(Constant.ADD_TODO_FAIL)
+            }
         )
     }
 
     fun getAllTodo(todoLiveData: MutableLiveData<MutableList<TodoEntity>>) {
         launch(
-                block = {
-                    DatabaseManager.get()
-                            .queryTodoEntityAll()
-                },
-                success = {
-                    todoLiveData.postValue(it)
-                },
-                fail = {
-
-                }
+            block = {
+                DatabaseManager.get()
+                    .queryTodoEntityAll()
+            },
+            success = {
+                todoLiveData.postValue(it)
+            },
+            fail = {
+                it.printStackTrace()
+            }
         )
     }
 
     fun deleteTodo(todoEntity: TodoEntity, removeLiveData: MutableLiveData<TodoEntity>) {
         launch(
-                block = {
-                    DatabaseManager.get()
-                            .deleteTodoEntity(todoEntity)
-                },
-                success = {
-                    removeLiveData.postValue(todoEntity)
-                },
-                fail = {
+            block = {
+                DatabaseManager.get()
+                    .deleteTodoEntity(todoEntity)
+            },
+            success = {
+                removeLiveData.postValue(todoEntity)
+            },
+            fail = {
 
-                }
+            }
 
         )
     }
 
-    fun saveTodo(todoEntity: TodoEntity, todoLiveData: MutableLiveData<MutableList<TodoEntity>>, messageLiveData: MutableLiveData<Int>) {
+    fun saveTodo(
+        todoEntity: TodoEntity,
+        todoLiveData: MutableLiveData<MutableList<TodoEntity>>,
+        messageLiveData: MutableLiveData<Int>
+    ) {
         launch(
-                block = {
-                    DatabaseManager.get()
-                            .updateTodoEntity(todoEntity)
-                },
-                success = {
-                    getAllTodo(todoLiveData)
-                },
-                fail = {
-                    Log.e("123", "fail")
-                    messageLiveData.postValue(Constant.UPDATE_TODO_FAIL)
-                }
+            block = {
+                DatabaseManager.get()
+                    .updateTodoEntity(todoEntity)
+            },
+            success = {
+                getAllTodo(todoLiveData)
+            },
+            fail = {
+                Log.e("123", "fail")
+                messageLiveData.postValue(Constant.UPDATE_TODO_FAIL)
+            }
         )
     }
 

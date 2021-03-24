@@ -1,9 +1,11 @@
 package com.zjl.mytomato.adapter
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.animation.addListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -14,8 +16,10 @@ import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.lock.LockActivity
 import com.zjl.mytomato.view.TodoCardDialog
 
-class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) :
-        RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
+class TodoRvAdapter(
+    private val onAdapterClickListener: OnAdapterClickListener
+) :
+    RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
 
     private var todoEntityList: MutableList<TodoEntity> = mutableListOf()
 
@@ -23,6 +27,8 @@ class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) 
         this.todoEntityList = list
         notifyDataSetChanged()
     }
+
+    fun getTodoEntityList() = this.todoEntityList
 
     fun addTodoEntity(todoEntity: TodoEntity) {
         this.todoEntityList.add(todoEntity)
@@ -39,7 +45,7 @@ class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) 
     inner class ViewHolder(private val ui: ItemRvTodoBinding) : RecyclerView.ViewHolder(ui.root) {
         fun bind(todoEntity: TodoEntity) {
             ui.apply {
-                var time: StringBuilder = StringBuilder()
+                val time: StringBuilder = StringBuilder()
                 todoEntity.run {
                     if (hour != 0) {
                         time.append(hour).append("时")
@@ -50,16 +56,16 @@ class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) 
                 tvTitle.text = todoEntity.name
                 ivBackground.apply {
                     Glide.with(context)
-                            .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
-                            .placeholder(resources.getDrawable(R.color.black))
-                            .diskCacheStrategy(DiskCacheStrategy.DATA)
-                            .into(this)
+                        .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(this)
                 }
                 tvStart.apply {
                     setOnClickListener {
                         val intent = Intent(context, LockActivity::class.java).putExtra(
-                                "todoEntity",
-                                todoEntity
+                            "todoEntity",
+                            todoEntity
                         )
                         LockActivity.open(context, todoEntity)
                     }
@@ -87,7 +93,7 @@ class TodoRvAdapter(private val onAdapterClickListener: OnAdapterClickListener) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-                ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

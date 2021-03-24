@@ -3,20 +3,20 @@
     <item
         android:id="@+id/menu_todo"
         android:title="待办"
-        android:icon="@drawable/todo"
+        android:icon="@drawable/ic_todo"
         android:checked="true" />
     <item
         android:id="@+id/menu_todo_list"
-        android:title="待办集"
-        android:icon="@drawable/todo_list" />
+        android:title="时间轴"
+        android:icon="@drawable/ic_time_line" />
 
     <item
         android:id="@+id/menu_statistics"
         android:title="统计"
-        android:icon="@drawable/statistics" />
+        android:icon="@drawable/ic_statistics" />
 
     <item
         android:id="@+id/menu_mine"
-        android:title="我的"
-        android:icon="@drawable/mine" />
+        android:title="设置"
+        android:icon="@drawable/ic_setting" />
 </menu>

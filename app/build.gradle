@@ -83,4 +83,7 @@ dependencies {
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //日历
+    implementation 'com.necer.ncalendar:ncalendar:5.0.2'
+
 }

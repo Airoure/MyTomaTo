@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-        fragmentList = listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment())
+        fragmentList =
+            listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment())
         ui.apply {
             vpMain.apply {
                 adapter = object : FragmentStateAdapter(this@MainActivity) {

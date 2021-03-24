@@ -11,11 +11,11 @@ import com.zjl.mytomato.entity.TodoEntity
 import java.util.*
 
 class TodoCardDialog constructor(
-        context: Context,
-        todoEntity: TodoEntity,
-        save: (TodoEntity) -> Unit
+    context: Context,
+    todoEntity: TodoEntity,
+    save: (TodoEntity) -> Unit
 ) :
-        Dialog(context, R.style.BaseDialog) {
+    Dialog(context, R.style.BaseDialog) {
     private val ui: DialogTodoCardBinding
 
     init {
@@ -26,9 +26,9 @@ class TodoCardDialog constructor(
             }
             ivBack.apply {
                 Glide.with(context)
-                        .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
-                        .placeholder(resources.getDrawable(R.color.black))
-                        .into(this)
+                    .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
+                    .placeholder(resources.getDrawable(R.color.black))
+                    .into(this)
             }
             pickerHour.maxValue = 9
             pickerMinute.maxValue = 59
@@ -51,12 +51,12 @@ class TodoCardDialog constructor(
             }
             ivRefresh.apply {
                 setOnClickListener {
-                    ObjectAnimator.ofFloat(it, "rotation", 0f, 360f).setDuration(1000).start()
+                    ObjectAnimator.ofFloat(it, "rotation", 0f, 360f).setDuration(500).start()
                     url = UUID.randomUUID().toString()
                     Glide.with(context)
-                            .load("https://source.unsplash.com/1600x900/?nature/${url}")
-                            .placeholder(resources.getDrawable(R.color.black))
-                            .into(ivBack)
+                        .load("https://source.unsplash.com/1600x900/?nature/${url}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .into(ivBack)
                 }
             }
         }

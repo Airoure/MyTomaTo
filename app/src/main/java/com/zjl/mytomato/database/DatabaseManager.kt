@@ -2,6 +2,7 @@ package com.zjl.mytomato.database
 
 import android.content.Context
 import androidx.room.Room
+import com.zjl.mytomato.entity.FinishTodoEntity
 import com.zjl.mytomato.entity.TodoEntity
 
 const val DATABASE_NAME = "Tomato.db"
@@ -26,13 +27,16 @@ class DatabaseManager private constructor() {
 
     private val database by lazy {
         Room.databaseBuilder(
-                appContext!!,
-                TomatoDatabase::class.java,
-                DATABASE_NAME
+            appContext!!,
+            TomatoDatabase::class.java,
+            DATABASE_NAME
         ).build()
     }
 
     private val todoEntityDao by lazy { database.getTodoEntityDao() }
+
+    private val finishTodoEntityDao by lazy { database.getFinishTodoEntityDao() }
+
 
     suspend fun insertTodoEntity(todoEntity: TodoEntity): Long {
         return todoEntityDao.insert(todoEntity)
@@ -52,5 +56,17 @@ class DatabaseManager private constructor() {
 
     suspend fun queryTodoEntityAll(): MutableList<TodoEntity> {
         return todoEntityDao.queryAll()
+    }
+
+    suspend fun insertFinishTodoEntity(finishTodoEntity: FinishTodoEntity) {
+        finishTodoEntityDao.insert(finishTodoEntity)
+    }
+
+    suspend fun deleteFinishTodoEntity(finishTodoEntity: FinishTodoEntity) {
+        finishTodoEntityDao.delete(finishTodoEntity)
+    }
+
+    suspend fun queryFinishTodoEntityByDate(date: String): List<FinishTodoEntity> {
+        return finishTodoEntityDao.queryByData(date)
     }
 }

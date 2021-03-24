@@ -6,12 +6,11 @@ import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.DialogCommonBinding
 
 class CommonDialog(
-        context: Context,
-        title: String = "提示",
-        content: String,
-        touchOutCamcel: Boolean = false,
-        listener: DialogClickListener? = null
-
+    context: Context,
+    title: String = "提示",
+    content: String,
+    touchOutCamcel: Boolean = false,
+    listener: DialogClickListener? = null
 ) : Dialog(context, R.style.BaseDialog) {
 
     private val ui: DialogCommonBinding
@@ -27,8 +26,6 @@ class CommonDialog(
             setCanceledOnTouchOutside(touchOutCamcel)
             setContentView(root)
         }
-
-
     }
 
     fun interface DialogClickListener {

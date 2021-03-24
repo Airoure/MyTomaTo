@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_add"
-        android:title="添加待办"
-        android:icon="@drawable/ic_add"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/todo_list_today"
+        android:icon="@drawable/ic_today"
+        android:title="今日"
+        app:showAsAction="always" />
 </menu>

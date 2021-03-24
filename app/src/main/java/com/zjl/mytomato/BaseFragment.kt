@@ -11,19 +11,21 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
     protected lateinit var ui: V
     protected lateinit var vm: T
 
+
     protected abstract fun initViewModel(): T
     protected abstract fun initUi(): V
     protected open fun init() {}
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         vm = initViewModel()
         ui = initUi()
         return ui.root
     }
+
 
     override fun onStart() {
         super.onStart()

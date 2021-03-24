@@ -32,8 +32,8 @@ object SpUtil {
     fun getWhiteList() = sp.getStringSet("white_list", mutableSetOf())
 
     fun setWhiteList(apps: MutableSet<String>) {
-        sp.edit{
-            putStringSet("white_list",apps)
+        sp.edit {
+            putStringSet("white_list", apps)
         }
     }
 }
