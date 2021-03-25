@@ -9,7 +9,6 @@ import com.zjl.mytomato.adapter.TimeLineAdapter
 import com.zjl.mytomato.databinding.FragmentTodoListBinding
 import com.zjl.mytomato.setGone
 import com.zjl.mytomato.setVisiable
-import com.zjl.mytomato.ui.todo.TodoVm
 import com.zjl.mytomato.view.SpacingDecoration
 
 class TodoListFragment : BaseFragment<FragmentTodoListBinding, TodoListVm>() {
@@ -47,9 +46,9 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding, TodoListVm>() {
 
     override fun init() {
         vm.finishTodoLiveData.observe(this, Observer {
-            if (it.isEmpty()){
+            if (it.isEmpty()) {
                 ui.layoutEmpty.setVisiable()
-            }else{
+            } else {
                 ui.layoutEmpty.setGone()
             }
             timeLineadapter.setFinishTodoEntityList(it)

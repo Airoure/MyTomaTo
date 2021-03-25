@@ -1,6 +1,5 @@
 package com.zjl.mytomato
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 open class BaseViewModel : ViewModel() {

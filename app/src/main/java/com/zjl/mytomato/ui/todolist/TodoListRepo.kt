@@ -1,5 +1,6 @@
 package com.zjl.mytomato.ui.todolist
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.zjl.mytomato.BaseRepo
 import com.zjl.mytomato.database.DatabaseManager
@@ -18,7 +19,10 @@ class TodoListRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
         )
     }
 
-    fun getFinishTodoByDate(date: String,finishTodoLiveData: MutableLiveData<List<FinishTodoEntity>>) {
+    fun getFinishTodoByDate(
+        date: String,
+        finishTodoLiveData: MutableLiveData<List<FinishTodoEntity>>
+    ) {
         launch(
             block = {
                 DatabaseManager.get().queryFinishTodoEntityByDate(date)
@@ -27,6 +31,64 @@ class TodoListRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
                 finishTodoLiveData.postValue(it)
             }
         )
+    }
+
+    fun getFinishTodoNum(finishTodoNum: MutableLiveData<Int>) {
+        launch(
+            block = {
+                DatabaseManager.get().getFinishTodoNum()
+            },
+            success = {
+                finishTodoNum.postValue(it)
+            }
+        )
+    }
+
+    fun getTotalTime(totalTime: MutableLiveData<Int>) {
+        launch(
+            block = {
+                DatabaseManager.get().getTotalTime()
+            },
+            success = {
+                totalTime.postValue(it)
+            }
+        )
+    }
+
+    fun getTotalAverageTime(averageTime: MutableLiveData<Int>) {
+        launch(
+            block = {
+                DatabaseManager.get().getAverageTime()
+            },
+            success = {
+                averageTime.postValue(it)
+            }
+        )
+
+    }
+
+    fun getNumByDate(date: String, dayNum: MutableLiveData<Int>) {
+        launch(
+            block = {
+                DatabaseManager.get().getNumByDate(date)
+            },
+            success = {
+                dayNum.postValue(it)
+            }
+        )
+    }
+
+    fun getTimeByDate(date: String, dayTime: MutableLiveData<Int>) {
+        launch(
+            block = {
+                DatabaseManager.get().getTimeByDate(date)
+            },
+            success = {
+                Log.e("123456789",it.toString())
+                dayTime.postValue(it)
+            }
+        )
+
     }
 
 }

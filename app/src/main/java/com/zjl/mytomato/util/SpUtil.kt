@@ -36,4 +36,5 @@ object SpUtil {
             putStringSet("white_list", apps)
         }
     }
+
 }

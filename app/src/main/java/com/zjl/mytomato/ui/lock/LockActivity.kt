@@ -94,16 +94,6 @@ class LockActivity : AppCompatActivity() {
                     .placeholder(resources.getDrawable(R.color.black))
                     .into(this)
             }
-//            ivWhiteList.setOnClickListener {
-//                val whiteListView = WhiteListView(this@LockActivity, whiteList)
-//                whiteListView.apply {
-//                    setJumpClick {
-//                        windowManager.removeView(this)
-//                        removeView(true)
-//                    }
-//                }
-//                windowManager.addView(whiteListView, mLayoutParam)
-//            }
             tvTodoName.text = todoEntity!!.name
         }
         workView = realUi.root

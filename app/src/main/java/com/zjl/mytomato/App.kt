@@ -2,13 +2,16 @@ package com.zjl.mytomato
 
 import android.app.Application
 import android.content.Context
+import com.jaredrummler.cyanea.Cyanea
 import com.zjl.mytomato.database.DatabaseManager
+
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
         DatabaseManager.init(this)
         appContext = this
+        Cyanea.init(this, resources)
     }
 
     companion object {

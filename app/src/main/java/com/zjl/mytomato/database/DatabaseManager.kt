@@ -69,4 +69,24 @@ class DatabaseManager private constructor() {
     suspend fun queryFinishTodoEntityByDate(date: String): List<FinishTodoEntity> {
         return finishTodoEntityDao.queryByData(date)
     }
+
+    suspend fun getFinishTodoNum(): Int {
+        return finishTodoEntityDao.getFinishTodoNum()
+    }
+
+    suspend fun getTotalTime(): Int? {
+        return finishTodoEntityDao.getTotalTime()
+    }
+
+    suspend fun getAverageTime(): Int? {
+        return finishTodoEntityDao.getAverageTime()
+    }
+
+    suspend fun getNumByDate(date: String): Int {
+        return finishTodoEntityDao.getNumByDate(date)
+    }
+
+    suspend fun getTimeByDate(date: String): Int? {
+        return finishTodoEntityDao.getTimeByDate(date)
+    }
 }

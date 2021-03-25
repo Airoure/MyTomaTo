@@ -67,7 +67,7 @@
             app:npv_TextSizeSelected="20sp"
             app:npv_WrapSelectorWheel="false"
             app:npv_TextArray="@array/hour_picker"
-            app:npv_DividerColor="?attr/colorPrimary"
+            app:npv_DividerColor="?attr/colorAccent"
             app:npv_TextColorSelected="?attr/colorPrimary" />
 
         <TextView
@@ -98,8 +98,8 @@
             app:npv_TextSizeSelected="20sp"
             app:npv_WrapSelectorWheel="false"
             app:npv_TextArray="@array/minute_picker"
-            app:npv_DividerColor="?attr/colorPrimary"
-            app:npv_TextColorSelected="?attr/colorPrimary" />
+            app:npv_DividerColor="?attr/colorAccent"
+            app:npv_TextColorSelected="?attr/colorAccent" />
 
         <TextView
             android:id="@+id/tv_minute"

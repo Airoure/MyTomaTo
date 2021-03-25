@@ -15,10 +15,10 @@ inline fun View.setOnSafeClickListener(crossinline action: (View) -> Unit) {
     }
 }
 
-fun View.setVisiable(){
+fun View.setVisiable() {
     this.visibility = View.VISIBLE
 }
 
-fun View.setGone(){
+fun View.setGone() {
     this.visibility = View.GONE
 }

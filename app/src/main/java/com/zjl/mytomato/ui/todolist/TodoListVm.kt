@@ -9,7 +9,8 @@ class TodoListVm : BaseViewModel() {
     private val repo by lazy { TodoListRepo(viewModelScope) }
     val finishTodoLiveData = MutableLiveData<List<FinishTodoEntity>>()
 
-    fun getFinishTodo(date:String){
-        repo.getFinishTodoByDate(date,finishTodoLiveData)
+    fun getFinishTodo(date: String) {
+        repo.getFinishTodoByDate(date, finishTodoLiveData)
     }
+
 }

@@ -3,9 +3,9 @@ package com.zjl.mytomato.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.ActivityMainBinding
 import com.zjl.mytomato.ui.mine.MineFragment
@@ -13,7 +13,7 @@ import com.zjl.mytomato.ui.statistics.StatisticFragment
 import com.zjl.mytomato.ui.todo.TodoFragment
 import com.zjl.mytomato.ui.todolist.TodoListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : CyaneaAppCompatActivity() {
 
     private lateinit var ui: ActivityMainBinding
     private lateinit var fragmentList: List<Fragment>

@@ -22,7 +22,7 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
     private lateinit var adapter: TodoRvAdapter
     override fun initUi(): FragmentTodoBinding {
-        adapter = TodoRvAdapter( object : TodoRvAdapter.OnAdapterClickListener {
+        adapter = TodoRvAdapter(object : TodoRvAdapter.OnAdapterClickListener {
             override fun onDeleteClick(todoEntity: TodoEntity) {
                 vm.deleteTodo(todoEntity)
             }
@@ -84,9 +84,9 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
         vm.firstLoadLiveData.observe(this, Observer {
             adapter.setTodoEntityList(it)
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 ui.layoutEmpty.setVisiable()
-            }else{
+            } else {
                 ui.layoutEmpty.setGone()
             }
 
@@ -98,9 +98,9 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
         vm.removeLiveData.observe(this, Observer {
             adapter.removeItem(it)
             Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show()
-            if(adapter.getTodoEntityList().isEmpty()){
+            if (adapter.getTodoEntityList().isEmpty()) {
                 ui.layoutEmpty.setVisiable()
-            }else{
+            } else {
                 ui.layoutEmpty.setGone()
             }
         })

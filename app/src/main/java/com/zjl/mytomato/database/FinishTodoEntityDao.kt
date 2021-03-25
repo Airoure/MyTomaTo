@@ -16,4 +16,19 @@ interface FinishTodoEntityDao {
 
     @Query("select * from FinishTodoEntity where finishDate = :date")
     suspend fun queryByData(date: String): List<FinishTodoEntity>
+
+    @Query("select Count(*) from FinishTodoEntity")
+    suspend fun getFinishTodoNum(): Int
+
+    @Query("select sum(hour*60+minute) from FinishTodoEntity")
+    suspend fun getTotalTime(): Int?
+
+    @Query("select sum(hour*60+minute)/(select Count(distinct finishDate)) from FinishTodoEntity")
+    suspend fun getAverageTime(): Int?
+
+    @Query("select Count(*) from FinishTodoEntity where finishDate = :date")
+    suspend fun getNumByDate(date: String): Int
+
+    @Query("select sum(hour*60+minute) from FinishTodoEntity where finishDate = :date")
+    suspend fun getTimeByDate(date: String): Int?
 }
