@@ -25,13 +25,13 @@ class LockVm : BaseViewModel() {
     fun startCountDonw(todoEntity: TodoEntity) {
         App.isLocking = true
         val time =
-            (LockActivity.todoEntity!!.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
+                (LockActivity.todoEntity!!.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
         timer = object : CountDownTimer(time, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val hour = millisUntilFinished / (1000 * 60 * 60)
                 val minute = (millisUntilFinished - hour * 1000 * 60 * 60) / (1000 * 60)
                 val second =
-                    (millisUntilFinished - minute * 1000 * 60 - hour * 1000 * 60 * 60) / 1000
+                        (millisUntilFinished - minute * 1000 * 60 - hour * 1000 * 60 * 60) / 1000
                 timeLiveData.postValue("$hour 时$minute 分$second 秒")
             }
 
@@ -43,14 +43,14 @@ class LockVm : BaseViewModel() {
                         val date = dateFormat.format(Date())
                         val time = timeFormat.format(Date())
                         repo.addFinishTodo(
-                            FinishTodoEntity(
-                                todoEntity.name,
-                                todoEntity.imageUrl,
-                                date,
-                                time,
-                                todoEntity.hour,
-                                todoEntity.minute
-                            )
+                                FinishTodoEntity(
+                                        todoEntity.name,
+                                        todoEntity.imageUrl,
+                                        date,
+                                        time,
+                                        todoEntity.hour,
+                                        todoEntity.minute
+                                )
                         )
                         finishLiveData.postValue(true)
                     }

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.zjl.mytomato.entity.FinishTodoEntity
+import com.zjl.mytomato.entity.FinishTodoType
 
 @Dao
 interface FinishTodoEntityDao {
@@ -31,4 +32,7 @@ interface FinishTodoEntityDao {
 
     @Query("select sum(hour*60+minute) from FinishTodoEntity where finishDate = :date")
     suspend fun getTimeByDate(date: String): Int?
+
+    @Query("select name,sum(hour*60+minute) as time from FinishTodoEntity where finishDate = :date group by name")
+    suspend fun getFinishTodoByDate(date: String): List<FinishTodoType>
 }

@@ -1,11 +1,11 @@
 package com.zjl.mytomato.ui.todo
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.app.Activity
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jaredrummler.cyanea.Cyanea
 import com.zjl.mytomato.BaseFragment
 import com.zjl.mytomato.R
 import com.zjl.mytomato.adapter.TodoRvAdapter
@@ -14,6 +14,7 @@ import com.zjl.mytomato.databinding.FragmentTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.setGone
 import com.zjl.mytomato.setVisiable
+import com.zjl.mytomato.view.ColorPickerDialog
 import com.zjl.mytomato.view.CommonDialog
 import com.zjl.mytomato.view.SetTodoDialog
 import com.zjl.mytomato.view.SpacingDecoration
@@ -34,12 +35,12 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
         return FragmentTodoBinding.inflate(layoutInflater).apply {
             ivTomato.apply {
                 setOnClickListener {
-                    val animatorSet = AnimatorSet()
-                    val xAnimator = ObjectAnimator.ofFloat(this, "scaleX", 1f, 1.5f, 1f)
-                    val yAnimator = ObjectAnimator.ofFloat(this, "scaleY", 1f, 1.5f, 1f)
-                    animatorSet.duration = 1000
-                    animatorSet.play(xAnimator).with(yAnimator)
-                    animatorSet.start()
+                    ColorPickerDialog(context!!) { color ->
+                        Cyanea.instance.edit {
+                            primary(color)
+                            accent(color)
+                        }.recreate(activity as Activity)
+                    }.show()
                 }
             }
             toolbar.setOnMenuItemClickListener {
@@ -69,7 +70,7 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
         return ViewModelProvider(this).get(TodoVm::class.java)
     }
 
-    override fun init() {
+    override fun subscribe() {
         vm.messageLiveData.observe(this, Observer {
             when (it) {
                 Constant.ADD_TODO_SUCCESS -> {

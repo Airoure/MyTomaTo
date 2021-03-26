@@ -6,9 +6,9 @@ import android.widget.FrameLayout
 import com.zjl.mytomato.databinding.ViewTipBinding
 
 class TipView(
-    context: Context,
-    content: String,
-    cancelClick: (TipView) -> Unit
+        context: Context,
+        content: String,
+        cancelClick: (TipView) -> Unit
 ) : FrameLayout(context) {
     private val ui: ViewTipBinding
 

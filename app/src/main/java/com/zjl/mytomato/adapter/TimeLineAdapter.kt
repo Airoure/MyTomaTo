@@ -18,10 +18,10 @@ class TimeLineAdapter : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
             with(ui) {
                 ivBackground.apply {
                     Glide.with(context)
-                        .load("${Constant.BASE_PIC_URL}${finishTodoEntity.imageUrl}")
-                        .placeholder(resources.getDrawable(R.color.black))
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .into(this)
+                            .load("${Constant.BASE_PIC_URL}${finishTodoEntity.imageUrl}")
+                            .placeholder(resources.getDrawable(R.color.black))
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
+                            .into(this)
                 }
                 tvTitle.text = finishTodoEntity.name
                 val time: StringBuilder = StringBuilder()
@@ -43,7 +43,7 @@ class TimeLineAdapter : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        ItemTimeLineBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemTimeLineBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

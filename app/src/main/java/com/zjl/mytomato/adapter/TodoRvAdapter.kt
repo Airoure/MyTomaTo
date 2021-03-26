@@ -15,9 +15,9 @@ import com.zjl.mytomato.ui.lock.LockActivity
 import com.zjl.mytomato.view.TodoCardDialog
 
 class TodoRvAdapter(
-    private val onAdapterClickListener: OnAdapterClickListener
+        private val onAdapterClickListener: OnAdapterClickListener
 ) :
-    RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
+        RecyclerView.Adapter<TodoRvAdapter.ViewHolder>() {
 
     private var todoEntityList: MutableList<TodoEntity> = mutableListOf()
 
@@ -54,16 +54,16 @@ class TodoRvAdapter(
                 tvTitle.text = todoEntity.name
                 ivBackground.apply {
                     Glide.with(context)
-                        .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
-                        .placeholder(resources.getDrawable(R.color.black))
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .into(this)
+                            .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
+                            .placeholder(resources.getDrawable(R.color.black))
+                            .diskCacheStrategy(DiskCacheStrategy.DATA)
+                            .into(this)
                 }
                 tvStart.apply {
                     setOnClickListener {
                         val intent = Intent(context, LockActivity::class.java).putExtra(
-                            "todoEntity",
-                            todoEntity
+                                "todoEntity",
+                                todoEntity
                         )
                         LockActivity.open(context, todoEntity)
                     }
@@ -91,7 +91,7 @@ class TodoRvAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

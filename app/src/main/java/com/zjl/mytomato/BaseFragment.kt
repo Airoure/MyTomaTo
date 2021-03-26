@@ -17,9 +17,9 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
     protected open fun init() {}
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         vm = initViewModel()
         ui = initUi()
@@ -27,7 +27,7 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
         return ui.root
     }
 
-    open fun subscribe(){}
+    open fun subscribe() {}
 
 
     override fun onStart() {

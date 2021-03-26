@@ -12,6 +12,7 @@ class StatisticVm : BaseViewModel() {
     val averageTime = MutableLiveData<Int>()
     val dayNum = MutableLiveData<Int>()
     val dayTime = MutableLiveData<Int>()
+    val pieChartDate = MutableLiveData<Map<String, Int>>()
 
     fun getFinishTodoNum() {
         repo.getFinishTodoNum(finishTodoNum)
@@ -26,10 +27,18 @@ class StatisticVm : BaseViewModel() {
     }
 
     fun getNumByDate(date: String) {
-        repo.getNumByDate(date,dayNum)
+        repo.getNumByDate(date, dayNum)
     }
 
     fun getTimeByDate(date: String) {
-        repo.getTimeByDate(date,dayTime)
+        repo.getTimeByDate(date, dayTime)
+    }
+
+    fun getPieChartData(date: String) {
+        repo.getPieChartData(date, pieChartDate)
+    }
+
+    fun getAppUsedTime(date: String) {
+
     }
 }
