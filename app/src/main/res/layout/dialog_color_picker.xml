@@ -30,12 +30,23 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/color_picker"
+            app:layout_constraintLeft_toLeftOf="@id/color_picker"
+            app:layout_constraintRight_toRightOf="@id/color_picker"
+            android:textColor="@color/black"
+            android:text="点击确认之后将关闭APP，重启之后主题颜色变更即可生效!" />
+
         <Button
             android:id="@+id/btn_confirm"
             android:text="确定"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/color_picker"
+            app:layout_constraintTop_toBottomOf="@id/tv_tip"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

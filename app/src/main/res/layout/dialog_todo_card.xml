@@ -6,7 +6,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="300dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape_dialog_todo_bg"
         android:paddingBottom="5dp">
 
@@ -106,13 +106,13 @@
             app:layout_constraintLeft_toRightOf="@id/tv_hour"
             app:layout_constraintRight_toLeftOf="@id/tv_minute"
             app:layout_constraintTop_toTopOf="@id/picker_hour"
-            app:npv_DividerColor="?attr/colorPrimary"
             app:npv_ItemPaddingHorizontal="5dp"
             app:npv_ItemPaddingVertical="5dp"
             app:npv_RespondChangeOnDetached="false"
             app:npv_ShownCount="3"
             app:npv_TextArray="@array/minute_picker"
-            app:npv_TextColorSelected="?attr/colorPrimary"
+            app:npv_TextColorSelected="?attr/colorAccent"
+            app:npv_DividerColor="?attr/colorAccent"
             app:npv_TextSizeNormal="10sp"
             app:npv_TextSizeSelected="20sp"
             app:npv_WrapSelectorWheel="false" />

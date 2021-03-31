@@ -16,7 +16,7 @@
         android:icon="@drawable/ic_statistics" />
 
     <item
-        android:id="@+id/menu_mine"
-        android:title="设置"
-        android:icon="@drawable/ic_setting" />
+        android:id="@+id/menu_timed_task"
+        android:title="定时任务"
+        android:icon="@drawable/ic_timed_task" />
 </menu>

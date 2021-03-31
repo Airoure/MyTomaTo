@@ -7,17 +7,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.jaredrummler.cyanea.Cyanea
 import com.zjl.mytomato.BaseFragment
+import com.zjl.mytomato.changeTheme
 import com.zjl.mytomato.databinding.FragmentStatisticBinding
 import com.zjl.mytomato.view.ColorPickerDialog
 import java.text.SimpleDateFormat
@@ -56,10 +54,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             }
             ivTomato.setOnClickListener {
                 ColorPickerDialog(context!!) { color ->
-                    Cyanea.instance.edit {
-                        primary(color)
-                        accent(color)
-                    }.recreate(activity as Activity)
+                    changeTheme(color)
                 }.show()
             }
             pieChart.apply {
@@ -173,6 +168,44 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             }
 
         })
+        vm.barChartData.observe(this, Observer {
+            ui.barChart.apply {
+                data = getBarChartData(it)
+                highlightValues(null)
+                invalidate()
+            }
+        })
+    }
+
+    private fun getBarChartData(datas: Map<String, Long>?): BarData? {
+        var data: BarData? = null
+        if (datas != null) {
+            val values = mutableListOf<BarEntry>()
+            var set1: BarDataSet?
+            var i = 0f
+            val spaceForBar = 10f
+            for (item in datas) {
+                if (item.value.toFloat() != 0f) {
+                    values.add(BarEntry(i++ * spaceForBar, item.value.toFloat()))
+                }
+            }
+            ui.barChart.apply {
+                if (this.data != null &&
+                        this.data.dataSetCount > 0) {
+                    set1 = this.data.getDataSetByIndex(0) as BarDataSet
+                    set1!!.values = values
+                } else {
+                    set1 = BarDataSet(values, "DataSet 1")
+                    set1!!.setDrawIcons(false)
+                    val dataSets = ArrayList<IBarDataSet>()
+                    dataSets.add(set1!!)
+                    data = BarData(dataSets)
+                    data!!.setValueTextSize(10f)
+                    data!!.barWidth = 9f
+                }
+            }
+        }
+        return data
     }
 
     private fun getPieChartData(datas: Map<String, Int>?): PieData {
@@ -209,6 +242,8 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         vm.getNumByDate(date)
         vm.getTimeByDate(date)
         vm.getPieChartData(date)
-        vm.getAppUsedTime(date)
+        vm.getAppUsedTime(context!!)
     }
+
+
 }

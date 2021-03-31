@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Process
 import android.provider.Settings
 import android.widget.Toast
+import com.tencent.bugly.crashreport.CrashReport
 import com.zjl.mytomato.BaseActivity
 import com.zjl.mytomato.databinding.ActivityLaunchBinding
 import com.zjl.mytomato.ui.main.MainActivity

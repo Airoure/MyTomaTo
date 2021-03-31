@@ -13,4 +13,5 @@ import com.zjl.mytomato.entity.TodoEntity
 abstract class TomatoDatabase : RoomDatabase() {
     abstract fun getTodoEntityDao(): TodoEntityDao
     abstract fun getFinishTodoEntityDao(): FinishTodoEntityDao
+    abstract fun getTimedTaskEntityDao(): TimedTaskEntityDao
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
+import com.tencent.bugly.beta.Beta
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.ActivityMainBinding
 import com.zjl.mytomato.ui.mine.MineFragment
@@ -26,6 +27,7 @@ class MainActivity : CyaneaAppCompatActivity() {
     }
 
     private fun initUi() {
+        Beta.checkUpgrade()
         fragmentList =
                 listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment())
         ui.apply {
@@ -44,7 +46,7 @@ class MainActivity : CyaneaAppCompatActivity() {
                     R.id.menu_todo -> vpMain.setCurrentItem(0, false)
                     R.id.menu_todo_list -> vpMain.setCurrentItem(1, false)
                     R.id.menu_statistics -> vpMain.setCurrentItem(2, false)
-                    R.id.menu_mine -> vpMain.setCurrentItem(3, false)
+                    R.id.menu_timed_task -> vpMain.setCurrentItem(3, false)
                 }
                 true
             }

@@ -2,6 +2,7 @@ package com.zjl.mytomato.view
 
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.DialogColorPickerBinding
 

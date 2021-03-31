@@ -13,8 +13,8 @@ android {
         applicationId "com.zjl.mytomato"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "2.0"
+        versionCode 5
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -89,4 +89,9 @@ dependencies {
     //换肤
     implementation 'com.jaredrummler:cyanea:1.0.2'
 
+    //bugly 据说1.5版本有弹窗bug
+    implementation 'com.tencent.bugly:crashreport_upgrade:1.4.2'
+
+    //switchButton
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 }

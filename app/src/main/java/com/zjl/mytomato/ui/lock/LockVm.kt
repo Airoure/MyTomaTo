@@ -1,6 +1,5 @@
 package com.zjl.mytomato.ui.lock
 
-import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zjl.mytomato.App
@@ -8,7 +7,10 @@ import com.zjl.mytomato.BaseViewModel
 import com.zjl.mytomato.entity.FinishTodoEntity
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.todolist.TodoListRepo
+import com.zjl.mytomato.util.CoroutineScopeTimer
+import com.zjl.mytomato.util.SpUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -17,27 +19,47 @@ import java.util.*
 class LockVm : BaseViewModel() {
 
     private val repo by lazy { TodoListRepo(viewModelScope) }
-    private var timer: CountDownTimer? = null
-
+    private val onceWorkTime by lazy { SpUtil.getWorkTime() }
+    private val onceRestTime by lazy { SpUtil.getRestTime() }
+    private var cancel = false
     val timeLiveData = MutableLiveData<String>()
     val finishLiveData = MutableLiveData<Boolean>()
-    val messageLiveData = MutableLiveData<Int>()
     fun startCountDonw(todoEntity: TodoEntity) {
-        App.isLocking = true
-        val time =
-                (LockActivity.todoEntity!!.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
-        timer = object : CountDownTimer(time, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val hour = millisUntilFinished / (1000 * 60 * 60)
-                val minute = (millisUntilFinished - hour * 1000 * 60 * 60) / (1000 * 60)
-                val second =
-                        (millisUntilFinished - minute * 1000 * 60 - hour * 1000 * 60 * 60) / 1000
-                timeLiveData.postValue("$hour 时$minute 分$second 秒")
-            }
+        viewModelScope.launch {
+            App.isLocking = true
+            var totalWorkTime = (todoEntity.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
+            var nowWorkTime = totalWorkTime
+            var nowRestTime = onceRestTime
+            val workTimer = object : CoroutineScopeTimer() {
+                override fun run() {
+                    val hour = nowWorkTime / (1000 * 60 * 60)
+                    val minute = (nowWorkTime - hour * 1000 * 60 * 60) / (1000 * 60)
+                    val second = (nowWorkTime - minute * 1000 * 60 - hour * 1000 * 60 * 60) / 1000
+                    timeLiveData.postValue("$hour 时$minute 分$second 秒")
+                    nowWorkTime -= 1000
+                    if (nowWorkTime == 0L) {
+                        totalWorkTime = 0L
+                    }
+                }
 
-            override fun onFinish() {
-                viewModelScope.launch {
-                    withContext(Dispatchers.Default) {
+            }
+            val restTimer = object : CoroutineScopeTimer() {
+                override fun run() {
+                    val hour = nowRestTime / (1000 * 60 * 60)
+                    val minute = (nowRestTime - hour * 1000 * 60 * 60) / (1000 * 60)
+                    val second = (nowRestTime - minute * 1000 * 60 - hour * 1000 * 60 * 60) / 1000
+                    timeLiveData.postValue("休息$minute 分$second 秒")
+                    nowRestTime -= 1000
+                    if (nowRestTime == 0L) {
+                        totalWorkTime = nowWorkTime
+                    }
+                }
+
+            }
+            withContext(Dispatchers.IO) {
+                while (!cancel) {
+                    if (totalWorkTime == 0L) {
+                        //计时结束
                         val dateFormat = SimpleDateFormat("yyyy年MM月dd日")
                         val timeFormat = SimpleDateFormat("HH:mm")
                         val date = dateFormat.format(Date())
@@ -53,17 +75,24 @@ class LockVm : BaseViewModel() {
                                 )
                         )
                         finishLiveData.postValue(true)
+
+                    } else {
+                        if ((totalWorkTime - nowWorkTime) % onceWorkTime < 1000 && totalWorkTime != nowWorkTime) {
+                            //休息时间
+                            restTimer.run()
+                        } else {
+                            nowRestTime = onceRestTime
+                            workTimer.run()
+                        }
                     }
-
+                    delay(1000)
                 }
-
             }
         }
-        timer!!.start()
     }
 
     fun stopCountDown() {
-        timer!!.cancel()
         App.isLocking = false
+        cancel = true
     }
 }

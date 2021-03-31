@@ -1,6 +1,9 @@
 package com.zjl.mytomato
 
+import android.app.Activity
 import android.view.View
+import androidx.fragment.app.Fragment
+import com.jaredrummler.cyanea.Cyanea
 
 inline fun View.setOnSafeClickListener(crossinline action: (View) -> Unit) {
     var lastClick = 0L
@@ -13,6 +16,14 @@ inline fun View.setOnSafeClickListener(crossinline action: (View) -> Unit) {
         }
         action.invoke(it)
     }
+}
+
+fun Fragment.changeTheme(color: Int){
+    Cyanea.instance.edit {
+        primary(color)
+        accent(color)
+    }.recreate(activity as Activity)
+    activity?.finish()
 }
 
 fun View.setVisiable() {

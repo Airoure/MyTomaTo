@@ -29,12 +29,20 @@ object SpUtil {
 
     fun getLockMonth() = sp.getInt("lock_month", 0)
 
-    fun getWhiteList() = sp.getStringSet("white_list", mutableSetOf())
-
-    fun setWhiteList(apps: MutableSet<String>) {
+    fun setWorkTime(workTime: Long) {
         sp.edit {
-            putStringSet("white_list", apps)
+            putLong("work_time", workTime * 60 * 1000)
         }
     }
+
+    fun getWorkTime() = sp.getLong("work_time", 3 * 10 * 1000)
+
+    fun setRestTime(restTime: Long) {
+        sp.edit {
+            putLong("rest_time", restTime * 60 * 1000)
+        }
+    }
+
+    fun getRestTime() = sp.getLong("rest_time", 1 * 10 * 1000)
 
 }

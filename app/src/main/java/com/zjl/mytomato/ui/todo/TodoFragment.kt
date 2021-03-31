@@ -6,14 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jaredrummler.cyanea.Cyanea
-import com.zjl.mytomato.BaseFragment
-import com.zjl.mytomato.R
+import com.tencent.bugly.crashreport.CrashReport
+import com.zjl.mytomato.*
 import com.zjl.mytomato.adapter.TodoRvAdapter
 import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.FragmentTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
-import com.zjl.mytomato.setGone
-import com.zjl.mytomato.setVisiable
 import com.zjl.mytomato.view.ColorPickerDialog
 import com.zjl.mytomato.view.CommonDialog
 import com.zjl.mytomato.view.SetTodoDialog
@@ -36,10 +34,7 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
             ivTomato.apply {
                 setOnClickListener {
                     ColorPickerDialog(context!!) { color ->
-                        Cyanea.instance.edit {
-                            primary(color)
-                            accent(color)
-                        }.recreate(activity as Activity)
+                        changeTheme(color)
                     }.show()
                 }
             }
@@ -83,7 +78,7 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
             }
         })
 
-        vm.firstLoadLiveData.observe(this, Observer {
+        vm.firstLoadLiveData.observe(this, {
             adapter.setTodoEntityList(it)
             if (it.isEmpty()) {
                 ui.layoutEmpty.setVisiable()
@@ -93,10 +88,10 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
         })
 
-        vm.todoLiveData.observe(this, Observer {
+        vm.todoLiveData.observe(this, {
             adapter.addTodoEntity(it)
         })
-        vm.removeLiveData.observe(this, Observer {
+        vm.removeLiveData.observe(this, {
             adapter.removeItem(it)
             Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show()
             if (adapter.getTodoEntityList().isEmpty()) {

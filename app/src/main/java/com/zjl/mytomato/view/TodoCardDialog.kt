@@ -20,7 +20,7 @@ class TodoCardDialog constructor(
 
     init {
         ui = DialogTodoCardBinding.inflate(layoutInflater).apply {
-            etTodoName.setText(todoEntity.name)
+            etTodoName.text = todoEntity.name
             btnCancel.setOnClickListener {
                 dismiss()
             }
