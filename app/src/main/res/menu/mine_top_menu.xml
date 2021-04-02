@@ -5,11 +5,5 @@
         android:id="@+id/menu_add"
         android:title="添加待办"
         android:icon="@drawable/ic_add"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/change_layout"
-        android:title="修改布局"
-        android:icon="@drawable/ic_change_layout"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>

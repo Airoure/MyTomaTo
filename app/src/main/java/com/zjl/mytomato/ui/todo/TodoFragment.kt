@@ -4,7 +4,10 @@ import android.app.Activity
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.jaredrummler.cyanea.Cyanea
 import com.tencent.bugly.crashreport.CrashReport
 import com.zjl.mytomato.*
@@ -12,6 +15,7 @@ import com.zjl.mytomato.adapter.TodoRvAdapter
 import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.FragmentTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
+import com.zjl.mytomato.util.SpUtil
 import com.zjl.mytomato.view.ColorPickerDialog
 import com.zjl.mytomato.view.CommonDialog
 import com.zjl.mytomato.view.SetTodoDialog
@@ -21,15 +25,8 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
     private lateinit var adapter: TodoRvAdapter
     override fun initUi(): FragmentTodoBinding {
-        adapter = TodoRvAdapter(object : TodoRvAdapter.OnAdapterClickListener {
-            override fun onDeleteClick(todoEntity: TodoEntity) {
-                vm.deleteTodo(todoEntity)
-            }
+        adapter = createTodoAdapter()
 
-            override fun onSaveClick(todoEntity: TodoEntity) {
-                vm.saveTodo(todoEntity)
-            }
-        })
         return FragmentTodoBinding.inflate(layoutInflater).apply {
             ivTomato.apply {
                 setOnClickListener {
@@ -52,12 +49,40 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
                         }).show()
                     }
+                    R.id.change_layout -> {
+                        when(SpUtil.getTodoLayout()){
+                            Constant.LINEARLAYOUT -> {
+                                adapter.setViewType(Constant.GRIDLAYOUT)
+                                rvTodo.layoutManager = GridLayoutManager(context,3)
+                                rvTodo.adapter = adapter
+                                SpUtil.setTodoLayout(Constant.GRIDLAYOUT)
+                            }
+                            Constant.GRIDLAYOUT -> {
+                                adapter.setViewType(Constant.LINEARLAYOUT)
+                                rvTodo.layoutManager = LinearLayoutManager(context)
+                                rvTodo.adapter = adapter
+                                SpUtil.setTodoLayout(Constant.LINEARLAYOUT)
+                            }
+                        }
+                    }
                 }
                 true
             }
-            rvTodo.layoutManager = LinearLayoutManager(context)
-            rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true))
-            rvTodo.adapter = adapter
+            when(SpUtil.getTodoLayout()){
+                Constant.LINEARLAYOUT->{
+                    adapter.setViewType(Constant.LINEARLAYOUT)
+                    rvTodo.layoutManager = LinearLayoutManager(context)
+                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true,includeHEdge = true))
+                    rvTodo.adapter = adapter
+                }
+                Constant.GRIDLAYOUT->{
+                    adapter.setViewType(Constant.GRIDLAYOUT)
+                    rvTodo.layoutManager = GridLayoutManager(context,3)
+                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true,includeHEdge = true))
+                    rvTodo.adapter = adapter
+                }
+            }
+
         }
     }
 
@@ -101,5 +126,15 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
             }
         })
     }
+
+    fun createTodoAdapter() = TodoRvAdapter(object : TodoRvAdapter.OnAdapterClickListener {
+        override fun onDeleteClick(todoEntity: TodoEntity) {
+            vm.deleteTodo(todoEntity)
+        }
+
+        override fun onSaveClick(todoEntity: TodoEntity) {
+            vm.saveTodo(todoEntity)
+        }
+    })
 
 }

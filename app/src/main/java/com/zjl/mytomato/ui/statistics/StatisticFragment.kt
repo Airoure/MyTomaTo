@@ -1,6 +1,5 @@
 package com.zjl.mytomato.ui.statistics
 
-import android.app.Activity
 import android.graphics.Color
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -13,7 +12,6 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
-import com.jaredrummler.cyanea.Cyanea
 import com.zjl.mytomato.BaseFragment
 import com.zjl.mytomato.changeTheme
 import com.zjl.mytomato.databinding.FragmentStatisticBinding

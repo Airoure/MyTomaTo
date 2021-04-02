@@ -11,6 +11,7 @@
         android:background="@drawable/shape_color_no_corner_bg"
         app:layout_constraintTop_toTopOf="parent"
         app:title="定时任务"
+        app:menu="@menu/mine_top_menu"
         app:titleTextColor="@color/white" />
 
     <ImageView

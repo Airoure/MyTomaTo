@@ -3,7 +3,7 @@ package com.zjl.mytomato.entity
 import androidx.room.Entity
 
 
-@Entity(tableName = "TimedTaskEntity")
+@Entity(tableName = "TimedTaskEntity",primaryKeys = ["name","startHour","startMinute"])
 data class TimedTaskEntity(
         var name: String,
         var hour: Int,

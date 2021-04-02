@@ -3,6 +3,7 @@ package com.zjl.mytomato.util
 import android.content.Context
 import androidx.core.content.edit
 import com.zjl.mytomato.App
+import com.zjl.mytomato.common.Constant
 import java.util.*
 
 object SpUtil {
@@ -35,7 +36,7 @@ object SpUtil {
         }
     }
 
-    fun getWorkTime() = sp.getLong("work_time", 3 * 10 * 1000)
+    fun getWorkTime() = sp.getLong("work_time", 25 * 60 * 1000)
 
     fun setRestTime(restTime: Long) {
         sp.edit {
@@ -43,6 +44,13 @@ object SpUtil {
         }
     }
 
-    fun getRestTime() = sp.getLong("rest_time", 1 * 10 * 1000)
+    fun getRestTime() = sp.getLong("rest_time", 5 * 60 * 1000)
 
+    fun getTodoLayout() = sp.getInt("todo_layout",Constant.LINEARLAYOUT)
+
+    fun setTodoLayout(todoLayout: Int){
+        sp.edit{
+            putInt("todo_layout",todoLayout)
+        }
+    }
 }

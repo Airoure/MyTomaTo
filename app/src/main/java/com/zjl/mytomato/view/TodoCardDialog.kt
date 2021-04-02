@@ -35,12 +35,13 @@ class TodoCardDialog constructor(
             pickerHour.value = todoEntity.hour
             pickerMinute.value = todoEntity.minute
             var url = todoEntity.imageUrl
+            val todoName = etTodoName.text.trim().toString()
+            val hour = pickerHour.value
+            val minute = pickerMinute.value
             btnConfirm.setOnClickListener {
-                val todoName = etTodoName.text.trim().toString()
-                val hour = pickerHour.value
-                val minute = pickerMinute.value
                 if (todoName.isEmpty()) {
                     CommonDialog(context, content = "待办名不能为空").show()
+                    btnConfirm.isEnabled = false
                 } else if (hour == 0 && minute == 0) {
                     CommonDialog(context, content = "时间不能设置为0").show()
                 } else {

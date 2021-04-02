@@ -29,12 +29,6 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
 
     open fun subscribe() {}
 
-
-    override fun onStart() {
-        super.onStart()
-        vm.load()
-    }
-
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
 //
@@ -43,5 +37,6 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
     override fun onResume() {
         super.onResume()
         init()
+        vm.load()
     }
 }
