@@ -74,7 +74,7 @@ class TodoRvAdapter(
                                 "todoEntity",
                                 todoEntity
                         )
-                        LockActivity.open(context, todoEntity)
+                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity",todoEntity))
                     }
                 }
                 ivBackground.setOnLongClickListener {
@@ -119,11 +119,7 @@ class TodoRvAdapter(
                 }
                 tvStart.apply {
                     setOnClickListener {
-                        val intent = Intent(context, LockActivity::class.java).putExtra(
-                                "todoEntity",
-                                todoEntity
-                        )
-                        LockActivity.open(context, todoEntity)
+                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity",todoEntity))
                     }
                 }
                 ivBackground.setOnLongClickListener {

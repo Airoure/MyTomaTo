@@ -1,10 +1,10 @@
 package com.zjl.mytomato.ui.lock
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
 import com.zjl.mytomato.App
 import com.zjl.mytomato.R
-import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.common.Constant.BASE_PIC_URL
 import com.zjl.mytomato.databinding.ActivityLockBinding
 import com.zjl.mytomato.databinding.WindowWorkBinding
@@ -30,18 +29,25 @@ class LockActivity : AppCompatActivity() {
     private lateinit var realUi: WindowWorkBinding
     private var mLayoutParam: WindowManager.LayoutParams = WindowManager.LayoutParams()
     private lateinit var lockVm: LockVm
-
+    private var todoEntity: TodoEntity? = null
     private lateinit var ui: ActivityLockBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (intent.extras!!.get("todoEntity")!=null) {
+            todoEntity = intent.extras!!.get("todoEntity") as TodoEntity
+            LockActivity.todoEntity = todoEntity
+        }else{
+            todoEntity = intent.getBundleExtra("todoBundle")?.getParcelable("todoEntity")
+            LockActivity.todoEntity = todoEntity
+        }
         ui = ActivityLockBinding.inflate(layoutInflater)
         setContentView(ui.root)
         Glide.with(this)
-                .load("${Constant.BASE_PIC_URL}${todoEntity?.imageUrl}")
-                .dontAnimate()
-                .placeholder(resources.getDrawable(R.color.black))
-                .into(ui.ivBackground)
+            .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+            .dontAnimate()
+            .placeholder(resources.getDrawable(R.color.black))
+            .into(ui.ivBackground)
         if (!App.isLocking) {
             startService(Intent(this, LockService::class.java))
             initParam()
@@ -65,7 +71,7 @@ class LockActivity : AppCompatActivity() {
                 SpUtil.setLockMonth()
                 SpUtil.setLockTimes(1)
                 startActivity(
-                        Intent(this, MainActivity::class.java)
+                    Intent(this, MainActivity::class.java)
                 )
                 removeView()
             } else {
@@ -76,7 +82,7 @@ class LockActivity : AppCompatActivity() {
                     SpUtil.setLockTimes(times + 1)
                     SpUtil.setLockMonth()
                     startActivity(
-                            Intent(this, MainActivity::class.java)
+                        Intent(this, MainActivity::class.java)
                     )
                     removeView()
                 }
@@ -90,9 +96,9 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                        .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-                        .placeholder(resources.getDrawable(R.color.black))
-                        .into(this)
+                    .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                    .placeholder(resources.getDrawable(R.color.black))
+                    .into(this)
             }
             tvTodoName.text = todoEntity!!.name
         }
@@ -114,7 +120,7 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mLayoutParam.layoutInDisplayCutoutMode =
-                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         } else {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST
@@ -143,13 +149,14 @@ class LockActivity : AppCompatActivity() {
                     windowManager.removeView(workView)
                 }
                 windowManager.addView(workView, mLayoutParam)
-                lockVm.startCountDonw(todoEntity!!)
+                lockVm.startCountDown(todoEntity!!)
                 App.isLocking = true
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
 
     private fun removeView(isLocking: Boolean = false) {
         try {
@@ -182,9 +189,5 @@ class LockActivity : AppCompatActivity() {
 
     companion object {
         var todoEntity: TodoEntity? = null
-        fun open(context: Context, todoEntity: TodoEntity) {
-            context.startActivity(Intent(context, LockActivity::class.java))
-            this.todoEntity = todoEntity
-        }
     }
 }

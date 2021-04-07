@@ -24,7 +24,7 @@ class LockVm : BaseViewModel() {
     private var cancel = false
     val timeLiveData = MutableLiveData<String>()
     val finishLiveData = MutableLiveData<Boolean>()
-    fun startCountDonw(todoEntity: TodoEntity) {
+    fun startCountDown(todoEntity: TodoEntity) {
         viewModelScope.launch {
             App.isLocking = true
             var totalWorkTime = (todoEntity.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L

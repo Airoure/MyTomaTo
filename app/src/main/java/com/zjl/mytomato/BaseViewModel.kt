@@ -6,4 +6,7 @@ open class BaseViewModel : ViewModel() {
     open fun load() {
 
     }
+    open fun onceLoad() {
+
+    }
 }

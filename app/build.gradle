@@ -55,9 +55,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
-    //数据库可视化
-    debugImplementation 'com.glance.guolindev:glance:1.0.0-alpha01'
-
     //滚动数字选择器
     implementation 'cn.carbswang.android:NumberPickerView:1.2.0'
 

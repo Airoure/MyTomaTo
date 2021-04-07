@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.zjl.mytomato.entity.FinishTodoEntity
 import com.zjl.mytomato.entity.FinishTodoType
+import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
 
 const val DATABASE_NAME = "Tomato.db"
@@ -37,6 +38,8 @@ class DatabaseManager private constructor() {
     private val todoEntityDao by lazy { database.getTodoEntityDao() }
 
     private val finishTodoEntityDao by lazy { database.getFinishTodoEntityDao() }
+
+    private val timedTaskEntityDao by lazy { database.getTimedTaskEntityDao() }
 
 
     suspend fun insertTodoEntity(todoEntity: TodoEntity): Long {
@@ -93,5 +96,17 @@ class DatabaseManager private constructor() {
 
     suspend fun getFinishTodoByDate(date: String): List<FinishTodoType> {
         return finishTodoEntityDao.getFinishTodoByDate(date)
+    }
+
+    suspend fun insertTimedTaskEntity(timedTaskEntity: TimedTaskEntity) : Long {
+        return timedTaskEntityDao.addTimedTaskEntity(timedTaskEntity)
+    }
+
+    suspend fun queryTimedTaskEntityAll() : List<TimedTaskEntity> {
+        return timedTaskEntityDao.queryTimedTaskEntityAll()
+    }
+
+    suspend fun changeTimedTaskEnable(timedTaskEntity: TimedTaskEntity) {
+        return timedTaskEntityDao.changeTimedTaskEnable(timedTaskEntity)
     }
 }

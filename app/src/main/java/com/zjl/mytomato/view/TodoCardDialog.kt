@@ -3,6 +3,7 @@ package com.zjl.mytomato.view
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.zjl.mytomato.R
 import com.zjl.mytomato.common.Constant.BASE_PIC_URL
@@ -36,9 +37,9 @@ class TodoCardDialog constructor(
             pickerMinute.value = todoEntity.minute
             var url = todoEntity.imageUrl
             val todoName = etTodoName.text.trim().toString()
-            val hour = pickerHour.value
-            val minute = pickerMinute.value
             btnConfirm.setOnClickListener {
+                val hour = pickerHour.value
+                val minute = pickerMinute.value
                 if (todoName.isEmpty()) {
                     CommonDialog(context, content = "待办名不能为空").show()
                     btnConfirm.isEnabled = false
