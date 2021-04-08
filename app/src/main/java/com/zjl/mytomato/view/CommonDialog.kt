@@ -20,7 +20,11 @@ class CommonDialog(
             tvTitle.text = title
             tvContent.text = content
             tvConfirm.setOnClickListener {
-                listener?.onClick()
+                listener?.onConfirm()
+                dismiss()
+            }
+            tvCancel.setOnClickListener {
+                listener?.onCancel()
                 dismiss()
             }
             setCanceledOnTouchOutside(touchOutCamcel)
@@ -28,7 +32,8 @@ class CommonDialog(
         }
     }
 
-    fun interface DialogClickListener {
-        fun onClick()
+    interface DialogClickListener {
+        fun onConfirm()
+        fun onCancel()
     }
 }

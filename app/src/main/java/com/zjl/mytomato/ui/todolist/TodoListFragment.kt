@@ -1,10 +1,8 @@
 package com.zjl.mytomato.ui.todolist
 
-import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jaredrummler.cyanea.Cyanea
 import com.zjl.mytomato.*
 import com.zjl.mytomato.adapter.TimeLineAdapter
 import com.zjl.mytomato.databinding.FragmentTodoListBinding

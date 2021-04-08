@@ -1,6 +1,5 @@
 package com.zjl.mytomato.ui.mine
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.zjl.mytomato.BaseRepo
 import com.zjl.mytomato.common.Constant
@@ -11,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 
 class MineRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
 
-    fun getAllTodoName(todoEntities : MutableLiveData<List<TodoEntity>>) {
+    fun getAllTodoName(todoEntities: MutableLiveData<List<TodoEntity>>) {
         launch(
                 block = {
                     DatabaseManager.get().queryTodoEntityAll()
@@ -22,7 +21,7 @@ class MineRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
         )
     }
 
-    fun addTimedTask(timedTaskEntity: TimedTaskEntity, messageLiveData: MutableLiveData<Int>,addedTimedTaskEntity: MutableLiveData<TimedTaskEntity>) {
+    fun addTimedTask(timedTaskEntity: TimedTaskEntity, messageLiveData: MutableLiveData<Int>, addedTimedTaskEntity: MutableLiveData<TimedTaskEntity>) {
         launch(
                 block = {
                     DatabaseManager.get().insertTimedTaskEntity(timedTaskEntity)
@@ -50,9 +49,18 @@ class MineRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
 
     fun changeTimedTaskEnable(timedTaskEntity: TimedTaskEntity) {
         launch(
-            block = {
-                DatabaseManager.get().changeTimedTaskEnable(timedTaskEntity)
-            }
+                block = {
+                    DatabaseManager.get().changeTimedTaskEnable(timedTaskEntity)
+                }
+        )
+    }
+
+    fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity) {
+        launch(
+                block = {
+                    DatabaseManager.get().deleteTimeTaskEntity(timedTaskEntity)
+                },
+
         )
     }
 

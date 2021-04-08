@@ -1,15 +1,10 @@
 package com.zjl.mytomato.ui.todo
 
-import android.app.Activity
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.jaredrummler.cyanea.Cyanea
-import com.tencent.bugly.crashreport.CrashReport
 import com.zjl.mytomato.*
 import com.zjl.mytomato.adapter.TodoRvAdapter
 import com.zjl.mytomato.common.Constant
@@ -50,10 +45,10 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
                         }).show()
                     }
                     R.id.change_layout -> {
-                        when(SpUtil.getTodoLayout()){
+                        when (SpUtil.getTodoLayout()) {
                             Constant.LINEARLAYOUT -> {
                                 adapter.setViewType(Constant.GRIDLAYOUT)
-                                rvTodo.layoutManager = GridLayoutManager(context,3)
+                                rvTodo.layoutManager = GridLayoutManager(context, 3)
                                 rvTodo.adapter = adapter
                                 SpUtil.setTodoLayout(Constant.GRIDLAYOUT)
                             }
@@ -68,17 +63,17 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
                 }
                 true
             }
-            when(SpUtil.getTodoLayout()){
-                Constant.LINEARLAYOUT->{
+            when (SpUtil.getTodoLayout()) {
+                Constant.LINEARLAYOUT -> {
                     adapter.setViewType(Constant.LINEARLAYOUT)
                     rvTodo.layoutManager = LinearLayoutManager(context)
-                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true,includeHEdge = true))
+                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true, includeHEdge = true))
                     rvTodo.adapter = adapter
                 }
-                Constant.GRIDLAYOUT->{
+                Constant.GRIDLAYOUT -> {
                     adapter.setViewType(Constant.GRIDLAYOUT)
-                    rvTodo.layoutManager = GridLayoutManager(context,3)
-                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true,includeHEdge = true))
+                    rvTodo.layoutManager = GridLayoutManager(context, 3)
+                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true, includeHEdge = true))
                     rvTodo.adapter = adapter
                 }
             }

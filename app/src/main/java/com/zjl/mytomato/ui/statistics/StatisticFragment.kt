@@ -189,7 +189,8 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             }
             ui.barChart.apply {
                 if (this.data != null &&
-                        this.data.dataSetCount > 0) {
+                    this.data.dataSetCount > 0
+                ) {
                     set1 = this.data.getDataSetByIndex(0) as BarDataSet
                     set1!!.values = values
                 } else {

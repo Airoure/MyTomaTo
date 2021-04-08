@@ -1,7 +1,6 @@
 package com.zjl.mytomato.adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,7 @@ import com.zjl.mytomato.databinding.ItemRvTodoBinding
 import com.zjl.mytomato.databinding.ItemRvTodoGrideBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.lock.LockActivity
-import com.zjl.mytomato.util.SpUtil
 import com.zjl.mytomato.view.TodoCardDialog
-import kotlin.properties.Delegates
 
 class TodoRvAdapter(
         private val onAdapterClickListener: OnAdapterClickListener
@@ -27,9 +24,10 @@ class TodoRvAdapter(
     private var todoEntityList: MutableList<TodoEntity> = mutableListOf()
     private var viewType = Constant.LINEARLAYOUT
 
-    fun setViewType(viewType: Int){
+    fun setViewType(viewType: Int) {
         this.viewType = viewType
     }
+
     fun setTodoEntityList(list: MutableList<TodoEntity>) {
         this.todoEntityList = list
         notifyDataSetChanged()
@@ -74,7 +72,7 @@ class TodoRvAdapter(
                                 "todoEntity",
                                 todoEntity
                         )
-                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity",todoEntity))
+                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity", todoEntity))
                     }
                 }
                 ivBackground.setOnLongClickListener {
@@ -119,7 +117,7 @@ class TodoRvAdapter(
                 }
                 tvStart.apply {
                     setOnClickListener {
-                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity",todoEntity))
+                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity", todoEntity))
                     }
                 }
                 ivBackground.setOnLongClickListener {
@@ -145,8 +143,8 @@ class TodoRvAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(this.viewType){
-            Constant.LINEARLAYOUT->{
+        return when (this.viewType) {
+            Constant.LINEARLAYOUT -> {
                 ViewHolderLinear(
                         ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
@@ -162,8 +160,8 @@ class TodoRvAdapter(
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(this.viewType){
-            Constant.LINEARLAYOUT->{
+        when (this.viewType) {
+            Constant.LINEARLAYOUT -> {
                 (holder as ViewHolderLinear).bind(todoEntityList[position])
             }
             else -> {

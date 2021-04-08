@@ -23,11 +23,11 @@ data class TimedTaskEntity(
 ) {
     fun toTodoEntity(): TodoEntity {
         return TodoEntity(
-            name,
-            hour,
-            minute,
-            second,
-            imageUrl
+                name,
+                hour,
+                minute,
+                second,
+                imageUrl
         )
     }
 }

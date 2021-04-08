@@ -13,7 +13,7 @@ class KeepAliveService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         while (true) {
-            for(item in timedTaskList){
+            for (item in timedTaskList) {
 
             }
         }

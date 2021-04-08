@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.zjl.mytomato.BaseViewModel
 import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
-import com.zjl.mytomato.ui.todo.TodoRepo
 
 class MineVm : BaseViewModel() {
 
@@ -24,11 +23,15 @@ class MineVm : BaseViewModel() {
         repo.getAllTimedTask(initTimedTaskEntities)
     }
 
-    fun addTimedTask(timedTaskEntity: TimedTaskEntity){
-        repo.addTimedTask(timedTaskEntity,messageLiveData,addedTimedTaskEntity)
+    fun addTimedTask(timedTaskEntity: TimedTaskEntity) {
+        repo.addTimedTask(timedTaskEntity, messageLiveData, addedTimedTaskEntity)
     }
 
     fun turnTimeTaskEntity(timedTaskEntity: TimedTaskEntity) {
         repo.changeTimedTaskEnable(timedTaskEntity)
+    }
+
+    fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity) {
+        repo.deleteTimeTaskEntity(timedTaskEntity)
     }
 }

@@ -11,5 +11,5 @@
         android:id="@+id/change_layout"
         android:title="修改布局"
         android:icon="@drawable/ic_change_layout"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>

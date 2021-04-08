@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -34,20 +33,20 @@ class LockActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent.extras!!.get("todoEntity")!=null) {
+        if (intent.extras!!.get("todoEntity") != null) {
             todoEntity = intent.extras!!.get("todoEntity") as TodoEntity
             LockActivity.todoEntity = todoEntity
-        }else{
+        } else {
             todoEntity = intent.getBundleExtra("todoBundle")?.getParcelable("todoEntity")
             LockActivity.todoEntity = todoEntity
         }
         ui = ActivityLockBinding.inflate(layoutInflater)
         setContentView(ui.root)
         Glide.with(this)
-            .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-            .dontAnimate()
-            .placeholder(resources.getDrawable(R.color.black))
-            .into(ui.ivBackground)
+                .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                .dontAnimate()
+                .placeholder(resources.getDrawable(R.color.black))
+                .into(ui.ivBackground)
         if (!App.isLocking) {
             startService(Intent(this, LockService::class.java))
             initParam()
@@ -71,7 +70,7 @@ class LockActivity : AppCompatActivity() {
                 SpUtil.setLockMonth()
                 SpUtil.setLockTimes(1)
                 startActivity(
-                    Intent(this, MainActivity::class.java)
+                        Intent(this, MainActivity::class.java)
                 )
                 removeView()
             } else {
@@ -82,7 +81,7 @@ class LockActivity : AppCompatActivity() {
                     SpUtil.setLockTimes(times + 1)
                     SpUtil.setLockMonth()
                     startActivity(
-                        Intent(this, MainActivity::class.java)
+                            Intent(this, MainActivity::class.java)
                     )
                     removeView()
                 }
@@ -96,9 +95,9 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                    .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-                    .placeholder(resources.getDrawable(R.color.black))
-                    .into(this)
+                        .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .into(this)
             }
             tvTodoName.text = todoEntity!!.name
         }
@@ -120,7 +119,7 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mLayoutParam.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         } else {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST

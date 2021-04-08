@@ -46,11 +46,11 @@ object SpUtil {
 
     fun getRestTime() = sp.getLong("rest_time", 5 * 60 * 1000)
 
-    fun getTodoLayout() = sp.getInt("todo_layout",Constant.LINEARLAYOUT)
+    fun getTodoLayout() = sp.getInt("todo_layout", Constant.LINEARLAYOUT)
 
-    fun setTodoLayout(todoLayout: Int){
-        sp.edit{
-            putInt("todo_layout",todoLayout)
+    fun setTodoLayout(todoLayout: Int) {
+        sp.edit {
+            putInt("todo_layout", todoLayout)
         }
     }
 }

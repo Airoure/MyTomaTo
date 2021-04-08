@@ -7,7 +7,7 @@ import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
 
 @Database(
-        entities = [TodoEntity::class, FinishTodoEntity::class,TimedTaskEntity::class],
+        entities = [TodoEntity::class, FinishTodoEntity::class, TimedTaskEntity::class],
         version = 1,
         exportSchema = false
 )

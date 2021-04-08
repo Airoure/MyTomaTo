@@ -2,7 +2,6 @@ package com.zjl.mytomato.view
 
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.DialogTimedTaskBinding
 import com.zjl.mytomato.entity.TimedTaskEntity
@@ -40,11 +39,15 @@ class TimedTaskDialog(context: Context, todoEntities: List<TodoEntity>, onClick:
                 isFriday = viewFriday.isChecked
                 isSaturday = viewSaturday.isChecked
                 isSunday = viewSunday.isChecked
+                if (!isMonday and !isTuesday and !isWednesday and !isThursday and !isFriday and !isSaturday and !isSunday) {
+                    CommonDialog(context, content = "请选择至少一个日期", touchOutCamcel = true).show()
+                    return@setOnClickListener
+                }
                 val todoEntity = todoEntityMap[pickerType.displayedValues[pickerType.value]]!!
                 with(todoEntity) {
                     onClick.invoke(
                             TimedTaskEntity(
-                                    name,hour,minute,second,imageUrl,pickerTimeHour.value,pickerTimeMinute.value,enable = false,isMonday,isTuesday,isWednesday,isThursday,isFriday,isSaturday,isSunday
+                                    name, hour, minute, second, imageUrl, pickerTimeHour.value, pickerTimeMinute.value, enable = false, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday
                             )
                     )
                 }

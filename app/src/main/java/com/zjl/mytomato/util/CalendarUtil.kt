@@ -66,15 +66,15 @@ object CalendarUtil {
         return instance.timeInMillis
     }
 
-    fun getTimeMilled(weekDay: Int,hour : Int,minute : Int): Long{
+    fun getTimeMilled(weekDay: Int, hour: Int, minute: Int): Long {
         val now = Calendar.getInstance()
         val nowMills = now.timeInMillis
         val instance = Calendar.getInstance()
-        instance.set(Calendar.DAY_OF_WEEK,weekDay)
-        instance.set(Calendar.HOUR_OF_DAY,hour)
-        instance.set(Calendar.MINUTE,minute)
-        if(instance.timeInMillis < nowMills){
-            instance.add(Calendar.DATE,7)
+        instance.set(Calendar.DAY_OF_WEEK, weekDay)
+        instance.set(Calendar.HOUR_OF_DAY, hour)
+        instance.set(Calendar.MINUTE, minute)
+        if (instance.timeInMillis < nowMills) {
+            instance.add(Calendar.DATE, 7)
         }
         return instance.timeInMillis
     }

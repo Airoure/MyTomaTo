@@ -98,15 +98,19 @@ class DatabaseManager private constructor() {
         return finishTodoEntityDao.getFinishTodoByDate(date)
     }
 
-    suspend fun insertTimedTaskEntity(timedTaskEntity: TimedTaskEntity) : Long {
+    suspend fun insertTimedTaskEntity(timedTaskEntity: TimedTaskEntity): Long {
         return timedTaskEntityDao.addTimedTaskEntity(timedTaskEntity)
     }
 
-    suspend fun queryTimedTaskEntityAll() : List<TimedTaskEntity> {
+    suspend fun queryTimedTaskEntityAll(): List<TimedTaskEntity> {
         return timedTaskEntityDao.queryTimedTaskEntityAll()
     }
 
     suspend fun changeTimedTaskEnable(timedTaskEntity: TimedTaskEntity) {
         return timedTaskEntityDao.changeTimedTaskEnable(timedTaskEntity)
+    }
+
+    suspend fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity) {
+        timedTaskEntityDao.deleteTimeTaskEntity(timedTaskEntity)
     }
 }

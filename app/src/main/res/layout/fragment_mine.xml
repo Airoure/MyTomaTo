@@ -24,7 +24,7 @@
         app:layout_constraintRight_toRightOf="@id/toolbar"
         app:layout_constraintTop_toTopOf="@id/toolbar" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.zjl.mytomato.view.VerticalRecyclerview
         android:id="@+id/rv_timed_task"
         android:layout_width="match_parent"
         android:layout_height="0dp"

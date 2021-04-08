@@ -3,7 +3,6 @@ package com.zjl.mytomato.view
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.zjl.mytomato.R
 import com.zjl.mytomato.common.Constant.BASE_PIC_URL
