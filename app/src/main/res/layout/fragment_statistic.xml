@@ -314,12 +314,20 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.github.mikephil.charting.charts.BarChart
+                <com.zjl.mytomato.view.DayOrWeekRadio
+                    android:id="@+id/radio_day_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tv_app_used_record"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <com.zjl.mytomato.view.BarGraph
                     android:id="@+id/bar_chart"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_app_used_record" />
+                    app:layout_constraintTop_toBottomOf="@id/radio_day_week"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

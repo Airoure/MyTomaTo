@@ -91,4 +91,7 @@ dependencies {
 
     //switchButton
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    //leakCannary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }

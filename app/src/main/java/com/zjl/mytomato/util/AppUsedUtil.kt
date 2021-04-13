@@ -27,10 +27,18 @@ object AppUsedUtil {
         return recentTask?.packageName
     }
 
-    fun getAppUsedTime(context: Context): Map<String, Long> {
+    fun getDayAppUsedTime(context: Context): Map<String, Long> {
+        return getUsedTime(context,CalendarUtil.getTodayStartTime())
+    }
+
+    fun getWeekAppUsedTime(context: Context): Map<String, Long> {
+        return getUsedTime(context,CalendarUtil.getWeekStartTime())
+    }
+
+    private fun getUsedTime(context: Context,startTime: Long): Map<String, Long>{
         val appMap = TreeMap<String, Long>()
         val mPackageManager = context.packageManager
-        val queryUsageStates = mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, CalendarUtil.getTodayStartTime(), System.currentTimeMillis())
+        val queryUsageStates = mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, startTime, System.currentTimeMillis())
         if (!queryUsageStates.isNullOrEmpty()) {
             for (item in queryUsageStates) {
                 val app = mPackageManager!!.getApplicationInfo(item.packageName, 0)
@@ -38,10 +46,15 @@ object AppUsedUtil {
                     continue
                 }
                 Log.e("123", "${app.loadLabel(mPackageManager)}...${item.totalTimeInForeground / 1000 / 60}")
-                appMap[app.loadLabel(mPackageManager).toString()] = item.totalTimeInForeground / 1000 / 60
+                if (item.totalTimeInForeground / 1000 / 60 >= 10) {
+                    appMap[app.loadLabel(mPackageManager).toString()] = item.totalTimeInForeground / 1000 / 60
+                }
             }
         }
-
-        return appMap
+        return if(appMap.size > 10){
+            appMap.toList().sortedByDescending { it.second }.slice(0..10).toMap()
+        }else{
+            appMap.toList().sortedByDescending { it.second }.toMap()
+        }
     }
 }

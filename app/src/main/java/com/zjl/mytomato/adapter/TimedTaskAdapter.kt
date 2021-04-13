@@ -18,7 +18,7 @@ import kotlin.random.Random
 class TimedTaskAdapter(private val context: Context, private val listener: TimeTaskListener) : RecyclerView.Adapter<TimedTaskAdapter.ViewHolder>() {
 
     private var timedTaskEntityList: MutableList<TimedTaskEntity> = mutableListOf()
-    private val random = Random(1)
+    private val random = Random(System.currentTimeMillis())
 
     inner class ViewHolder(private val ui: ItemTimedTaskBinding) :
             RecyclerView.ViewHolder(ui.root) {

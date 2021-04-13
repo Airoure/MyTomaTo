@@ -6,10 +6,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis.XAxisPosition
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.zjl.mytomato.BaseFragment
@@ -84,39 +84,14 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
                 setEntryLabelColor(Color.WHITE)
                 setEntryLabelTextSize(12f)
             }
-            barChart.apply {
-                //setOnChartValueSelectedListener(this)
-                setDrawBarShadow(false)
-                setDrawValueAboveBar(true)
-                description.isEnabled = false
-                setMaxVisibleValueCount(60)
-                setPinchZoom(false)
-                setDrawGridBackground(false)
-                xAxis.apply {
-                    position = XAxisPosition.BOTTOM
-                    setDrawAxisLine(true)
-                    setDrawGridLines(false)
-                    granularity = 10f
-                }
-                axisLeft.apply {
-                    setDrawAxisLine(true)
-                    setDrawGridLines(true)
-                    axisMinimum = 0f
-                }
-                axisRight.apply {
-                    setDrawAxisLine(true)
-                    setDrawGridLines(false)
-                    axisMinimum = 0f
-                }
-                setFitBars(true)
-                animateY(2500)
-                legend.apply {
-                    verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-                    horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
-                    orientation = Legend.LegendOrientation.HORIZONTAL
-                    setDrawInside(false)
-                    formSize = 8f
-                    xEntrySpace = 4f
+            radioDayWeek.setOnRadioCheckedListener { index ->
+                when (index) {
+                    0 -> {
+                        vm.getWeekAppUsedTime(context!!)
+                    }
+                    1 -> {
+                        vm.getDayAppUsedTime(context!!)
+                    }
                 }
             }
         }
@@ -167,44 +142,17 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
 
         })
         vm.barChartData.observe(this, Observer {
-            ui.barChart.apply {
-                data = getBarChartData(it)
-                highlightValues(null)
-                invalidate()
+            var totalTime = 0L
+            val usedTime = mutableMapOf<String, Float>()
+            it.map { kv ->
+                totalTime += kv.value
             }
+            for (item in it) {
+                usedTime[item.key] = item.value / totalTime.toFloat()
+            }
+            ui.barChart.setTotalTime(totalTime)
+            ui.barChart.setData(usedTime)
         })
-    }
-
-    private fun getBarChartData(datas: Map<String, Long>?): BarData? {
-        var data: BarData? = null
-        if (datas != null) {
-            val values = mutableListOf<BarEntry>()
-            var set1: BarDataSet?
-            var i = 0f
-            val spaceForBar = 10f
-            for (item in datas) {
-                if (item.value.toFloat() != 0f) {
-                    values.add(BarEntry(i++ * spaceForBar, item.value.toFloat()))
-                }
-            }
-            ui.barChart.apply {
-                if (this.data != null &&
-                    this.data.dataSetCount > 0
-                ) {
-                    set1 = this.data.getDataSetByIndex(0) as BarDataSet
-                    set1!!.values = values
-                } else {
-                    set1 = BarDataSet(values, "DataSet 1")
-                    set1!!.setDrawIcons(false)
-                    val dataSets = ArrayList<IBarDataSet>()
-                    dataSets.add(set1!!)
-                    data = BarData(dataSets)
-                    data!!.setValueTextSize(10f)
-                    data!!.barWidth = 9f
-                }
-            }
-        }
-        return data
     }
 
     private fun getPieChartData(datas: Map<String, Int>?): PieData {
@@ -241,7 +189,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         vm.getNumByDate(date)
         vm.getTimeByDate(date)
         vm.getPieChartData(date)
-        vm.getAppUsedTime(context!!)
+        vm.getDayAppUsedTime(context!!)
     }
 
 

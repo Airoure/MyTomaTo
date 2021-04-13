@@ -44,13 +44,21 @@ class StatisticVm : BaseViewModel() {
         repo.getPieChartData(date, pieChartDate)
     }
 
-    fun getAppUsedTime(context: Context) {
+    fun getDayAppUsedTime(context: Context) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val appMap = AppUsedUtil.getAppUsedTime(context)
+                val appMap = AppUsedUtil.getDayAppUsedTime(context)
                 barChartData.postValue(appMap)
             }
         }
+    }
 
+    fun getWeekAppUsedTime(context: Context) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val appMap = AppUsedUtil.getWeekAppUsedTime(context)
+                barChartData.postValue(appMap)
+            }
+        }
     }
 }
