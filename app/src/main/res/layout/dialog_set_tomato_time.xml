@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_dialog_todo_bg"
+        android:paddingBottom="5dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_color_primary_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="修改番茄时间"
+            app:titleTextColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_work_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="工作时间:"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/picker_work_time"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_work_time"
+            app:npv_DividerColor="?attr/colorAccent"
+            app:npv_ItemPaddingHorizontal="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_RespondChangeOnDetached="false"
+            app:npv_ShownCount="3"
+            app:npv_TextArray="@array/tomato_picker"
+            app:npv_TextColorSelected="?attr/colorAccent"
+            app:npv_TextSizeNormal="10sp"
+            app:npv_TextSizeSelected="20sp"
+            app:npv_WrapSelectorWheel="false" />
+
+        <TextView
+            android:text="分钟"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/picker_work_time"
+            app:layout_constraintTop_toTopOf="@id/picker_work_time"
+            app:layout_constraintBottom_toBottomOf="@id/picker_work_time"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/tv_rest_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="休息时间:"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/picker_work_time" />
+
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/picker_rest_time"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_rest_time"
+            app:npv_DividerColor="?attr/colorAccent"
+            app:npv_ItemPaddingHorizontal="5dp"
+            app:npv_ItemPaddingVertical="5dp"
+            app:npv_RespondChangeOnDetached="false"
+            app:npv_ShownCount="3"
+            app:npv_TextArray="@array/tomato_picker"
+            app:npv_TextColorSelected="?attr/colorAccent"
+            app:npv_TextSizeNormal="10sp"
+            app:npv_TextSizeSelected="20sp"
+            app:npv_WrapSelectorWheel="false" />
+
+        <TextView
+            android:text="分钟"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/picker_rest_time"
+            app:layout_constraintTop_toTopOf="@id/picker_rest_time"
+            app:layout_constraintBottom_toBottomOf="@id/picker_rest_time"
+            android:layout_marginLeft="20dp" />
+
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="确 定"
+            app:layout_constraintTop_toBottomOf="@id/picker_rest_time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

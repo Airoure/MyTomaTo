@@ -1,8 +1,9 @@
 package com.zjl.mytomato.ui.statistics
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.zjl.mytomato.BaseFragment
+import com.zjl.mytomato.R
 import com.zjl.mytomato.changeTheme
 import com.zjl.mytomato.databinding.FragmentStatisticBinding
 import com.zjl.mytomato.view.ColorPickerDialog
@@ -23,29 +25,44 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
 
     private val calendar = Calendar.getInstance()
     private val mColors = mutableListOf<Int>()
+
+    @SuppressLint("SimpleDateFormat")
     override fun initUi(): FragmentStatisticBinding {
+        vm.getDayAppUsedTime(context!!)
         return FragmentStatisticBinding.inflate(layoutInflater).apply {
             calendar.add(Calendar.DAY_OF_MONTH, 0)
             val sdf = SimpleDateFormat("yyyy年MM月dd日")
             var date = sdf.format(calendar.time)
             val today = date
             tvDate.text = date
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.share -> {
+                        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "test"), "分享"))
+                    }
+                }
+                true
+            }
             ivPreviousDay.setOnClickListener {
                 calendar.add(Calendar.DAY_OF_MONTH, -1)
                 date = sdf.format(calendar.time)
                 tvDate.text = date
-                vm.getNumByDate(date)
-                vm.getTimeByDate(date)
-                vm.getPieChartData(date)
+                vm.run {
+                    getNumByDate(date)
+                    getTimeByDate(date)
+                    getPieChartData(date)
+                }
             }
             ivNextDay.setOnClickListener {
                 if (today != date) {
                     calendar.add(Calendar.DAY_OF_MONTH, 1)
                     date = sdf.format(calendar.time)
                     tvDate.text = date
-                    vm.getNumByDate(date)
-                    vm.getTimeByDate(date)
-                    vm.getPieChartData(date)
+                    with(vm) {
+                        getNumByDate(date)
+                        getTimeByDate(date)
+                        getPieChartData(date)
+                    }
                 } else {
                     Toast.makeText(context, "无法查看未来的记录哦", Toast.LENGTH_SHORT).show()
                 }
@@ -102,19 +119,19 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
     }
 
     override fun subscribe() {
-        vm.finishTodoNum.observe(this, Observer {
+        vm.finishTodoNum.observe(this, {
             ui.apply {
                 tvCount.text = it.toString()
             }
         })
-        vm.totalTime.observe(this, Observer {
+        vm.totalTime.observe(this, {
             if (it != null) {
                 ui.tvTimeLength.text = it.toString()
             } else {
                 ui.tvTimeLength.text = "0"
             }
         })
-        vm.averageTime.observe(this, Observer {
+        vm.averageTime.observe(this, {
             if (it != null) {
                 ui.tvAvgTimeLength.text = it.toString()
             } else {
@@ -122,10 +139,10 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             }
 
         })
-        vm.dayNum.observe(this, Observer {
+        vm.dayNum.observe(this, {
             ui.tvTodayCount.text = it.toString()
         })
-        vm.dayTime.observe(this, Observer {
+        vm.dayTime.observe(this, {
             if (it != null) {
                 ui.tvTodayTimeLength.text = it.toString()
             } else {
@@ -133,7 +150,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             }
 
         })
-        vm.pieChartDate.observe(this, Observer {
+        vm.pieChartDate.observe(this, {
             ui.pieChart.apply {
                 data = getPieChartData(it)
                 highlightValues(null)
@@ -141,7 +158,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             }
 
         })
-        vm.barChartData.observe(this, Observer {
+        vm.barChartData.observe(this, {
             var totalTime = 0L
             val usedTime = mutableMapOf<String, Float>()
             it.map { kv ->
@@ -177,6 +194,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
 
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun init() {
         calendar.add(Calendar.DAY_OF_MONTH, 0)
         val sdf = SimpleDateFormat("yyyy年MM月dd日")
@@ -189,7 +207,6 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         vm.getNumByDate(date)
         vm.getTimeByDate(date)
         vm.getPieChartData(date)
-        vm.getDayAppUsedTime(context!!)
     }
 
 

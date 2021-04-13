@@ -1,5 +1,6 @@
 package com.zjl.mytomato.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +11,12 @@ import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.ItemTimeLineBinding
 import com.zjl.mytomato.entity.FinishTodoEntity
 
+@Suppress("DEPRECATION")
 class TimeLineAdapter : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
     private var finishTodoEntityList: List<FinishTodoEntity> = mutableListOf()
 
     inner class ViewHolder(private val ui: ItemTimeLineBinding) : RecyclerView.ViewHolder(ui.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(finishTodoEntity: FinishTodoEntity) {
             with(ui) {
                 ivBackground.apply {

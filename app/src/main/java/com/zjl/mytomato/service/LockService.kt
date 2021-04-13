@@ -26,7 +26,7 @@ class LockService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        addNotification()
+        //addNotification()
     }
 
     private fun addNotification() {

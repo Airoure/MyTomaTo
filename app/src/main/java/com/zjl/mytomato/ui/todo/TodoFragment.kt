@@ -11,10 +11,7 @@ import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.FragmentTodoBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.util.SpUtil
-import com.zjl.mytomato.view.ColorPickerDialog
-import com.zjl.mytomato.view.CommonDialog
-import com.zjl.mytomato.view.SetTodoDialog
-import com.zjl.mytomato.view.SpacingDecoration
+import com.zjl.mytomato.view.*
 
 class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
 
@@ -59,6 +56,9 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
                                 SpUtil.setTodoLayout(Constant.LINEARLAYOUT)
                             }
                         }
+                    }
+                    R.id.change_tomat_time -> {
+                        SetTomatoTimeDialog(context!!).show()
                     }
                 }
                 true

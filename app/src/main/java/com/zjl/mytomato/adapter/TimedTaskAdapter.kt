@@ -18,7 +18,7 @@ import kotlin.random.Random
 class TimedTaskAdapter(private val context: Context, private val listener: TimeTaskListener) : RecyclerView.Adapter<TimedTaskAdapter.ViewHolder>() {
 
     private var timedTaskEntityList: MutableList<TimedTaskEntity> = mutableListOf()
-    private val random = Random(System.currentTimeMillis())
+    private val random = Random(1)
 
     inner class ViewHolder(private val ui: ItemTimedTaskBinding) :
             RecyclerView.ViewHolder(ui.root) {
@@ -135,8 +135,8 @@ class TimedTaskAdapter(private val context: Context, private val listener: TimeT
     fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity) {
         val pos = timedTaskEntityList.indexOf(timedTaskEntity)
         timedTaskEntityList.remove(timedTaskEntity)
-        notifyItemRemoved(pos);
-        notifyItemRangeChanged(pos, timedTaskEntityList.size);
+        notifyItemRemoved(pos)
+        notifyItemRangeChanged(pos, timedTaskEntityList.size)
     }
 
     interface TimeTaskListener {

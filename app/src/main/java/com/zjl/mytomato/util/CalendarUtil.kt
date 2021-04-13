@@ -78,4 +78,8 @@ object CalendarUtil {
         }
         return instance.timeInMillis
     }
+
+    fun getAllThisWeekDay(): List<Long>{
+
+    }
 }

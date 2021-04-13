@@ -28,10 +28,12 @@ class DayOrWeekRadio @JvmOverloads constructor(
             btnDay.setOnClickListener {
                 listener?.onRadioChecked(1)
             }
+
         }
+
     }
 
-    fun setOnRadioCheckedListener(listener: OnRadioCheckedListener){
+    fun setOnRadioCheckedListener(listener: OnRadioCheckedListener) {
         this.listener = listener
     }
 

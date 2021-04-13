@@ -55,7 +55,7 @@ class StatisticVm : BaseViewModel() {
 
     fun getWeekAppUsedTime(context: Context) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 val appMap = AppUsedUtil.getWeekAppUsedTime(context)
                 barChartData.postValue(appMap)
             }

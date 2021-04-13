@@ -1,5 +1,6 @@
 package com.zjl.mytomato.view
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,6 +9,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.BounceInterpolator
 import kotlin.random.Random
 
 class BarGraph @JvmOverloads constructor(
@@ -26,10 +28,10 @@ class BarGraph @JvmOverloads constructor(
     private var oneTouchStart = 0f//一次滑动的起点
     private var oneTouchEnd = 0f//一次滑动的终点
     private var totalTime = 100L
+    private var heightPercent = 0.0f//控制统计图出现动画的参数
     private var datas = mutableMapOf<String, Float>()
 
     init {
-        //setData(mutableMapOf("王者荣耀" to 0.9f, "英雄联盟" to 0.8f, "哈哈哈哈" to 0.01f, "撒大苏打" to 0.4f, "大撒大撒" to 0.2f, "守望先锋" to 0.2f))
         mLinePaint.apply {
             color = Color.BLACK
             strokeWidth = 1f
@@ -72,8 +74,8 @@ class BarGraph @JvmOverloads constructor(
         if (!datas.isNullOrEmpty()) {
             for ((name, value) in datas) {
                 var shortName = name
-                if(name.length>3){
-                    shortName = name.substring(0,3) + ".."
+                if (name.length > 3) {
+                    shortName = name.substring(0, 3) + ".."
                 }
                 val path = Path()
                 mBarPaint.color = Color.rgb(
@@ -84,11 +86,11 @@ class BarGraph @JvmOverloads constructor(
                 path.moveTo(130f + 160f * i, height - 50f)
                 path.lineTo(260f + 160f * i, height - 50f)
                 canvas.drawTextOnPath(shortName, path, 0f, 0f, mXAxisPaint)
-                canvas.drawRect(130f + 160f * i, (100f) + (height - 200f) * (1 - value), 260f + 160f * i, height - 100f, mBarPaint)
+                canvas.drawRect(130f + 160f * i, (100f) + (height - 200f) * (1 - value) + (height - 200f) * (value) * heightPercent, 260f + 160f * i, height - 100f, mBarPaint)
                 val timePath = Path()
                 timePath.moveTo(130f + 160f * i, (95f) + (height - 200f) * (1 - value))
-                timePath.lineTo(260f + 160f * i,(95f) + (height - 200f) * (1 - value))
-                canvas.drawTextOnPath("${(value*totalTime).toInt()}分钟",timePath,0f,0f,mTextPaint)
+                timePath.lineTo(260f + 160f * i, (95f) + (height - 200f) * (1 - value))
+                canvas.drawTextOnPath("${(value * totalTime).toInt()}分钟", timePath, 0f, 0f, mTextPaint)
                 i++
             }
         }
@@ -102,7 +104,7 @@ class BarGraph @JvmOverloads constructor(
             }
             MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> {
                 oneTouchEnd = event.x
-                val offset = (oneTouchEnd - oneTouchStart)/2
+                val offset = (oneTouchEnd - oneTouchStart) / 2
                 if (scrolledDist - offset >= 0 && scrolledDist - offset <= endX) {
                     scrolledDist -= offset
                     scrollBy(-offset.toInt(), 0)
@@ -120,8 +122,20 @@ class BarGraph @JvmOverloads constructor(
     }
 
     fun setData(datas: MutableMap<String, Float>) {
-        this.datas = datas
-        invalidate()
+        if (!datas.equals(this.datas)) {
+            this.datas = datas
+            scrollTo(0, 0)
+            scrolledDist = 0f
+            val valueAnimator = ValueAnimator.ofFloat(1.0f, 0.0f)
+            valueAnimator.addUpdateListener {
+                heightPercent = it.animatedValue as Float
+                invalidate()
+            }
+            valueAnimator.interpolator = BounceInterpolator()
+            valueAnimator.duration = 1000
+            valueAnimator.start()
+        }
+
     }
 
     fun setTotalTime(totalTime: Long) {

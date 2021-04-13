@@ -27,15 +27,17 @@ object AppUsedUtil {
         return recentTask?.packageName
     }
 
+    fun get
+
     fun getDayAppUsedTime(context: Context): Map<String, Long> {
-        return getUsedTime(context,CalendarUtil.getTodayStartTime())
+        return getUsedTime(context, CalendarUtil.getTodayStartTime())
     }
 
     fun getWeekAppUsedTime(context: Context): Map<String, Long> {
-        return getUsedTime(context,CalendarUtil.getWeekStartTime())
+        return getUsedTime(context, CalendarUtil.getWeekStartTime())
     }
 
-    private fun getUsedTime(context: Context,startTime: Long): Map<String, Long>{
+    private fun getUsedTime(context: Context, startTime: Long): Map<String, Long> {
         val appMap = TreeMap<String, Long>()
         val mPackageManager = context.packageManager
         val queryUsageStates = mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, startTime, System.currentTimeMillis())
@@ -51,9 +53,9 @@ object AppUsedUtil {
                 }
             }
         }
-        return if(appMap.size > 10){
+        return if (appMap.size > 10) {
             appMap.toList().sortedByDescending { it.second }.slice(0..10).toMap()
-        }else{
+        } else {
             appMap.toList().sortedByDescending { it.second }.toMap()
         }
     }

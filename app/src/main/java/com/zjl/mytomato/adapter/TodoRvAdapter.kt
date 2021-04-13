@@ -1,5 +1,6 @@
 package com.zjl.mytomato.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -43,11 +44,12 @@ class TodoRvAdapter(
     fun removeItem(todoEntity: TodoEntity) {
         val pos = todoEntityList.indexOf(todoEntity)
         todoEntityList.remove(todoEntity)
-        notifyItemRemoved(pos);
-        notifyItemRangeChanged(pos, todoEntityList.size);
+        notifyItemRemoved(pos)
+        notifyItemRangeChanged(pos, todoEntityList.size)
     }
 
     inner class ViewHolderLinear(private val ui: ItemRvTodoBinding) : RecyclerView.ViewHolder(ui.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(todoEntity: TodoEntity) {
             ui.apply {
                 val time: StringBuilder = StringBuilder()
@@ -68,10 +70,6 @@ class TodoRvAdapter(
                 }
                 tvStart.apply {
                     setOnClickListener {
-                        val intent = Intent(context, LockActivity::class.java).putExtra(
-                                "todoEntity",
-                                todoEntity
-                        )
                         context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity", todoEntity))
                     }
                 }
@@ -97,6 +95,7 @@ class TodoRvAdapter(
     }
 
     inner class ViewHolderGride(private val ui: ItemRvTodoGrideBinding) : RecyclerView.ViewHolder(ui.root) {
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(todoEntity: TodoEntity) {
             ui.apply {
                 val time: StringBuilder = StringBuilder()

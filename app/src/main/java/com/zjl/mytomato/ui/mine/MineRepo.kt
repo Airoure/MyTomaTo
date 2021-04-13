@@ -61,7 +61,7 @@ class MineRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
                     DatabaseManager.get().deleteTimeTaskEntity(timedTaskEntity)
                 },
 
-        )
+                )
     }
 
 }
