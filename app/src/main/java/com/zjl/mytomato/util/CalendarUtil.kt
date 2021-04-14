@@ -74,12 +74,59 @@ object CalendarUtil {
         instance.set(Calendar.HOUR_OF_DAY, hour)
         instance.set(Calendar.MINUTE, minute)
         if (instance.timeInMillis < nowMills) {
+            //如果是过去时间，就设定为下一周
             instance.add(Calendar.DATE, 7)
         }
         return instance.timeInMillis
     }
 
-    fun getAllThisWeekDay(): List<Long>{
+    fun getAllThisWeekDayStart(): List<Long> {
+        val list = mutableListOf<Long>()
+        val instance = Calendar.getInstance()
+        instance.firstDayOfWeek = Calendar.MONDAY
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        instance.set(Calendar.HOUR_OF_DAY, 0)
+        instance.set(Calendar.MINUTE, 0)
+        instance.set(Calendar.SECOND, 0)
+        instance.set(Calendar.MILLISECOND, 0)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        list.add(instance.timeInMillis)
+        return list
+    }
 
+    fun getAllThisWeekDayEnd(): List<Long> {
+        val list = mutableListOf<Long>()
+        val instance = Calendar.getInstance()
+        instance.firstDayOfWeek = Calendar.MONDAY
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        instance.set(Calendar.HOUR_OF_DAY, 23)
+        instance.set(Calendar.MINUTE, 59)
+        instance.set(Calendar.SECOND, 59)
+        instance.set(Calendar.MILLISECOND, 999)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+        list.add(instance.timeInMillis)
+        instance.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        list.add(instance.timeInMillis)
+        return list
     }
 }

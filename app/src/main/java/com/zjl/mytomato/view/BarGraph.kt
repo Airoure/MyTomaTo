@@ -31,6 +31,10 @@ class BarGraph @JvmOverloads constructor(
     private var heightPercent = 0.0f//控制统计图出现动画的参数
     private var datas = mutableMapOf<String, Float>()
 
+    private val mValuePath = Path()
+    private val mXaxisPath = Path()
+    private val timePath = Path()
+
     init {
         mLinePaint.apply {
             color = Color.BLACK
@@ -62,11 +66,11 @@ class BarGraph @JvmOverloads constructor(
         canvas.drawLine(100f, height - 100f, width + endX, height - 100f, mLinePaint)
         for (i in 0..10) {
             if (i % 2 == 0) {
-                val path = Path()
-                path.moveTo(10f, (height - 100f) - (height - 200f) / 10 * i)
-                path.lineTo(70f, (height - 100f) - (height - 200f) / 10 * i)
+                mValuePath.reset()
+                mValuePath.moveTo(10f, (height - 100f) - (height - 200f) / 10 * i)
+                mValuePath.lineTo(70f, (height - 100f) - (height - 200f) / 10 * i)
                 canvas.drawLine(90f, (height - 100f) - (height - 200f) / 10 * i, 110f, (height - 100f) - (height - 200f) / 10 * i, mLinePaint)
-                canvas.drawTextOnPath("${i * 10}%", path, 0f, 0f, mTextPaint)
+                canvas.drawTextOnPath("${i * 10}%", mValuePath, 0f, 0f, mTextPaint)
             }
         }
         var i = 0
@@ -77,17 +81,18 @@ class BarGraph @JvmOverloads constructor(
                 if (name.length > 3) {
                     shortName = name.substring(0, 3) + ".."
                 }
-                val path = Path()
+                //val path = Path()
                 mBarPaint.color = Color.rgb(
                         random.nextInt(256),
                         random.nextInt(256),
                         random.nextInt(256)
                 )
-                path.moveTo(130f + 160f * i, height - 50f)
-                path.lineTo(260f + 160f * i, height - 50f)
-                canvas.drawTextOnPath(shortName, path, 0f, 0f, mXAxisPaint)
+                mXaxisPath.reset()
+                mXaxisPath.moveTo(130f + 160f * i, height - 50f)
+                mXaxisPath.lineTo(260f + 160f * i, height - 50f)
+                canvas.drawTextOnPath(shortName, mXaxisPath, 0f, 0f, mXAxisPaint)
                 canvas.drawRect(130f + 160f * i, (100f) + (height - 200f) * (1 - value) + (height - 200f) * (value) * heightPercent, 260f + 160f * i, height - 100f, mBarPaint)
-                val timePath = Path()
+                timePath.reset()
                 timePath.moveTo(130f + 160f * i, (95f) + (height - 200f) * (1 - value))
                 timePath.lineTo(260f + 160f * i, (95f) + (height - 200f) * (1 - value))
                 canvas.drawTextOnPath("${(value * totalTime).toInt()}分钟", timePath, 0f, 0f, mTextPaint)

@@ -2,8 +2,12 @@ package com.zjl.mytomato.ui.statistics
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -13,11 +17,12 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
-import com.zjl.mytomato.BaseFragment
-import com.zjl.mytomato.R
-import com.zjl.mytomato.changeTheme
+import com.zjl.mytomato.*
 import com.zjl.mytomato.databinding.FragmentStatisticBinding
 import com.zjl.mytomato.view.ColorPickerDialog
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,6 +30,38 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
 
     private val calendar = Calendar.getInstance()
     private val mColors = mutableListOf<Int>()
+
+    private fun getImageFromAsserts(fileName: String): Bitmap? {
+        var image: Bitmap? = null
+        val am = resources.assets
+        var inputStream: InputStream? = null
+        try {
+            inputStream = am.open(fileName)
+            image = BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            Toast.makeText(context, "分享失败", Toast.LENGTH_SHORT).show()
+        } finally {
+            inputStream?.close()
+        }
+        return image
+    }
+
+    private fun saveBitmap(bitmap: Bitmap, picName: String): Uri {
+        val path = "${context?.getExternalFilesDir("pics")}${File.separator}${picName}.png"
+        val file = File(path)
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        val out = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+        out.flush()
+        out.close()
+        return FileProvider.getUriForFile(
+                context!!,
+                "com.zjl.mytomato.fileProvider",
+                file
+        )
+    }
 
     @SuppressLint("SimpleDateFormat")
     override fun initUi(): FragmentStatisticBinding {
@@ -38,11 +75,13 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.share -> {
-                        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "test"), "分享"))
+                        val shareImg = getImageFromAsserts("share.PNG")
+                        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("image/*").putExtra(Intent.EXTRA_STREAM, shareImg?.let { it1 -> saveBitmap(it1, "share") }), "分享"))
                     }
                 }
                 true
             }
+            nestScrollView.isNestedScrollingEnabled = false
             ivPreviousDay.setOnClickListener {
                 calendar.add(Calendar.DAY_OF_MONTH, -1)
                 date = sdf.format(calendar.time)
@@ -87,7 +126,6 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
                 rotationAngle = 0f
                 isRotationEnabled = true
                 isHighlightPerTapEnabled = true
-                //setOnChartValueSelectedListener(this)
                 animateY(1400, Easing.EaseInOutQuad)
                 legend.apply {
                     verticalAlignment = Legend.LegendVerticalAlignment.TOP
@@ -151,24 +189,49 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
 
         })
         vm.pieChartDate.observe(this, {
-            ui.pieChart.apply {
-                data = getPieChartData(it)
-                highlightValues(null)
-                invalidate()
+            if (it.isNotEmpty()) {
+                ui.apply {
+                    tvEmpty.setGone()
+                    pieChart.setVisiable()
+                    pieChart.apply {
+                        data = getPieChartData(it)
+                        highlightValues(null)
+                        invalidate()
+                    }
+                }
+            } else {
+                ui.apply {
+                    tvEmpty.setVisiable()
+                    pieChart.setGone()
+                }
             }
+
 
         })
         vm.barChartData.observe(this, {
-            var totalTime = 0L
-            val usedTime = mutableMapOf<String, Float>()
-            it.map { kv ->
-                totalTime += kv.value
+            ui.apply {
+                if (it.isEmpty()) {
+                    tvEmptyBar.setVisiable()
+                    barChart.setGone()
+                } else {
+                    tvEmptyBar.setGone()
+                    barChart.setVisiable()
+                    var totalTime = 0L
+                    val usedTime = mutableMapOf<String, Float>()
+                    it.map { kv ->
+                        totalTime += kv.value
+                    }
+                    for (item in it) {
+                        usedTime[item.key] = item.value / totalTime.toFloat()
+                    }
+                    barChart.setTotalTime(totalTime)
+                    barChart.setData(usedTime)
+                }
             }
-            for (item in it) {
-                usedTime[item.key] = item.value / totalTime.toFloat()
-            }
-            ui.barChart.setTotalTime(totalTime)
-            ui.barChart.setData(usedTime)
+
+        })
+        vm.phoneWeekUsedTime.observe(this, {
+            ui.lineGraph.setData(it)
         })
     }
 
@@ -207,6 +270,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         vm.getNumByDate(date)
         vm.getTimeByDate(date)
         vm.getPieChartData(date)
+        vm.getWeekPhoneUsedTime(context!!)
     }
 
 

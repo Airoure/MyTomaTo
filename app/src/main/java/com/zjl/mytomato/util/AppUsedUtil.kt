@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.zjl.mytomato.App
+import java.text.SimpleDateFormat
 import java.util.*
 
 object AppUsedUtil {
@@ -27,7 +28,29 @@ object AppUsedUtil {
         return recentTask?.packageName
     }
 
-    fun get
+    fun getPhoneWeekUsedTime(context: Context): Map<String,Int>{
+        val phoneUsedTimeMap = mutableMapOf<String,Int>()
+        val mPackageManager = context.packageManager
+        val thisWeekDayStart = CalendarUtil.getAllThisWeekDayStart()
+        val thisWeekDayEnd = CalendarUtil.getAllThisWeekDayEnd()
+        for(i in 0..6){
+            val queryUsageStates = mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, thisWeekDayStart[i], thisWeekDayEnd[i])
+            var totalTime = 0L
+            if (!queryUsageStates.isNullOrEmpty()) {
+                for (item in queryUsageStates) {
+                    val app = mPackageManager!!.getApplicationInfo(item.packageName, 0)
+                    if (app.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                        continue
+                    }
+                    totalTime+=item.totalTimeInForeground
+                }
+            }
+            val dateString = SimpleDateFormat("MM-dd").format(thisWeekDayStart[i])
+            phoneUsedTimeMap.put(dateString, (totalTime/1000/60).toInt())
+            Log.e("getPhoneWeekUsedTime", "${totalTime/1000/60}")
+        }
+        return phoneUsedTimeMap
+    }
 
     fun getDayAppUsedTime(context: Context): Map<String, Long> {
         return getUsedTime(context, CalendarUtil.getTodayStartTime())
@@ -47,7 +70,6 @@ object AppUsedUtil {
                 if (app.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
                     continue
                 }
-                Log.e("123", "${app.loadLabel(mPackageManager)}...${item.totalTimeInForeground / 1000 / 60}")
                 if (item.totalTimeInForeground / 1000 / 60 >= 10) {
                     appMap[app.loadLabel(mPackageManager).toString()] = item.totalTimeInForeground / 1000 / 60
                 }
