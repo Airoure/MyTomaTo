@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:button="@null"
             android:background="@drawable/selector_radio_day_week_left"
-            android:text="周"
+            android:text="本周"
             android:gravity="center" />
 
         <RadioButton
@@ -26,7 +26,7 @@
             android:button="@null"
             android:checked="true"
             android:background="@drawable/selector_radio_day_week_right"
-            android:text="日"
+            android:text="昨日"
             android:gravity="center" />
     </RadioGroup>
 
