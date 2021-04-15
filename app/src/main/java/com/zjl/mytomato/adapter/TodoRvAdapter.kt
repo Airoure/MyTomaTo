@@ -2,6 +2,8 @@ package com.zjl.mytomato.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.lock.LockActivity
 import com.zjl.mytomato.view.TodoCardDialog
 
+@Suppress("DEPRECATION")
 class TodoRvAdapter(
         private val onAdapterClickListener: OnAdapterClickListener
 ) :
@@ -64,7 +67,7 @@ class TodoRvAdapter(
                 ivBackground.apply {
                     Glide.with(context)
                             .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
-                            .placeholder(resources.getDrawable(R.color.black))
+                            .placeholder(getPlaceHolder(layoutPosition, resources))
                             .diskCacheStrategy(DiskCacheStrategy.DATA)
                             .into(this)
                 }
@@ -91,6 +94,27 @@ class TodoRvAdapter(
                     ivDelete.visibility = View.GONE
                 }
             }
+        }
+
+        @SuppressLint("UseCompatLoadingForDrawables")
+        private fun getPlaceHolder(position: Int, resources: Resources): Drawable {
+
+            return when(position % 4){
+                0->{
+                    resources.getDrawable(R.color.purple_200)
+                }
+                1->{
+                    resources.getDrawable(R.color.purple_500)
+                }
+                2->{
+                    resources.getDrawable(R.color.material_on_surface_stroke)
+                }
+                else -> {
+                    resources.getDrawable(R.color.white)
+                }
+            }
+
+
         }
     }
 

@@ -34,7 +34,6 @@ class VerticalRecyclerview @JvmOverloads constructor(
                     }
                 }
             }
-            Log.e("123", "${e.rawX - initX}")
         }
         return super.onInterceptTouchEvent(e)
     }

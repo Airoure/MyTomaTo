@@ -17,14 +17,16 @@ class ExampleUnitTest {
 
     @Test
     fun testCalendarUtil() {
-        //当日时间测试
-        println(CalendarUtil.getTodayEndTime())
-        println(CalendarUtil.getTodayStartTime())
-        //本周时间测试
-        println(CalendarUtil.getWeekStartTime())
-        println(CalendarUtil.getWeekEndTime())
-        //本月时间测试
-        println(CalendarUtil.getMonthStartTime())
-        println(CalendarUtil.getMonthEndTime())
+//        //当日时间测试
+//        println(CalendarUtil.getTodayEndTime())
+//        println(CalendarUtil.getTodayStartTime())
+//        //本周时间测试
+//        println(CalendarUtil.getWeekStartTime())
+//        println(CalendarUtil.getWeekEndTime())
+//        //本月时间测试
+//        println(CalendarUtil.getMonthStartTime())
+//        println(CalendarUtil.getMonthEndTime())
+
+        println(CalendarUtil.getAllThisWeekDay())
     }
 }

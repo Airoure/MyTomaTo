@@ -19,6 +19,7 @@ class StatisticVm : BaseViewModel() {
     val dayTime = MutableLiveData<Int>()
     val pieChartDate = MutableLiveData<Map<String, Int>>()
     val barChartData = MutableLiveData<Map<String, Long>>()
+    var phoneWeekUsedTime = MutableLiveData<Map<String, Int>>()
 
     fun getFinishTodoNum() {
         repo.getFinishTodoNum(finishTodoNum)
@@ -58,6 +59,14 @@ class StatisticVm : BaseViewModel() {
             withContext(Dispatchers.IO) {
                 val appMap = AppUsedUtil.getWeekAppUsedTime(context)
                 barChartData.postValue(appMap)
+            }
+        }
+    }
+
+    fun getWeekPhoneUsedTime(context: Context) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                phoneWeekUsedTime.postValue(AppUsedUtil.getPhoneWeekUsedTime(context))
             }
         }
     }
