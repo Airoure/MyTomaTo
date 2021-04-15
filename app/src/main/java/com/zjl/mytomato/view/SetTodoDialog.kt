@@ -8,7 +8,7 @@ import com.zjl.mytomato.entity.TodoEntity
 import java.util.*
 
 class SetTodoDialog constructor(context: Context, listener: ButtonClickListener) :
-        Dialog(context, R.style.BaseDialog) {
+    Dialog(context, R.style.BaseDialog) {
     private val ui: DialogSetTodoBinding
 
     init {
@@ -23,12 +23,12 @@ class SetTodoDialog constructor(context: Context, listener: ButtonClickListener)
                     CommonDialog(context, content = "时间不能设置为0").show()
                 } else {
                     listener.onConfirmClick(
-                            TodoEntity(
-                                    todoName,
-                                    hour,
-                                    minute,
-                                    imageUrl = UUID.randomUUID().toString()
-                            )
+                        TodoEntity(
+                            todoName,
+                            hour,
+                            minute,
+                            imageUrl = UUID.randomUUID().toString()
+                        )
                     )
                     dismiss()
                 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.zjl.mytomato.BaseViewModel
 import com.zjl.mytomato.ui.todolist.TodoListRepo
 import com.zjl.mytomato.util.AppUsedUtil
+import com.zjl.mytomato.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +21,8 @@ class StatisticVm : BaseViewModel() {
     val pieChartDate = MutableLiveData<Map<String, Int>>()
     val barChartData = MutableLiveData<Map<String, Long>>()
     var phoneWeekUsedTime = MutableLiveData<Map<String, Int>>()
+
+    var focusWeekTime = MutableLiveData<Map<String, Int>>()
 
     fun getFinishTodoNum() {
         repo.getFinishTodoNum(finishTodoNum)
@@ -67,6 +70,14 @@ class StatisticVm : BaseViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 phoneWeekUsedTime.postValue(AppUsedUtil.getPhoneWeekUsedTime(context))
+            }
+        }
+    }
+
+    fun getWeekFocusTime(context: Context) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                repo.getFocusTimeByDate(CalendarUtil.getAllThisWeekDay(), focusWeekTime)
             }
         }
     }

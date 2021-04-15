@@ -57,9 +57,9 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         out.flush()
         out.close()
         return FileProvider.getUriForFile(
-                context!!,
-                "com.zjl.mytomato.fileProvider",
-                file
+            context!!,
+            "com.zjl.mytomato.fileProvider",
+            file
         )
     }
 
@@ -76,7 +76,13 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
                 when (it.itemId) {
                     R.id.share -> {
                         val shareImg = getImageFromAsserts("share.PNG")
-                        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("image/*").putExtra(Intent.EXTRA_STREAM, shareImg?.let { it1 -> saveBitmap(it1, "share") }), "分享"))
+                        startActivity(
+                            Intent.createChooser(
+                                Intent(Intent.ACTION_SEND).setType("image/*").putExtra(
+                                    Intent.EXTRA_STREAM,
+                                    shareImg?.let { it1 -> saveBitmap(it1, "share") }), "分享"
+                            )
+                        )
                     }
                 }
                 true
@@ -233,6 +239,9 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         vm.phoneWeekUsedTime.observe(this, {
             ui.lineGraph.setData(it)
         })
+        vm.focusWeekTime.observe(this, {
+            ui.lineGraphFocus.setData(it)
+        })
     }
 
     private fun getPieChartData(datas: Map<String, Int>?): PieData {
@@ -271,6 +280,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
         vm.getTimeByDate(date)
         vm.getPieChartData(date)
         vm.getWeekPhoneUsedTime(context!!)
+        vm.getWeekFocusTime(context!!)
     }
 
 

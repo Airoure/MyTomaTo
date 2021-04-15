@@ -10,10 +10,10 @@ import com.zjl.mytomato.util.dp
 
 
 class SpacingDecoration(
-        val hSpacing: Float = 0f,
-        val vSpacing: Float = 0f,
-        val includeHEdge: Boolean = false,
-        val includeVEdge: Boolean = false
+    val hSpacing: Float = 0f,
+    val vSpacing: Float = 0f,
+    val includeHEdge: Boolean = false,
+    val includeVEdge: Boolean = false
 ) : RecyclerView.ItemDecoration() {
     private var mHorizontalSpacing = 0
     private var mVerticalSpacing = 0
@@ -27,10 +27,10 @@ class SpacingDecoration(
     }
 
     override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         var position = parent.getChildAdapterPosition(view)
@@ -43,10 +43,10 @@ class SpacingDecoration(
             }
             is StaggeredGridLayoutManager -> {
                 val layoutManager: StaggeredGridLayoutManager =
-                        parent.layoutManager as StaggeredGridLayoutManager
+                    parent.layoutManager as StaggeredGridLayoutManager
                 val spanCount: Int = layoutManager.getSpanCount()
                 val lp: StaggeredGridLayoutManager.LayoutParams =
-                        view.layoutParams as StaggeredGridLayoutManager.LayoutParams
+                    view.layoutParams as StaggeredGridLayoutManager.LayoutParams
                 val column: Int = lp.spanIndex
                 getGridItemOffsets(outRect, position, column, spanCount)
             }

@@ -21,9 +21,9 @@ import com.zjl.mytomato.view.TodoCardDialog
 
 @Suppress("DEPRECATION")
 class TodoRvAdapter(
-        private val onAdapterClickListener: OnAdapterClickListener
+    private val onAdapterClickListener: OnAdapterClickListener
 ) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var todoEntityList: MutableList<TodoEntity> = mutableListOf()
     private var viewType = Constant.LINEARLAYOUT
@@ -51,7 +51,8 @@ class TodoRvAdapter(
         notifyItemRangeChanged(pos, todoEntityList.size)
     }
 
-    inner class ViewHolderLinear(private val ui: ItemRvTodoBinding) : RecyclerView.ViewHolder(ui.root) {
+    inner class ViewHolderLinear(private val ui: ItemRvTodoBinding) :
+        RecyclerView.ViewHolder(ui.root) {
         @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(todoEntity: TodoEntity) {
             ui.apply {
@@ -66,14 +67,19 @@ class TodoRvAdapter(
                 tvTitle.text = todoEntity.name
                 ivBackground.apply {
                     Glide.with(context)
-                            .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
-                            .placeholder(getPlaceHolder(layoutPosition, resources))
-                            .diskCacheStrategy(DiskCacheStrategy.DATA)
-                            .into(this)
+                        .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
+                        .placeholder(getPlaceHolder(layoutPosition, resources))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(this)
                 }
                 tvStart.apply {
                     setOnClickListener {
-                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity", todoEntity))
+                        context.startActivity(
+                            Intent(
+                                context,
+                                LockActivity::class.java
+                            ).putExtra("todoEntity", todoEntity)
+                        )
                     }
                 }
                 ivBackground.setOnLongClickListener {
@@ -99,14 +105,14 @@ class TodoRvAdapter(
         @SuppressLint("UseCompatLoadingForDrawables")
         private fun getPlaceHolder(position: Int, resources: Resources): Drawable {
 
-            return when(position % 4){
-                0->{
+            return when (position % 4) {
+                0 -> {
                     resources.getDrawable(R.color.purple_200)
                 }
-                1->{
+                1 -> {
                     resources.getDrawable(R.color.purple_500)
                 }
-                2->{
+                2 -> {
                     resources.getDrawable(R.color.material_on_surface_stroke)
                 }
                 else -> {
@@ -118,7 +124,8 @@ class TodoRvAdapter(
         }
     }
 
-    inner class ViewHolderGride(private val ui: ItemRvTodoGrideBinding) : RecyclerView.ViewHolder(ui.root) {
+    inner class ViewHolderGride(private val ui: ItemRvTodoGrideBinding) :
+        RecyclerView.ViewHolder(ui.root) {
         @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(todoEntity: TodoEntity) {
             ui.apply {
@@ -133,14 +140,19 @@ class TodoRvAdapter(
                 tvTitle.text = todoEntity.name
                 ivBackground.apply {
                     Glide.with(context)
-                            .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
-                            .placeholder(resources.getDrawable(R.color.black))
-                            .diskCacheStrategy(DiskCacheStrategy.DATA)
-                            .into(this)
+                        .load("${BASE_PIC_URL}${todoEntity.imageUrl}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(this)
                 }
                 tvStart.apply {
                     setOnClickListener {
-                        context.startActivity(Intent(context, LockActivity::class.java).putExtra("todoEntity", todoEntity))
+                        context.startActivity(
+                            Intent(
+                                context,
+                                LockActivity::class.java
+                            ).putExtra("todoEntity", todoEntity)
+                        )
                     }
                 }
                 ivBackground.setOnLongClickListener {
@@ -169,12 +181,16 @@ class TodoRvAdapter(
         return when (this.viewType) {
             Constant.LINEARLAYOUT -> {
                 ViewHolderLinear(
-                        ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemRvTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
             else -> {
                 ViewHolderGride(
-                        ItemRvTodoGrideBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemRvTodoGrideBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
         }

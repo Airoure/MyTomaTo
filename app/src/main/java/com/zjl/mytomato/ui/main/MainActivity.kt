@@ -29,7 +29,7 @@ class MainActivity : CyaneaAppCompatActivity() {
     private fun initUi() {
         Beta.checkUpgrade()
         fragmentList =
-                listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment())
+            listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment())
         ui.apply {
             vpMain.apply {
                 adapter = object : FragmentStateAdapter(this@MainActivity) {

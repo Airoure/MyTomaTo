@@ -29,9 +29,9 @@ class DatabaseManager private constructor() {
 
     private val database by lazy {
         Room.databaseBuilder(
-                appContext!!,
-                TomatoDatabase::class.java,
-                DATABASE_NAME
+            appContext!!,
+            TomatoDatabase::class.java,
+            DATABASE_NAME
         ).build()
     }
 
@@ -112,5 +112,14 @@ class DatabaseManager private constructor() {
 
     suspend fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity) {
         timedTaskEntityDao.deleteTimeTaskEntity(timedTaskEntity)
+    }
+
+    suspend fun getFocusTimeByDate(allThisWeekDay: List<String>): Map<String, Int> {
+        val resMap = mutableMapOf<String, Int>()
+        for (item in allThisWeekDay) {
+            val value = finishTodoEntityDao.getTimeByDate(item)
+            resMap[item.substring(5).replace("月", "-").replace("日", "")] = value ?: 0
+        }
+        return resMap
     }
 }

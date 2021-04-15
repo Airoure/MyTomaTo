@@ -28,5 +28,7 @@ class ExampleUnitTest {
 //        println(CalendarUtil.getMonthEndTime())
 
         println(CalendarUtil.getAllThisWeekDay())
+        val map = mutableMapOf<String, Int>("123" to 1, "123" to 1, "123" to 1, "123" to 1)
+        println(System.currentTimeMillis().toInt())
     }
 }
