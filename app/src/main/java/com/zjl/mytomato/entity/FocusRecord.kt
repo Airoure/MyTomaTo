@@ -1,6 +1,6 @@
 package com.zjl.mytomato.entity
 
-data class FinishTodoType(
-    var name: String,
+data class FocusRecord(
+    var date: String,
     var time: Int
 )

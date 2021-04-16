@@ -1,5 +1,7 @@
 package com.zjl.mytomato.ui.lock
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
@@ -15,9 +17,11 @@ import com.zjl.mytomato.R
 import com.zjl.mytomato.common.Constant.BASE_PIC_URL
 import com.zjl.mytomato.databinding.ActivityLockBinding
 import com.zjl.mytomato.databinding.WindowWorkBinding
+import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.service.LockService
 import com.zjl.mytomato.ui.main.MainActivity
+import com.zjl.mytomato.util.CalendarUtil
 import com.zjl.mytomato.util.SpUtil
 import com.zjl.mytomato.view.TipView
 import java.util.*
@@ -30,6 +34,7 @@ class LockActivity : AppCompatActivity() {
     private lateinit var lockVm: LockVm
     private var todoEntity: TodoEntity? = null
     private lateinit var ui: ActivityLockBinding
+    private val alarmManager by lazy { getSystemService(AlarmManager::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +42,34 @@ class LockActivity : AppCompatActivity() {
             todoEntity = intent.extras!!.get("todoEntity") as TodoEntity
             LockActivity.todoEntity = todoEntity
         } else {
-            todoEntity = intent.getBundleExtra("todoBundle")?.getParcelable("todoEntity")
-            LockActivity.todoEntity = todoEntity
+            val timedTaskEntity: TimedTaskEntity =
+                intent.getBundleExtra("todoBundle")?.getParcelable("timedTaskEntity")!!
+            if (timedTaskEntity != null) {
+                alarmManager?.setExact(
+                    AlarmManager.RTC,
+                    CalendarUtil.getTimeMilled(
+                        CalendarUtil.getWhatDay(),
+                        timedTaskEntity.startHour,
+                        timedTaskEntity.startMinute
+                    ),
+                    PendingIntent.getActivity(
+                        App.appContext,
+                        timedTaskEntity.requestCode.toInt(),
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                )
+            }
+            LockActivity.todoEntity = timedTaskEntity.toTodoEntity()
+            todoEntity = timedTaskEntity.toTodoEntity()
         }
         ui = ActivityLockBinding.inflate(layoutInflater)
         setContentView(ui.root)
         Glide.with(this)
-                .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-                .dontAnimate()
-                .placeholder(resources.getDrawable(R.color.black))
-                .into(ui.ivBackground)
+            .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+            .dontAnimate()
+            .placeholder(resources.getDrawable(R.color.black))
+            .into(ui.ivBackground)
         if (!App.isLocking) {
             startService(Intent(this, LockService::class.java))
             initParam()
@@ -70,7 +93,7 @@ class LockActivity : AppCompatActivity() {
                 SpUtil.setLockMonth()
                 SpUtil.setLockTimes(1)
                 startActivity(
-                        Intent(this, MainActivity::class.java)
+                    Intent(this, MainActivity::class.java)
                 )
                 removeView()
             } else {
@@ -81,7 +104,7 @@ class LockActivity : AppCompatActivity() {
                     SpUtil.setLockTimes(times + 1)
                     SpUtil.setLockMonth()
                     startActivity(
-                            Intent(this, MainActivity::class.java)
+                        Intent(this, MainActivity::class.java)
                     )
                     removeView()
                 }
@@ -95,11 +118,11 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                        .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-                        .placeholder(resources.getDrawable(R.color.black))
-                        .into(this)
+                    .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                    .placeholder(resources.getDrawable(R.color.black))
+                    .into(this)
             }
-            tvTodoName.text = todoEntity!!.name
+            tvTodoName.text = todoEntity?.name
         }
         workView = realUi.root
         lockVm.timeLiveData.observe(this, {
@@ -119,7 +142,7 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mLayoutParam.layoutInDisplayCutoutMode =
-                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         } else {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST

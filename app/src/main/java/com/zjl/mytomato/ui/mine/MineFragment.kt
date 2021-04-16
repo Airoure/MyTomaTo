@@ -46,7 +46,9 @@ class MineFragment : BaseFragment<FragmentMineBinding, MineVm>() {
             override fun onDelete(timedTaskEntity: TimedTaskEntity) {
                 stopAlarm(timedTaskEntity)
                 vm.deleteTimeTaskEntity(timedTaskEntity)
-                ui.layoutEmpty.setVisiable()
+                if (timedTaskAdapter.isEmpty()) {
+                    ui.layoutEmpty.setVisiable()
+                }
             }
 
         })
@@ -79,104 +81,135 @@ class MineFragment : BaseFragment<FragmentMineBinding, MineVm>() {
 
     private fun stopAlarm(timedTaskEntity: TimedTaskEntity) {
         val bundle = Bundle()
-        bundle.putParcelable("todoEntity", timedTaskEntity.toTodoEntity())
+        bundle.putParcelable("todoEntity", timedTaskEntity)
         //PendingIntent在高版本有一个bug，可能算bug，不能传序列化之后的属性，如果传了，就连和他一起传的string都会变null
         val intent = Intent(context, LockActivity::class.java).putExtra("todoBundle", bundle)
-        val pendingIntent = PendingIntent.getActivity(
+        for (i in 0..6) {
+            val pendingIntent = PendingIntent.getActivity(
                 App.appContext,
-                100,
+                timedTaskEntity.requestCode.toInt() + i,
                 intent,
                 FLAG_UPDATE_CURRENT
-        )
-        alarmManager?.cancel(pendingIntent)
+            )
+            alarmManager?.cancel(pendingIntent)
+        }
     }
 
     private fun startAlarm(timedTaskEntity: TimedTaskEntity) {
         val bundle = Bundle()
-        bundle.putParcelable("todoEntity", timedTaskEntity.toTodoEntity())
+        bundle.putParcelable("timedTaskEntity", timedTaskEntity)
         //PendingIntent在高版本有一个bug，可能算bug，不能传序列化之后的属性，如果传了，就连和他一起传的string都会变null
         val intent = Intent(context, LockActivity::class.java).putExtra("todoBundle", bundle)
-        val pendingIntent = PendingIntent.getActivity(
-                App.appContext,
-                100,
-                intent,
-                FLAG_UPDATE_CURRENT
-        )
         if (timedTaskEntity.isMonday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.MONDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.MONDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt(),
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
         if (timedTaskEntity.isTuesday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.TUESDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.TUESDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt() + 1,
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
         if (timedTaskEntity.isWednesday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.WEDNESDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.WEDNESDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt() + 2,
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
         if (timedTaskEntity.isThursday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.THURSDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.THURSDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt() + 3,
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
         if (timedTaskEntity.isFriday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.FRIDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.FRIDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt() + 4,
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
         if (timedTaskEntity.isSaturday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.SATURDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.SATURDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt() + 5,
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
         if (timedTaskEntity.isSunday) {
             alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                            Calendar.SUNDAY,
-                            timedTaskEntity.startHour,
-                            timedTaskEntity.startMinute
-                    ),
-                    pendingIntent
+                AlarmManager.RTC,
+                CalendarUtil.getTimeMilled(
+                    Calendar.SUNDAY,
+                    timedTaskEntity.startHour,
+                    timedTaskEntity.startMinute
+                ),
+                PendingIntent.getActivity(
+                    App.appContext,
+                    timedTaskEntity.requestCode.toInt() + 6,
+                    intent,
+                    FLAG_UPDATE_CURRENT
+                )
             )
         }
     }

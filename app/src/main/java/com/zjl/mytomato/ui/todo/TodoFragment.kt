@@ -67,13 +67,27 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
                 Constant.LINEARLAYOUT -> {
                     adapter.setViewType(Constant.LINEARLAYOUT)
                     rvTodo.layoutManager = LinearLayoutManager(context)
-                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true, includeHEdge = true))
+                    rvTodo.addItemDecoration(
+                        SpacingDecoration(
+                            10f,
+                            20f,
+                            includeVEdge = true,
+                            includeHEdge = true
+                        )
+                    )
                     rvTodo.adapter = adapter
                 }
                 Constant.GRIDLAYOUT -> {
                     adapter.setViewType(Constant.GRIDLAYOUT)
                     rvTodo.layoutManager = GridLayoutManager(context, 3)
-                    rvTodo.addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true, includeHEdge = true))
+                    rvTodo.addItemDecoration(
+                        SpacingDecoration(
+                            10f,
+                            20f,
+                            includeVEdge = true,
+                            includeHEdge = true
+                        )
+                    )
                     rvTodo.adapter = adapter
                 }
             }
