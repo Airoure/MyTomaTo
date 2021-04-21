@@ -60,7 +60,7 @@ class LockService : Service() {
             object : TimerTask() {
                 override fun run() {
                     while (App.isLocking) {
-                        if (AppUsedUtil.getTopAppName()?.equals("com.zjl.mytomato")!!) {
+                        if (AppUsedUtil.getTopAppName()?.equals("com.zjl.mytomato")!! or AppUsedUtil.getTopAppName()?.equals("com.tencent.mobileqq")!!) {
                             continue
                         }
                         startActivity(
@@ -68,9 +68,6 @@ class LockService : Service() {
                                 Intent.FLAG_ACTIVITY_NEW_TASK
                             )
                         )
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        stopForeground(STOP_FOREGROUND_REMOVE)
                     }
                 }
             }, 0

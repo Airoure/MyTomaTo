@@ -1,12 +1,18 @@
 package com.zjl.mytomato.ui.launch
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Process
 import android.provider.Settings
+import android.view.animation.BounceInterpolator
 import android.widget.Toast
+import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.SaveListener
 import com.zjl.mytomato.BaseActivity
 import com.zjl.mytomato.databinding.ActivityLaunchBinding
 import com.zjl.mytomato.ui.main.MainActivity
@@ -35,15 +41,18 @@ class LaunchActivity : BaseActivity<ActivityLaunchBinding>() {
                 )
             }
             if (mode == AppOpsManager.MODE_ALLOWED) {
-                Timer().schedule(
-                    object : TimerTask() {
-                        override fun run() {
+                ObjectAnimator.ofFloat(ui.ivTomato,"rotation",0f,360f).apply {
+                    duration = 1500
+                    interpolator = BounceInterpolator()
+                    addListener(object :AnimatorListenerAdapter(){
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
                             MainActivity.open(this@LaunchActivity)
                             finish()
                         }
-
-                    }, 1500
-                )
+                    })
+                    start()
+                }
             } else {
                 CommonDialog(
                     this,

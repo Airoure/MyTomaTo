@@ -9,6 +9,7 @@ import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.tencent.bugly.beta.Beta
 import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.ActivityMainBinding
+import com.zjl.mytomato.ui.me.MeFragment
 import com.zjl.mytomato.ui.mine.MineFragment
 import com.zjl.mytomato.ui.statistics.StatisticFragment
 import com.zjl.mytomato.ui.todo.TodoFragment
@@ -29,7 +30,7 @@ class MainActivity : CyaneaAppCompatActivity() {
     private fun initUi() {
         Beta.checkUpgrade()
         fragmentList =
-            listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment())
+            listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment(),MeFragment())
         ui.apply {
             vpMain.apply {
                 adapter = object : FragmentStateAdapter(this@MainActivity) {
@@ -47,6 +48,7 @@ class MainActivity : CyaneaAppCompatActivity() {
                     R.id.menu_todo_list -> vpMain.setCurrentItem(1, false)
                     R.id.menu_statistics -> vpMain.setCurrentItem(2, false)
                     R.id.menu_timed_task -> vpMain.setCurrentItem(3, false)
+                    R.id.menu_me -> vpMain.setCurrentItem(4, false)
                 }
                 true
             }

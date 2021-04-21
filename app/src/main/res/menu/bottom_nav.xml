@@ -19,4 +19,10 @@
         android:id="@+id/menu_timed_task"
         android:title="定时任务"
         android:icon="@drawable/ic_timed_task" />
+
+    <item
+        android:id="@+id/menu_me"
+        android:title="我的"
+        android:icon="@drawable/ic_me" />
+
 </menu>

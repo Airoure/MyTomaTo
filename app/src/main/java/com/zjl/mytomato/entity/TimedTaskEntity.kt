@@ -2,6 +2,7 @@ package com.zjl.mytomato.entity
 
 import android.os.Parcelable
 import androidx.room.Entity
+import cn.bmob.v3.BmobObject
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

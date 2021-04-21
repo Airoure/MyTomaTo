@@ -33,11 +33,6 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding, TodoListVm>() {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(SpacingDecoration(10f, 0f, includeVEdge = true))
             }
-            ivTomato.setOnClickListener {
-                ColorPickerDialog(context!!) { color ->
-                    changeTheme(color)
-                }.show()
-            }
         }
     }
 

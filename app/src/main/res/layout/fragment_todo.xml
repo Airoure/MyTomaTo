@@ -14,17 +14,6 @@
         app:title="待办"
         app:titleTextColor="@color/white" />
 
-    <ImageView
-        android:id="@+id/iv_tomato"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/tomato"
-        android:transitionName="tomato"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintLeft_toLeftOf="@id/toolbar"
-        app:layout_constraintRight_toRightOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@id/toolbar" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_todo"
         android:layout_width="match_parent"

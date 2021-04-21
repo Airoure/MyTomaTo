@@ -8,12 +8,15 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var ui: V
 
     abstract fun initUI(): V
+    open fun addFragment(){}
 
     protected open fun init() {}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ui = initUI()
         setContentView(ui.root)
+        addFragment()
+
     }
 
     override fun onStart() {

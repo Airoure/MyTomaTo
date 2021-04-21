@@ -112,11 +112,6 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
                     Toast.makeText(context, "无法查看未来的记录哦", Toast.LENGTH_SHORT).show()
                 }
             }
-            ivTomato.setOnClickListener {
-                ColorPickerDialog(context!!) { color ->
-                    changeTheme(color)
-                }.show()
-            }
             pieChart.apply {
                 setUsePercentValues(true)
                 description.isEnabled = false

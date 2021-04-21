@@ -20,13 +20,6 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
         adapter = createTodoAdapter()
 
         return FragmentTodoBinding.inflate(layoutInflater).apply {
-            ivTomato.apply {
-                setOnClickListener {
-                    ColorPickerDialog(context!!) { color ->
-                        changeTheme(color)
-                    }.show()
-                }
-            }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.menu_add -> {
@@ -56,9 +49,6 @@ class TodoFragment : BaseFragment<FragmentTodoBinding, TodoVm>() {
                                 SpUtil.setTodoLayout(Constant.LINEARLAYOUT)
                             }
                         }
-                    }
-                    R.id.change_tomat_time -> {
-                        SetTomatoTimeDialog(context!!).show()
                     }
                 }
                 true

@@ -54,13 +54,6 @@ class MineFragment : BaseFragment<FragmentMineBinding, MineVm>() {
         })
         timedTaskAdapter.setTimedTaskEntityList(mutableListOf())
         return FragmentMineBinding.inflate(layoutInflater).apply {
-            ivTomato.apply {
-                setOnClickListener {
-                    ColorPickerDialog(context!!) { color ->
-                        changeTheme(color)
-                    }.show()
-                }
-            }
             rvTimedTask.apply {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(SpacingDecoration(10f, 20f, includeVEdge = true))
