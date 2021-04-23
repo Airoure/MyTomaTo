@@ -1,6 +1,7 @@
 package com.zjl.mytomato.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
@@ -80,6 +81,7 @@ class TodoRvAdapter(
                                 LockActivity::class.java
                             ).putExtra("todoEntity", todoEntity)
                         )
+                        (context as Activity).finish()
                     }
                 }
                 ivBackground.setOnLongClickListener {

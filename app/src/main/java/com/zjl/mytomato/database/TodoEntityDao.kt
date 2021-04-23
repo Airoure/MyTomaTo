@@ -21,4 +21,5 @@ interface TodoEntityDao {
     @Query("select * from TodoEntity")
     suspend fun queryAll(): MutableList<TodoEntity>
 
+
 }

@@ -12,7 +12,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     override fun addFragment() {
-        supportFragmentManager.beginTransaction().add(R.id.container,LoginFragment())
+        supportFragmentManager.beginTransaction().add(R.id.container,LoginFragment()).commit()
     }
 
     companion object{

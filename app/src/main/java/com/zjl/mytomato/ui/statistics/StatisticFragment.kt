@@ -1,13 +1,10 @@
 package com.zjl.mytomato.ui.statistics
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.net.Uri
+import android.os.Build
 import android.widget.Toast
-import androidx.core.content.FileProvider
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -17,12 +14,11 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
-import com.zjl.mytomato.*
+import com.zjl.mytomato.BaseFragment
+import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.FragmentStatisticBinding
-import com.zjl.mytomato.view.ColorPickerDialog
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
+import com.zjl.mytomato.setGone
+import com.zjl.mytomato.setVisiable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,38 +27,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
     private val calendar = Calendar.getInstance()
     private val mColors = mutableListOf<Int>()
 
-    private fun getImageFromAsserts(fileName: String): Bitmap? {
-        var image: Bitmap? = null
-        val am = resources.assets
-        var inputStream: InputStream? = null
-        try {
-            inputStream = am.open(fileName)
-            image = BitmapFactory.decodeStream(inputStream)
-        } catch (e: Exception) {
-            Toast.makeText(context, "分享失败", Toast.LENGTH_SHORT).show()
-        } finally {
-            inputStream?.close()
-        }
-        return image
-    }
-
-    private fun saveBitmap(bitmap: Bitmap, picName: String): Uri {
-        val path = "${context?.getExternalFilesDir("pics")}${File.separator}${picName}.png"
-        val file = File(path)
-        if (!file.exists()) {
-            file.createNewFile()
-        }
-        val out = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-        out.flush()
-        out.close()
-        return FileProvider.getUriForFile(
-            context!!,
-            "com.zjl.mytomato.fileProvider",
-            file
-        )
-    }
-
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     override fun initUi(): FragmentStatisticBinding {
         vm.getDayAppUsedTime(context!!)
@@ -75,14 +40,15 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.share -> {
-                        val shareImg = getImageFromAsserts("share.PNG")
-                        startActivity(
-                            Intent.createChooser(
-                                Intent(Intent.ACTION_SEND).setType("image/*").putExtra(
-                                    Intent.EXTRA_STREAM,
-                                    shareImg?.let { it1 -> saveBitmap(it1, "share") }), "分享"
-                            )
-                        )
+//                        getBitmapFromView(cardTotal,activity!!) { bitmap -> saveBitmap(bitmap,"test")}
+//                        val shareImg = getImageFromAsserts("share.PNG")
+//                        startActivity(
+//                            Intent.createChooser(
+//                                Intent(Intent.ACTION_SEND).setType("image/*").putExtra(
+//                                    Intent.EXTRA_STREAM,
+//                                    shareImg?.let { it1 -> saveBitmap(it1, "share") }), "分享"
+//                            )
+//                        )
                     }
                 }
                 true

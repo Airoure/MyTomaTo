@@ -34,6 +34,6 @@ class CommonDialog(
 
     interface DialogClickListener {
         fun onConfirm()
-        fun onCancel()
+        fun onCancel(){}
     }
 }

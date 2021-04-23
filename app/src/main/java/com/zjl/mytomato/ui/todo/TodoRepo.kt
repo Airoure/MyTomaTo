@@ -47,6 +47,20 @@ class TodoRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
             }
         )
     }
+    fun getAllTodoInset(todoLiveData: MutableLiveData<MutableSet<TodoEntity>>) {
+        launch(
+                block = {
+                    DatabaseManager.get()
+                            .queryTodoEntityAllInSet()
+                },
+                success = {
+                    todoLiveData.postValue(it)
+                },
+                fail = {
+                    it.printStackTrace()
+                }
+        )
+    }
 
     fun deleteTodo(todoEntity: TodoEntity, removeLiveData: MutableLiveData<TodoEntity>) {
         launch(

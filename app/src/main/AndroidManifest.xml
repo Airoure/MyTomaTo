@@ -41,6 +41,10 @@
 
         </activity>
         <activity
+            android:name=".ui.login.LoginActivity">
+
+        </activity>
+        <activity
             android:name=".ui.launch.LaunchActivity"
             android:theme="@style/Theme.launch">
             <intent-filter>

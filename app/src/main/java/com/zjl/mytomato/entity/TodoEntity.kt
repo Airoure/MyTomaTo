@@ -14,23 +14,31 @@ data class TodoEntity(
         var second: Int = 0,
         var imageUrl: String = ""
 ) : Parcelable {
-    fun toNetwork(userName: String) = NetworkTodoEntity(
+    fun toNetwork(username: String) = NetworkTodoEntity(
             this.name,
             this.hour,
             this.minute,
             this.second,
             this.imageUrl,
-            userName
+            username
     )
+
+    override fun equals(other: Any?): Boolean {
+        if(other is TodoEntity){
+            return this.name.equals(other.name)
+        }
+        return false
+
+    }
 }
 
 class NetworkTodoEntity(
-        var name: String,
-        var hour: Int,
-        var minute: Int,
+        var name: String = "",
+        var hour: Int = 0,
+        var minute: Int = 0,
         var second: Int = 0,
         var imageUrl: String = "",
-        var userName: String
+        var username: String = ""
 ) : BmobObject() {
     fun toLocal() = TodoEntity(
             this.name,
@@ -39,4 +47,12 @@ class NetworkTodoEntity(
             this.second,
             this.imageUrl
     )
+
+    override fun equals(other: Any?): Boolean {
+        if(other is NetworkTodoEntity){
+            return this.name.equals(other.name) && this.username.equals(other.username)
+        }
+        return false
+
+    }
 }

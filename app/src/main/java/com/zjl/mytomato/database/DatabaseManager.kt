@@ -62,6 +62,10 @@ class DatabaseManager private constructor() {
         return todoEntityDao.queryAll()
     }
 
+    suspend fun queryTodoEntityAllInSet(): MutableSet<TodoEntity> {
+        return todoEntityDao.queryAll().toMutableSet()
+    }
+
     suspend fun insertFinishTodoEntity(finishTodoEntity: FinishTodoEntity) {
         finishTodoEntityDao.insert(finishTodoEntity)
     }
