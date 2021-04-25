@@ -123,4 +123,15 @@ class TodoListRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
         )
     }
 
+    fun getAllFinishedTodo(localFinishTodoList: MutableLiveData<MutableSet<FinishTodoEntity>>) {
+        launch(
+            block = {
+                DatabaseManager.get().queryFinishTodoEntityAll()
+            },
+            success = {
+                localFinishTodoList.postValue(it)
+            }
+        )
+    }
+
 }

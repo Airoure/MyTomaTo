@@ -17,11 +17,10 @@ class MineVm : BaseViewModel() {
     val initTimedTaskEntities = MutableLiveData<List<TimedTaskEntity>>()
     override fun load() {
         repo.getAllTodoName(todoEntities)
-    }
-
-    override fun onceLoad() {
         repo.getAllTimedTask(initTimedTaskEntities)
     }
+
+
 
     fun addTimedTask(timedTaskEntity: TimedTaskEntity) {
         repo.addTimedTask(timedTaskEntity, messageLiveData, addedTimedTaskEntity)

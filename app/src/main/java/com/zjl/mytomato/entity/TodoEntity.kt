@@ -13,8 +13,8 @@ data class TodoEntity(
         var minute: Int,
         var second: Int = 0,
         var imageUrl: String = ""
-) : Parcelable {
-    fun toNetwork(username: String) = NetworkTodoEntity(
+) : Parcelable,BaseLocalEntity {
+    override fun toNetwork(username: String) = NetworkTodoEntity(
             this.name,
             this.hour,
             this.minute,
@@ -39,8 +39,8 @@ class NetworkTodoEntity(
         var second: Int = 0,
         var imageUrl: String = "",
         var username: String = ""
-) : BmobObject() {
-    fun toLocal() = TodoEntity(
+) : BmobObject(),BaseNetworkEntity {
+    override fun toLocal() = TodoEntity(
             this.name,
             this.hour,
             this.minute,

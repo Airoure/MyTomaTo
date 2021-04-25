@@ -17,4 +17,5 @@ interface TimedTaskEntityDao {
 
     @Delete
     suspend fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity)
+
 }

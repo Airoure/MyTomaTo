@@ -36,4 +36,7 @@ interface FinishTodoEntityDao {
     @Query("select name,sum(hour*60+minute) as time from FinishTodoEntity where finishDate = :date group by name")
     suspend fun getFinishTodoByDate(date: String): List<FinishTodoType>
 
+    @Query("select * from FinishTodoEntity")
+    suspend fun queryFinishTodoEntityAll(): List<FinishTodoEntity>
+
 }

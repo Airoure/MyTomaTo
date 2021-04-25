@@ -4,15 +4,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.zjl.mytomato.*
 import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.FragmentMeBinding
+import com.zjl.mytomato.entity.FinishTodoEntity
+import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.login.LoginActivity
 import com.zjl.mytomato.util.SpUtil
-import com.zjl.mytomato.view.*
+import com.zjl.mytomato.view.ColorPickerDialog
+import com.zjl.mytomato.view.CommonDialog
+import com.zjl.mytomato.view.SetMaxExitTimeDialog
+import com.zjl.mytomato.view.SetTomatoTimeDialog
 
 class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
     private var username: String? = null
     private var localTodoEntities = mutableSetOf<TodoEntity>()
-    private val loading by lazy { LoadingDialog(context!!) }
+    private var localFinishTodoEntities = mutableSetOf<FinishTodoEntity>()
+    private var localTimedTodoEntities = mutableSetOf<TimedTaskEntity>()
     override fun initViewModel() = ViewModelProvider(this).get(MeViewModel::class.java)
 
     override fun initUi(): FragmentMeBinding {
@@ -28,7 +34,12 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
                     toast("请先登入")
                     LoginActivity.open(it.context)
                 } else {
-                    vm.updateToNetWork(localTodoEntities, username!!)
+                    vm.updateToNetWork(
+                        localTodoEntities,
+                        localFinishTodoEntities,
+                        localTimedTodoEntities,
+                        username!!
+                    )
 
                 }
             }
@@ -47,29 +58,36 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
                 }
             }
             vExit.setOnClickListener {
-                CommonDialog(context!!, content = "确定要退出吗", listener = object : CommonDialog.DialogClickListener {
-                    override fun onConfirm() {
-                        username = null
-                        SpUtil.setUsername(null)
-                        tvTip.setVisiable()
-                        tvAccount.text = "登录账号"
-                        vExit.setGone()
-                    }
+                CommonDialog(
+                    context!!,
+                    content = "确定要退出吗",
+                    listener = object : CommonDialog.DialogClickListener {
+                        override fun onConfirm() {
+                            username = null
+                            SpUtil.setUsername(null)
+                            tvTip.setVisiable()
+                            tvAccount.text = "登录账号"
+                            vExit.setGone()
+                        }
 
-                    override fun onCancel() {
+                        override fun onCancel() {
 
-                    }
-                }).show()
+                        }
+                    }).show()
             }
         }
     }
 
     private fun clearNetworkData() {
-        CommonDialog(context!!, content = "确定删除云端数据吗", touchOutCamcel = true, listener = object : CommonDialog.DialogClickListener {
-            override fun onConfirm() {
-                vm.clearNetworkData(username!!)
-            }
-        }).show()
+        CommonDialog(
+            context!!,
+            content = "确定删除云端数据吗",
+            touchOutCamcel = true,
+            listener = object : CommonDialog.DialogClickListener {
+                override fun onConfirm() {
+                    vm.clearNetworkData(username!!)
+                }
+            }).show()
 
     }
 
@@ -93,6 +111,8 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
 
     override fun init() {
         vm.getAllTodo()
+        vm.getAllFinishedTodo()
+        vm.getAllTimedTodo()
         username = SpUtil.getUsername()
         if (!username.isNullOrBlank()) {
             ui.apply {
@@ -103,6 +123,12 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
         }
         vm.localTodoList.observe(this, {
             localTodoEntities = it
+        })
+        vm.localFinishTodoList.observe(this, {
+            localFinishTodoEntities = it
+        })
+        vm.localTimedTodoList.observe(this, {
+            localTimedTodoEntities = it
         })
     }
 

@@ -126,4 +126,10 @@ class DatabaseManager private constructor() {
         }
         return resMap
     }
+
+    suspend fun queryFinishTodoEntityAll():MutableSet<FinishTodoEntity> {
+        return finishTodoEntityDao.queryFinishTodoEntityAll().toMutableSet()
+    }
+
+
 }

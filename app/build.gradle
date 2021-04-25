@@ -15,9 +15,8 @@ android {
         applicationId "com.zjl.mytomato"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.5.1"
-
+        versionCode 8
+        versionName "1.6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

@@ -51,6 +51,17 @@ class MineRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
         )
     }
 
+    fun getAllTimedTaskSet(initTimedTaskEntities: MutableLiveData<MutableSet<TimedTaskEntity>>) {
+        launch(
+            block = {
+                DatabaseManager.get().queryTimedTaskEntityAll().toMutableSet()
+            },
+            success = {
+                initTimedTaskEntities.postValue(it)
+            }
+        )
+    }
+
     fun changeTimedTaskEnable(timedTaskEntity: TimedTaskEntity) {
         launch(
                 block = {
