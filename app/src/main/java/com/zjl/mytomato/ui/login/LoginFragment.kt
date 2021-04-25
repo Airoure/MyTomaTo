@@ -1,15 +1,9 @@
 package com.zjl.mytomato.ui.login
 
 import androidx.lifecycle.ViewModelProvider
-import cn.bmob.v3.BmobQuery
-import cn.bmob.v3.exception.BmobException
-import cn.bmob.v3.listener.FindListener
-import cn.bmob.v3.listener.SaveListener
 import com.zjl.mytomato.*
+import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.FragmentLoginBinding
-import com.zjl.mytomato.entity.User
-import com.zjl.mytomato.util.SpUtil
-import com.zjl.mytomato.view.LoadingDialog
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginVm>() {
     override fun initViewModel() = ViewModelProvider(this).get(LoginVm::class.java)
@@ -63,7 +57,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginVm>() {
                 etPassword.setText("")
             }
             tvLogin.setOnClickListener {
-                val loading = LoadingDialog(context!!)
                 if (!isLogin) {
                     if (etPassword.length() < 8) {
                         toast("密码长度不足")
@@ -73,49 +66,41 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginVm>() {
                         toast("两次输入的密码不一致")
                         return@setOnClickListener
                     }
-                    loading.show()
-                    User(etUsername.text.toString(), etPassword.text.toString()).save(object : SaveListener<String>() {
-                        override fun done(p0: String?, p1: BmobException?) {
-                            loading.dismiss()
-                            if (p1 == null) {
-                                toast("注册成功，将直接为您登入")
-                                SpUtil.setUsername(etUsername.text.toString())
-                                activity?.finish()
-                            } else {
-                                if (p1.errorCode == 401) {
-                                    toast("用户名已存在")
-                                } else {
-                                    toast("网络异常")
-                                }
-                            }
-                        }
+                    vm.register(etUsername.text.toString(), etPassword.text.toString())
 
-                    })
                 } else {
-                    loading.show()
-                    BmobQuery<User>().apply {
-                        addWhereEqualTo("username", etUsername.text.toString())
-                        addWhereEqualTo("password", etPassword.text.toString())
-                        findObjects(object : FindListener<User>() {
-                            override fun done(p0: MutableList<User>?, p1: BmobException?) {
-                                loading.dismiss()
-                                if (p1 == null) {
-                                    if (p0?.isEmpty() == true) {
-                                        toast("用户名或密码错误，请仔细检察")
-                                    } else {
-                                        SpUtil.setUsername(etUsername.text.toString())
-                                        toast("登入成功")
-                                        activity?.finish()
-                                    }
-                                } else {
-                                    toast("网络异常")
-                                }
-                            }
-                        })
-                    }
+                    vm.login(etUsername.text.toString(), etPassword.text.toString())
+
                 }
             }
         }
+    }
+
+    override fun subscribe() {
+        super.subscribe()
+        vm.registerLiveData.observe(this, {
+            when (it) {
+                Constant.REGISTER_SUCCESS -> {
+                    toast("注册成功，将直接为您登入")
+                    activity?.finish()
+                }
+                Constant.REGISTER_FAIL -> {
+                    toast("用户名已存在")
+                }
+            }
+        })
+        vm.loginLiveData.observe(this, {
+            when (it) {
+                Constant.LOGIN_SUCCESS -> {
+                    toast("登入成功")
+                    activity?.finish()
+                }
+                Constant.LOGIN_ERROR -> {
+                    toast("用户名或密码错误，请仔细检察")
+                }
+            }
+        })
+
     }
 
     private fun setTvLoginEnable() {

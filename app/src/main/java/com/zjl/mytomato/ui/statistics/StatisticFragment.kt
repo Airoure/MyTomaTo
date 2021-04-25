@@ -15,7 +15,6 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.zjl.mytomato.BaseFragment
-import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.FragmentStatisticBinding
 import com.zjl.mytomato.setGone
 import com.zjl.mytomato.setVisiable
@@ -37,22 +36,6 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding, StatisticVm>() 
             var date = sdf.format(calendar.time)
             val today = date
             tvDate.text = date
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.share -> {
-//                        getBitmapFromView(cardTotal,activity!!) { bitmap -> saveBitmap(bitmap,"test")}
-//                        val shareImg = getImageFromAsserts("share.PNG")
-//                        startActivity(
-//                            Intent.createChooser(
-//                                Intent(Intent.ACTION_SEND).setType("image/*").putExtra(
-//                                    Intent.EXTRA_STREAM,
-//                                    shareImg?.let { it1 -> saveBitmap(it1, "share") }), "分享"
-//                            )
-//                        )
-                    }
-                }
-                true
-            }
             nestScrollView.isNestedScrollingEnabled = false
             ivPreviousDay.setOnClickListener {
                 calendar.add(Calendar.DAY_OF_MONTH, -1)

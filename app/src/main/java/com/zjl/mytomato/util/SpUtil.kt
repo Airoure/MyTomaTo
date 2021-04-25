@@ -54,21 +54,21 @@ object SpUtil {
         }
     }
 
-    fun getMaxExitTime() = sp.getInt("max_exit_time",3)
+    fun getMaxExitTime() = sp.getInt("max_exit_time", 3)
 
     fun setMaxExitTime(maxExitTime: Int) {
-        sp.edit{
+        sp.edit {
             putInt("max_exit_time", maxExitTime)
         }
     }
 
     fun setUsername(username: String?) {
-        sp.edit(){
-            putString("username",username)
+        sp.edit() {
+            putString("username", username)
         }
     }
 
-    fun getUsername():String? {
-        return sp.getString("username",null)
+    fun getUsername(): String? {
+        return sp.getString("username", null)
     }
 }

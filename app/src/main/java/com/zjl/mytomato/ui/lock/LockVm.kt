@@ -28,7 +28,7 @@ class LockVm : BaseViewModel() {
         viewModelScope.launch {
             App.isLocking = true
             var totalWorkTime =
-                (todoEntity.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
+                    (todoEntity.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
             var nowWorkTime = totalWorkTime
             var nowRestTime = onceRestTime
             val workTimer = object : CoroutineScopeTimer() {
@@ -66,14 +66,14 @@ class LockVm : BaseViewModel() {
                         val date = dateFormat.format(Date())
                         val time = timeFormat.format(Date())
                         repo.addFinishTodo(
-                            FinishTodoEntity(
-                                todoEntity.name,
-                                todoEntity.imageUrl,
-                                date,
-                                time,
-                                todoEntity.hour,
-                                todoEntity.minute
-                            )
+                                FinishTodoEntity(
+                                        todoEntity.name,
+                                        todoEntity.imageUrl,
+                                        date,
+                                        time,
+                                        todoEntity.hour,
+                                        todoEntity.minute
+                                )
                         )
                         finishLiveData.postValue(true)
 

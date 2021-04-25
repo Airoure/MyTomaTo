@@ -6,8 +6,8 @@ import com.zjl.mytomato.R
 import com.zjl.mytomato.databinding.DialogColorPickerBinding
 
 class ColorPickerDialog(context: Context, confirmClick: (color: Int) -> Unit) : Dialog(
-    context,
-    R.style.BaseDialog
+        context,
+        R.style.BaseDialog
 ) {
     private val ui: DialogColorPickerBinding
 

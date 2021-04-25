@@ -188,7 +188,7 @@ class LockActivity : AppCompatActivity() {
                 App.isLocking = isLocking
                 if (!isLocking) {
                     if (forceExit) {
-                        MainActivity.open(this)
+                        MainActivity.open(this, todoEntity)
                     } else {
                         MainActivity.open(this, todoEntity)
                     }

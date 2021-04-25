@@ -40,8 +40,8 @@
             android:launchMode="singleTask">
 
         </activity>
-        <activity
-            android:name=".ui.login.LoginActivity">
+        <activity android:name=".ui.share.ShareActivity" />
+        <activity android:name=".ui.login.LoginActivity">
 
         </activity>
         <activity
@@ -73,8 +73,7 @@
         </provider>
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="${applicationId}.BmobContentProvider">
-        </provider>
+            android:authorities="${applicationId}.BmobContentProvider"></provider>
     </application>
 
 </manifest>

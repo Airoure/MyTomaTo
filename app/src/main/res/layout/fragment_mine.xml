@@ -15,7 +15,6 @@
         app:titleTextColor="@color/white" />
 
 
-
     <com.zjl.mytomato.view.VerticalRecyclerview
         android:id="@+id/rv_timed_task"
         android:layout_width="match_parent"

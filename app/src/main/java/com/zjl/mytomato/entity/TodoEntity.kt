@@ -24,7 +24,7 @@ data class TodoEntity(
     )
 
     override fun equals(other: Any?): Boolean {
-        if(other is TodoEntity){
+        if (other is TodoEntity) {
             return this.name.equals(other.name)
         }
         return false
@@ -49,7 +49,7 @@ class NetworkTodoEntity(
     )
 
     override fun equals(other: Any?): Boolean {
-        if(other is NetworkTodoEntity){
+        if (other is NetworkTodoEntity) {
             return this.name.equals(other.name) && this.username.equals(other.username)
         }
         return false

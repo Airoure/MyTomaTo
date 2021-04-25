@@ -13,11 +13,11 @@ import android.view.animation.BounceInterpolator
 import kotlin.random.Random
 
 class BarGraph @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0
 ) : View(
-    context, attrs, defStyle
+        context, attrs, defStyle
 ) {
     private val mLinePaint = Paint()
     private val mTextPaint = Paint()
@@ -70,11 +70,11 @@ class BarGraph @JvmOverloads constructor(
                 mValuePath.moveTo(10f, (height - 100f) - (height - 200f) / 10 * i)
                 mValuePath.lineTo(70f, (height - 100f) - (height - 200f) / 10 * i)
                 canvas.drawLine(
-                    90f,
-                    (height - 100f) - (height - 200f) / 10 * i,
-                    110f,
-                    (height - 100f) - (height - 200f) / 10 * i,
-                    mLinePaint
+                        90f,
+                        (height - 100f) - (height - 200f) / 10 * i,
+                        110f,
+                        (height - 100f) - (height - 200f) / 10 * i,
+                        mLinePaint
                 )
                 canvas.drawTextOnPath("${i * 10}%", mValuePath, 0f, 0f, mTextPaint)
             }
@@ -89,30 +89,30 @@ class BarGraph @JvmOverloads constructor(
                 }
                 //val path = Path()
                 mBarPaint.color = Color.rgb(
-                    random.nextInt(256),
-                    random.nextInt(256),
-                    random.nextInt(256)
+                        random.nextInt(256),
+                        random.nextInt(256),
+                        random.nextInt(256)
                 )
                 mXaxisPath.reset()
                 mXaxisPath.moveTo(130f + 160f * i, height - 50f)
                 mXaxisPath.lineTo(260f + 160f * i, height - 50f)
                 canvas.drawTextOnPath(shortName, mXaxisPath, 0f, 0f, mXAxisPaint)
                 canvas.drawRect(
-                    130f + 160f * i,
-                    (100f) + (height - 200f) * (1 - value) + (height - 200f) * (value) * heightPercent,
-                    260f + 160f * i,
-                    height - 100f,
-                    mBarPaint
+                        130f + 160f * i,
+                        (100f) + (height - 200f) * (1 - value) + (height - 200f) * (value) * heightPercent,
+                        260f + 160f * i,
+                        height - 100f,
+                        mBarPaint
                 )
                 timePath.reset()
                 timePath.moveTo(130f + 160f * i, (95f) + (height - 200f) * (1 - value))
                 timePath.lineTo(260f + 160f * i, (95f) + (height - 200f) * (1 - value))
                 canvas.drawTextOnPath(
-                    "${(value * totalTime).toInt()}分钟",
-                    timePath,
-                    0f,
-                    0f,
-                    mTextPaint
+                        "${(value * totalTime).toInt()}分钟",
+                        timePath,
+                        0f,
+                        0f,
+                        mTextPaint
                 )
                 i++
             }

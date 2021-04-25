@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.PixelCopy
 import android.view.View
 import android.widget.Toast
@@ -64,6 +65,7 @@ object ShareUtil {
                     if (copyResult == PixelCopy.SUCCESS) {
                         callback(bitmap)
                     }
+                    Log.e("copyResult", copyResult.toString())
                     // possible to handle other result codes ...
                 }, Handler(Looper.getMainLooper()))
             } catch (e: IllegalArgumentException) {

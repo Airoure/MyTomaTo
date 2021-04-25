@@ -2,6 +2,7 @@ package com.zjl.mytomato.ui.launch
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.AppOpsManager
 import android.content.Context
@@ -11,8 +12,6 @@ import android.os.Process
 import android.provider.Settings
 import android.view.animation.BounceInterpolator
 import android.widget.Toast
-import cn.bmob.v3.exception.BmobException
-import cn.bmob.v3.listener.SaveListener
 import com.zjl.mytomato.BaseActivity
 import com.zjl.mytomato.databinding.ActivityLaunchBinding
 import com.zjl.mytomato.ui.main.MainActivity
@@ -29,22 +28,25 @@ class LaunchActivity : BaseActivity<ActivityLaunchBinding>() {
             val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
             val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 appOps.unsafeCheckOpNoThrow(
-                    AppOpsManager.OPSTR_GET_USAGE_STATS,
-                    Process.myUid(),
-                    packageName
+                        AppOpsManager.OPSTR_GET_USAGE_STATS,
+                        Process.myUid(),
+                        packageName
                 )
             } else {
                 appOps.checkOpNoThrow(
-                    AppOpsManager.OPSTR_GET_USAGE_STATS,
-                    Process.myUid(),
-                    packageName
+                        AppOpsManager.OPSTR_GET_USAGE_STATS,
+                        Process.myUid(),
+                        packageName
                 )
             }
             if (mode == AppOpsManager.MODE_ALLOWED) {
-                ObjectAnimator.ofFloat(ui.ivTomato,"rotation",0f,360f).apply {
-                    duration = 1500
+                val ivAnimator = ObjectAnimator.ofFloat(ui.ivTomato, "rotation", 0f, 360f)
+                val tvAnimotor = ObjectAnimator.ofFloat(ui.tvTomato, "translationX", -500f, 0f)
+                AnimatorSet().apply {
+                    playTogether(tvAnimotor, ivAnimator)
                     interpolator = BounceInterpolator()
-                    addListener(object :AnimatorListenerAdapter(){
+                    duration = 1500
+                    addListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator?) {
                             super.onAnimationEnd(animation)
                             MainActivity.open(this@LaunchActivity)
@@ -55,13 +57,30 @@ class LaunchActivity : BaseActivity<ActivityLaunchBinding>() {
                 }
             } else {
                 CommonDialog(
+                        this,
+                        content = "需要同意该app使用app使用时间读取权限",
+                        touchOutCamcel = false,
+                        listener = object : CommonDialog.DialogClickListener {
+                            override fun onConfirm() {
+                                val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+                                startActivityForResult(intent, 0)
+                            }
+
+                            override fun onCancel() {
+                                finish()
+                            }
+
+                        }).show()
+            }
+        } else {
+            Toast.makeText(this, "没有悬浮窗权限", Toast.LENGTH_SHORT).show()
+            CommonDialog(
                     this,
-                    content = "需要同意该app使用app使用时间读取权限",
-                    touchOutCamcel = false,
+                    "没有悬浮窗权限",
+                    "请前往打开悬浮窗权限!",
                     listener = object : CommonDialog.DialogClickListener {
                         override fun onConfirm() {
-                            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-                            startActivityForResult(intent, 0)
+                            SettingPageUtil.tryJumpToPermissionPage(this@LaunchActivity)
                         }
 
                         override fun onCancel() {
@@ -69,23 +88,6 @@ class LaunchActivity : BaseActivity<ActivityLaunchBinding>() {
                         }
 
                     }).show()
-            }
-        } else {
-            Toast.makeText(this, "没有悬浮窗权限", Toast.LENGTH_SHORT).show()
-            CommonDialog(
-                this,
-                "没有悬浮窗权限",
-                "请前往打开悬浮窗权限!",
-                listener = object : CommonDialog.DialogClickListener {
-                    override fun onConfirm() {
-                        SettingPageUtil.tryJumpToPermissionPage(this@LaunchActivity)
-                    }
-
-                    override fun onCancel() {
-                        finish()
-                    }
-
-                }).show()
         }
 
 

@@ -2,7 +2,6 @@ package com.zjl.mytomato.ui.main
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -13,6 +12,7 @@ import com.zjl.mytomato.databinding.ActivityMainBinding
 import com.zjl.mytomato.entity.TodoEntity
 import com.zjl.mytomato.ui.me.MeFragment
 import com.zjl.mytomato.ui.mine.MineFragment
+import com.zjl.mytomato.ui.share.ShareActivity
 import com.zjl.mytomato.ui.statistics.StatisticFragment
 import com.zjl.mytomato.ui.todo.TodoFragment
 import com.zjl.mytomato.ui.todolist.TodoListFragment
@@ -35,11 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 listOf(TodoFragment(), TodoListFragment(), StatisticFragment(), MineFragment(), MeFragment())
         return ActivityMainBinding.inflate(layoutInflater).apply {
             if (todoEntity != null) {
-                Snackbar.make(container, "恭喜你完成了一次待办", Snackbar.LENGTH_SHORT).setAction("去分享", object : View.OnClickListener {
-                    override fun onClick(v: View?) {
-
-                    }
-                }).show()
+                Snackbar.make(container, "恭喜你完成了一次待办", Snackbar.LENGTH_SHORT).setAction("去分享") { ShareActivity.open(this@MainActivity, todoEntity!!) }.show()
             }
             vpMain.apply {
                 adapter = object : FragmentStateAdapter(this@MainActivity) {
