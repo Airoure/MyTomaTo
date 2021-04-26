@@ -3,10 +3,12 @@ package com.zjl.mytomato.ui.todolist
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zjl.mytomato.*
+import com.zjl.mytomato.BaseFragment
+import com.zjl.mytomato.R
 import com.zjl.mytomato.adapter.TimeLineAdapter
 import com.zjl.mytomato.databinding.FragmentTodoListBinding
-import com.zjl.mytomato.view.ColorPickerDialog
+import com.zjl.mytomato.setGone
+import com.zjl.mytomato.setVisiable
 import com.zjl.mytomato.view.SpacingDecoration
 
 class TodoListFragment : BaseFragment<FragmentTodoListBinding, TodoListVm>() {
@@ -32,11 +34,6 @@ class TodoListFragment : BaseFragment<FragmentTodoListBinding, TodoListVm>() {
                 adapter = timeLineadapter
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(SpacingDecoration(10f, 0f, includeVEdge = true))
-            }
-            ivTomato.setOnClickListener {
-                ColorPickerDialog(context!!) { color ->
-                    changeTheme(color)
-                }.show()
             }
         }
     }

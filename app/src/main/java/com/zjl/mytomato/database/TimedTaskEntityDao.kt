@@ -9,12 +9,13 @@ interface TimedTaskEntityDao {
     @Insert
     suspend fun addTimedTaskEntity(timedTaskEntity: TimedTaskEntity): Long
 
-    @Query("select * from TimedTaskEntity")
-    suspend fun queryTimedTaskEntityAll(): List<TimedTaskEntity>
+    @Query("select * from TimedTaskEntity where username = :username")
+    suspend fun queryTimedTaskEntityAll(username: String): List<TimedTaskEntity>
 
     @Update(entity = TimedTaskEntity::class)
     suspend fun changeTimedTaskEnable(timedTaskEntity: TimedTaskEntity)
 
     @Delete
     suspend fun deleteTimeTaskEntity(timedTaskEntity: TimedTaskEntity)
+
 }

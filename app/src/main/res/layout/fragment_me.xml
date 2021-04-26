@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_color_no_corner_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="我的"
+        app:titleTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/bg_head"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/me_back"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <View
+        android:id="@+id/v_exit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_exit"
+        android:layout_margin="16dp"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="36dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:shapeAppearanceOverlay="@style/circleStyle" />
+
+    <TextView
+        android:id="@+id/tv_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="登录账号"
+        android:textColor="@color/white"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="享受更多功能 >"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_account" />
+
+    <View
+        android:id="@+id/v_login_area"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
+
+
+    <View
+        android:id="@+id/v_change_tomato_time"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:background="@color/white"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bg_head" />
+
+    <ImageView
+        android:id="@+id/iv_change_tomato_time"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="24dp"
+        android:src="@drawable/ic_setting"
+        app:layout_constraintBottom_toBottomOf="@id/v_change_tomato_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_change_tomato_time" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="设置番茄时间"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_change_tomato_time"
+        app:layout_constraintLeft_toRightOf="@id/iv_change_tomato_time"
+        app:layout_constraintTop_toTopOf="@id/iv_change_tomato_time" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/ic_go_forward"
+        app:layout_constraintBottom_toBottomOf="@id/v_change_tomato_time"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_change_tomato_time" />
+
+    <View
+        android:id="@+id/v_update_to_network"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_change_tomato_time" />
+
+    <ImageView
+        android:id="@+id/iv_update_to_network"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="24dp"
+        android:src="@drawable/ic_update"
+        app:layout_constraintBottom_toBottomOf="@id/v_update_to_network"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_update_to_network" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="同步数据到云端"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_update_to_network"
+        app:layout_constraintLeft_toRightOf="@id/iv_update_to_network"
+        app:layout_constraintTop_toTopOf="@id/iv_update_to_network" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/ic_go_forward"
+        app:layout_constraintBottom_toBottomOf="@id/iv_update_to_network"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_update_to_network" />
+
+    <View
+        android:id="@+id/v_clear_network_data"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_update_to_network" />
+
+    <ImageView
+        android:id="@+id/iv_clear_network_data"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="24dp"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintBottom_toBottomOf="@id/v_clear_network_data"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_clear_network_data" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="清除云端数据"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_clear_network_data"
+        app:layout_constraintLeft_toRightOf="@id/iv_clear_network_data"
+        app:layout_constraintTop_toTopOf="@id/iv_clear_network_data" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/ic_go_forward"
+        app:layout_constraintBottom_toBottomOf="@id/iv_clear_network_data"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_clear_network_data" />
+
+    <View
+        android:id="@+id/v_change_theme_color"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_clear_network_data" />
+
+    <ImageView
+        android:id="@+id/iv_change_theme_color"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="24dp"
+        android:src="@drawable/ic_tomato"
+        app:layout_constraintBottom_toBottomOf="@id/v_change_theme_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_change_theme_color" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="修改主题颜色"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_change_theme_color"
+        app:layout_constraintLeft_toRightOf="@id/iv_change_theme_color"
+        app:layout_constraintTop_toTopOf="@id/iv_change_theme_color" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/ic_go_forward"
+        app:layout_constraintBottom_toBottomOf="@id/iv_change_theme_color"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_change_theme_color" />
+
+    <View
+        android:id="@+id/v_change_max_exit_time"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_change_theme_color" />
+
+    <ImageView
+        android:id="@+id/iv_change_max_exit_time"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="24dp"
+        android:src="@drawable/ic_max_exit_time"
+        app:layout_constraintBottom_toBottomOf="@id/v_change_max_exit_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_change_max_exit_time" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="修改专注退出上限"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_change_max_exit_time"
+        app:layout_constraintLeft_toRightOf="@id/iv_change_max_exit_time"
+        app:layout_constraintTop_toTopOf="@id/iv_change_max_exit_time" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/ic_go_forward"
+        app:layout_constraintBottom_toBottomOf="@id/iv_change_max_exit_time"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_change_max_exit_time" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

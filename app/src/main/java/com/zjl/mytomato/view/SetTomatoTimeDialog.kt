@@ -7,7 +7,7 @@ import com.zjl.mytomato.databinding.DialogSetTomatoTimeBinding
 import com.zjl.mytomato.util.SpUtil
 
 class SetTomatoTimeDialog(context: Context) : Dialog(
-    context, R.style.BaseDialog
+        context, R.style.BaseDialog
 ) {
     private val ui: DialogSetTomatoTimeBinding
 

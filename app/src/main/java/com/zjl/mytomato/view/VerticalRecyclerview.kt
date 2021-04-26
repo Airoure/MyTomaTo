@@ -7,13 +7,13 @@ import android.view.ViewConfiguration
 import androidx.recyclerview.widget.RecyclerView
 
 class VerticalRecyclerview @JvmOverloads constructor(
-    context: Context,
-    attributeSet: AttributeSet? = null,
-    defStyleAttr: Int = 0
+        context: Context,
+        attributeSet: AttributeSet? = null,
+        defStyleAttr: Int = 0
 ) : RecyclerView(
-    context,
-    attributeSet,
-    defStyleAttr
+        context,
+        attributeSet,
+        defStyleAttr
 ) {
     private var initX: Float = 0f
     override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {

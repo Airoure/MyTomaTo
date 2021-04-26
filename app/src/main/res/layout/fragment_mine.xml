@@ -14,15 +14,6 @@
         app:menu="@menu/mine_top_menu"
         app:titleTextColor="@color/white" />
 
-    <ImageView
-        android:id="@+id/iv_tomato"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/tomato"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintLeft_toLeftOf="@id/toolbar"
-        app:layout_constraintRight_toRightOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <com.zjl.mytomato.view.VerticalRecyclerview
         android:id="@+id/rv_timed_task"

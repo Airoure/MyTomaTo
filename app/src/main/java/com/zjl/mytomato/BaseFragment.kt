@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.zjl.mytomato.view.LoadingDialog
 
 abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
     protected lateinit var ui: V
@@ -16,18 +17,25 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
     protected abstract fun initUi(): V
     protected open fun init() {}
 
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         vm = initViewModel()
+        vm.setLoadingView(LoadingDialog(context!!))
         ui = initUi()
         subscribe()
         return ui.root
     }
 
-    open fun subscribe() {}
+
+    open fun subscribe() {
+        vm.networkLiveData.observe(this, {
+            toast("网络异常")
+        })
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

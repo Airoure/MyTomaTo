@@ -12,9 +12,5 @@
         android:title="修改布局"
         android:icon="@drawable/ic_change_layout"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/change_tomat_time"
-        android:title="设定番茄时间"
-        android:icon="@drawable/ic_setting" />
 
 </menu>

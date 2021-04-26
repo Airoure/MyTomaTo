@@ -33,12 +33,12 @@ class LockService : Service() {
         createNotificationChannel()
 
         val mBuilder = NotificationCompat.Builder(applicationContext, "MyTomato")
-            .setSmallIcon(R.drawable.tomato)
-            .setLargeIcon(resources.getDrawable(R.drawable.tomato).toBitmap())
-            .setContentTitle("Tomato")
-            .setContentText("正在运行")
-            .setWhen(System.currentTimeMillis())
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setSmallIcon(R.drawable.tomato)
+                .setLargeIcon(resources.getDrawable(R.drawable.tomato).toBitmap())
+                .setContentTitle("Tomato")
+                .setContentText("正在运行")
+                .setWhen(System.currentTimeMillis())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notification = mBuilder.setAutoCancel(false).build()
         startForeground(notificationFlag, notification)
@@ -47,7 +47,7 @@ class LockService : Service() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val chanel =
-                NotificationChannel("MyTomato", "name", NotificationManager.IMPORTANCE_DEFAULT)
+                    NotificationChannel("MyTomato", "name", NotificationManager.IMPORTANCE_DEFAULT)
             chanel.description = "des"
             chanel.setShowBadge(false)
             notificationManager = getSystemService(NotificationManager::class.java)
@@ -57,23 +57,20 @@ class LockService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Timer().schedule(
-            object : TimerTask() {
-                override fun run() {
-                    while (App.isLocking) {
-                        if (AppUsedUtil.getTopAppName()?.equals("com.zjl.mytomato")!!) {
-                            continue
-                        }
-                        startActivity(
-                            Intent(this@LockService, LockActivity::class.java).setFlags(
-                                Intent.FLAG_ACTIVITY_NEW_TASK
+                object : TimerTask() {
+                    override fun run() {
+                        while (App.isLocking) {
+                            if (AppUsedUtil.getTopAppName()?.equals("com.zjl.mytomato")!! or AppUsedUtil.getTopAppName()?.equals("com.tencent.mobileqq")!!) {
+                                continue
+                            }
+                            startActivity(
+                                    Intent(this@LockService, LockActivity::class.java).setFlags(
+                                            Intent.FLAG_ACTIVITY_NEW_TASK
+                                    )
                             )
-                        )
+                        }
                     }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        stopForeground(STOP_FOREGROUND_REMOVE)
-                    }
-                }
-            }, 0
+                }, 0
         )
         return START_STICKY
     }

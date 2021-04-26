@@ -9,11 +9,11 @@ import android.view.View
 import android.view.animation.BounceInterpolator
 
 class LineGraph @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0
 ) : View(
-    context, attrs, defStyle
+        context, attrs, defStyle
 ) {
     private var endX = 0f//滑动终点
     private val mLinePaint = Paint()
@@ -63,13 +63,13 @@ class LineGraph @JvmOverloads constructor(
         mbrokenlinePaint.apply {
             isAntiAlias = true
             shader = LinearGradient(
-                0f,
-                0f,
-                100f,
-                100f,
-                intArrayOf(Color.RED, Color.GREEN),
-                floatArrayOf(0f, height.toFloat()),
-                Shader.TileMode.REPEAT
+                    0f,
+                    0f,
+                    100f,
+                    100f,
+                    intArrayOf(Color.RED, Color.GREEN),
+                    floatArrayOf(0f, height.toFloat()),
+                    Shader.TileMode.REPEAT
             )
             style = Paint.Style.STROKE
         }
@@ -86,11 +86,11 @@ class LineGraph @JvmOverloads constructor(
                 mLinePath.moveTo(10f, (height - 100f) - (height - 200f) / 10 * i)
                 mLinePath.lineTo(70f, (height - 100f) - (height - 200f) / 10 * i)
                 canvas.drawLine(
-                    90f,
-                    (height - 100f) - (height - 200f) / 10 * i,
-                    110f,
-                    (height - 100f) - (height - 200f) / 10 * i,
-                    mLinePaint
+                        90f,
+                        (height - 100f) - (height - 200f) / 10 * i,
+                        110f,
+                        (height - 100f) - (height - 200f) / 10 * i,
+                        mLinePaint
                 )
                 canvas.drawTextOnPath("${i * 10}%", mLinePath, 0f, 0f, mTextPaint)
             }
@@ -107,30 +107,30 @@ class LineGraph @JvmOverloads constructor(
                 datePath.lineTo(260f + 160f * i, height - 50f)
                 canvas.drawTextOnPath(date, datePath, 0f, 0f, mXAxisPaint)
                 canvas.drawCircle(
-                    (390 + 320f * i) / 2,
-                    (100f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent,
-                    10f,
-                    mPointPaint
+                        (390 + 320f * i) / 2,
+                        (100f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent,
+                        10f,
+                        mPointPaint
                 )
                 if (i == 0) {
                     brokenlinePath.moveTo(
-                        (390 + 320f * i) / 2,
-                        (100f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
+                            (390 + 320f * i) / 2,
+                            (100f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
                     )
                 } else {
                     brokenlinePath.lineTo(
-                        (390 + 320f * i) / 2,
-                        (100f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
+                            (390 + 320f * i) / 2,
+                            (100f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
                     )
                 }
                 timePath.reset()
                 timePath.moveTo(
-                    130f + 160f * i,
-                    (50f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
+                        130f + 160f * i,
+                        (50f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
                 )
                 timePath.lineTo(
-                    260f + 160f * i,
-                    (50f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
+                        260f + 160f * i,
+                        (50f) + (height - 200f) * (1 - value / maxValue.toFloat()) + (height - 200f) * (value / maxValue.toFloat()) * heightPercent
                 )
                 canvas.drawTextOnPath("${value}分钟", timePath, 0f, 0f, mTextPaint)
                 i++

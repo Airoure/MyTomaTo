@@ -16,13 +16,13 @@ import com.zjl.mytomato.view.CommonDialog
 import kotlin.random.Random
 
 class TimedTaskAdapter(private val context: Context, private val listener: TimeTaskListener) :
-    RecyclerView.Adapter<TimedTaskAdapter.ViewHolder>() {
+        RecyclerView.Adapter<TimedTaskAdapter.ViewHolder>() {
 
     private var timedTaskEntityList: MutableList<TimedTaskEntity> = mutableListOf()
     private val random = Random(1)
 
     inner class ViewHolder(private val ui: ItemTimedTaskBinding) :
-        RecyclerView.ViewHolder(ui.root) {
+            RecyclerView.ViewHolder(ui.root) {
         @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
         fun bind(timedTaskEntity: TimedTaskEntity) {
             ui.apply {
@@ -31,11 +31,11 @@ class TimedTaskAdapter(private val context: Context, private val listener: TimeT
                     listener.onSwitchChange(timedTaskEntity, isChecked)
                 }
                 mainCard.setBackgroundColor(
-                    Color.rgb(
-                        random.nextInt(256),
-                        random.nextInt(256),
-                        random.nextInt(256)
-                    )
+                        Color.rgb(
+                                random.nextInt(256),
+                                random.nextInt(256),
+                                random.nextInt(256)
+                        )
                 )
                 var downPositionX = 0f
 
@@ -52,41 +52,41 @@ class TimedTaskAdapter(private val context: Context, private val listener: TimeT
                         MotionEvent.ACTION_UP -> {
                             if (v.translationX <= (v.right - v.left) / 2) {
                                 val animator =
-                                    ObjectAnimator.ofFloat(v, "translationX", v.translationX, 0f)
+                                        ObjectAnimator.ofFloat(v, "translationX", v.translationX, 0f)
                                 animator.duration = 500
                                 animator.interpolator = BounceInterpolator()
                                 animator.start()
                             } else {
                                 CommonDialog(
-                                    context,
-                                    content = "确定要删除此任务吗",
-                                    listener = object : CommonDialog.DialogClickListener {
-                                        override fun onConfirm() {
-                                            deleteTimeTaskEntity(timedTaskEntity)
-                                            listener.onDelete(timedTaskEntity)
-                                            val animator = ObjectAnimator.ofFloat(
-                                                v,
-                                                "translationX",
-                                                v.translationX,
-                                                0f
-                                            )
-                                            animator.duration = 500
-                                            animator.interpolator = BounceInterpolator()
-                                            animator.start()
-                                        }
+                                        context,
+                                        content = "确定要删除此任务吗",
+                                        listener = object : CommonDialog.DialogClickListener {
+                                            override fun onConfirm() {
+                                                deleteTimeTaskEntity(timedTaskEntity)
+                                                listener.onDelete(timedTaskEntity)
+                                                val animator = ObjectAnimator.ofFloat(
+                                                        v,
+                                                        "translationX",
+                                                        v.translationX,
+                                                        0f
+                                                )
+                                                animator.duration = 500
+                                                animator.interpolator = BounceInterpolator()
+                                                animator.start()
+                                            }
 
-                                        override fun onCancel() {
-                                            val animator = ObjectAnimator.ofFloat(
-                                                v,
-                                                "translationX",
-                                                v.translationX,
-                                                0f
-                                            )
-                                            animator.duration = 500
-                                            animator.interpolator = BounceInterpolator()
-                                            animator.start()
-                                        }
-                                    }).show()
+                                            override fun onCancel() {
+                                                val animator = ObjectAnimator.ofFloat(
+                                                        v,
+                                                        "translationX",
+                                                        v.translationX,
+                                                        0f
+                                                )
+                                                animator.duration = 500
+                                                animator.interpolator = BounceInterpolator()
+                                                animator.start()
+                                            }
+                                        }).show()
                             }
 
                         }
@@ -96,7 +96,7 @@ class TimedTaskAdapter(private val context: Context, private val listener: TimeT
                 with(timedTaskEntity) {
                     switchTimedTask.isChecked = enable
                     tvTime.text =
-                        "${startHour}点${startMinute}分~${(startHour + hour + (startMinute + minute) / 60) % 24}点${(startMinute + minute) % 60}分"
+                            "${startHour}点${startMinute}分~${(startHour + hour + (startMinute + minute) / 60) % 24}点${(startMinute + minute) % 60}分"
                     if (!isMonday) {
                         tvMonday.setGone()
                     }
@@ -124,11 +124,11 @@ class TimedTaskAdapter(private val context: Context, private val listener: TimeT
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        ItemTimedTaskBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+            ItemTimedTaskBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+            )
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

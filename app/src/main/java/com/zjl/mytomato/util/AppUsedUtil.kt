@@ -12,12 +12,12 @@ import java.util.*
 
 object AppUsedUtil {
     private val mUsageStatsManager =
-        ContextCompat.getSystemService(App.appContext, UsageStatsManager::class.java)
+            ContextCompat.getSystemService(App.appContext, UsageStatsManager::class.java)
 
     fun getTopAppName(): String? {
         val now = System.currentTimeMillis()
         val queryUsageStats =
-            mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, now)
+                mUsageStatsManager?.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, now)
         var recentTask: UsageStats? = null
         if (!queryUsageStats.isNullOrEmpty()) {
             for (item in queryUsageStats) {
@@ -36,9 +36,9 @@ object AppUsedUtil {
         val thisWeekDayEnd = CalendarUtil.getAllThisWeekDayEnd()
         for (i in 0..6) {
             val queryUsageStates = mUsageStatsManager?.queryUsageStats(
-                UsageStatsManager.INTERVAL_DAILY,
-                thisWeekDayStart[i],
-                thisWeekDayEnd[i]
+                    UsageStatsManager.INTERVAL_DAILY,
+                    thisWeekDayStart[i],
+                    thisWeekDayEnd[i]
             )
             var totalTime = 0L
             if (!queryUsageStates.isNullOrEmpty()) {
@@ -69,9 +69,9 @@ object AppUsedUtil {
         val appMap = TreeMap<String, Long>()
         val mPackageManager = context.packageManager
         val queryUsageStates = mUsageStatsManager?.queryUsageStats(
-            UsageStatsManager.INTERVAL_BEST,
-            startTime,
-            System.currentTimeMillis()
+                UsageStatsManager.INTERVAL_BEST,
+                startTime,
+                System.currentTimeMillis()
         )
         if (!queryUsageStates.isNullOrEmpty()) {
             for (item in queryUsageStates) {
@@ -81,7 +81,7 @@ object AppUsedUtil {
                 }
                 if (item.totalTimeInForeground / 1000 / 60 >= 10) {
                     appMap[app.loadLabel(mPackageManager).toString()] =
-                        item.totalTimeInForeground / 1000 / 60
+                            item.totalTimeInForeground / 1000 / 60
                 }
             }
         }

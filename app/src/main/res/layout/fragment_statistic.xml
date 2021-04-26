@@ -21,16 +21,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <ImageView
-        android:id="@+id/iv_tomato"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/tomato"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintLeft_toLeftOf="@id/toolbar"
-        app:layout_constraintRight_toRightOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@id/toolbar" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nest_scroll_view"
         android:layout_width="match_parent"

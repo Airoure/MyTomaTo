@@ -43,21 +43,21 @@ class LockActivity : AppCompatActivity() {
             LockActivity.todoEntity = todoEntity
         } else {
             val timedTaskEntity: TimedTaskEntity =
-                intent.getBundleExtra("todoBundle")?.getParcelable("timedTaskEntity")!!
+                    intent.getBundleExtra("todoBundle")?.getParcelable("timedTaskEntity")!!
             if (timedTaskEntity != null) {
                 alarmManager?.setExact(
-                    AlarmManager.RTC,
-                    CalendarUtil.getTimeMilled(
-                        CalendarUtil.getWhatDay(),
-                        timedTaskEntity.startHour,
-                        timedTaskEntity.startMinute
-                    ),
-                    PendingIntent.getActivity(
-                        App.appContext,
-                        timedTaskEntity.requestCode.toInt(),
-                        intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                    )
+                        AlarmManager.RTC,
+                        CalendarUtil.getTimeMilled(
+                                CalendarUtil.getWhatDay(),
+                                timedTaskEntity.startHour,
+                                timedTaskEntity.startMinute
+                        ),
+                        PendingIntent.getActivity(
+                                App.appContext,
+                                timedTaskEntity.requestCode.toInt(),
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        )
                 )
             }
             LockActivity.todoEntity = timedTaskEntity.toTodoEntity()
@@ -66,10 +66,10 @@ class LockActivity : AppCompatActivity() {
         ui = ActivityLockBinding.inflate(layoutInflater)
         setContentView(ui.root)
         Glide.with(this)
-            .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-            .dontAnimate()
-            .placeholder(resources.getDrawable(R.color.black))
-            .into(ui.ivBackground)
+                .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                .dontAnimate()
+                .placeholder(resources.getDrawable(R.color.black))
+                .into(ui.ivBackground)
         if (!App.isLocking) {
             startService(Intent(this, LockService::class.java))
             initParam()
@@ -78,7 +78,7 @@ class LockActivity : AppCompatActivity() {
         val tipView = TipView(this, content = "确定要退出吗") {
             windowManager.removeView(it)
         }
-        val infoView = TipView(this, content = "本月退出次数达到三次了，不能退出") {
+        val infoView = TipView(this, content = "本月退出次数达到上限了，不能退出") {
             windowManager.removeView(it)
         }
         infoView.setOnConfirmClickListener {
@@ -93,20 +93,20 @@ class LockActivity : AppCompatActivity() {
                 SpUtil.setLockMonth()
                 SpUtil.setLockTimes(1)
                 startActivity(
-                    Intent(this, MainActivity::class.java)
+                        Intent(this, MainActivity::class.java)
                 )
-                removeView()
+                removeView(forceExit = true)
             } else {
                 val times = SpUtil.getLockTimes()
-                if (times >= 3) {
+                if (times >= SpUtil.getMaxExitTime()) {
                     windowManager.addView(infoView, mLayoutParam)
                 } else {
                     SpUtil.setLockTimes(times + 1)
                     SpUtil.setLockMonth()
                     startActivity(
-                        Intent(this, MainActivity::class.java)
+                            Intent(this, MainActivity::class.java)
                     )
-                    removeView()
+                    removeView(forceExit = true)
                 }
             }
             windowManager.removeView(tipView)
@@ -118,9 +118,9 @@ class LockActivity : AppCompatActivity() {
             }
             imgBack.apply {
                 Glide.with(applicationContext)
-                    .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
-                    .placeholder(resources.getDrawable(R.color.black))
-                    .into(this)
+                        .load("${BASE_PIC_URL}${todoEntity?.imageUrl}")
+                        .placeholder(resources.getDrawable(R.color.black))
+                        .into(this)
             }
             tvTodoName.text = todoEntity?.name
         }
@@ -142,7 +142,7 @@ class LockActivity : AppCompatActivity() {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 mLayoutParam.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             }
         } else {
             mLayoutParam.type = WindowManager.LayoutParams.TYPE_TOAST
@@ -180,14 +180,18 @@ class LockActivity : AppCompatActivity() {
     }
 
 
-    private fun removeView(isLocking: Boolean = false) {
+    private fun removeView(isLocking: Boolean = false, forceExit: Boolean = false) {
         try {
             if (workView.isAttachedToWindow) {
                 windowManager.removeView(workView)
                 lockVm.stopCountDown()
                 App.isLocking = isLocking
                 if (!isLocking) {
-                    MainActivity.open(this)
+                    if (forceExit) {
+                        MainActivity.open(this)
+                    } else {
+                        MainActivity.open(this, todoEntity)
+                    }
                 }
                 finish()
 
