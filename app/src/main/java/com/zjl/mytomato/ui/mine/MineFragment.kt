@@ -228,6 +228,8 @@ class MineFragment : BaseFragment<FragmentMineBinding, MineVm>() {
             timedTaskAdapter.setTimedTaskEntityList(it as MutableList<TimedTaskEntity>)
             if (!it.isNullOrEmpty()) {
                 ui.layoutEmpty.setGone()
+            } else {
+                ui.layoutEmpty.setVisiable()
             }
         })
         vm.addedTimedTaskEntity.observe(this, {

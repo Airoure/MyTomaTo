@@ -10,15 +10,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Process
 import android.provider.Settings
-import android.util.Log
 import android.view.animation.BounceInterpolator
 import android.widget.Toast
-import cn.bmob.v3.exception.BmobException
-import cn.bmob.v3.listener.SaveListener
 import com.zjl.mytomato.BaseActivity
 import com.zjl.mytomato.databinding.ActivityLaunchBinding
-import com.zjl.mytomato.entity.NFinishTodoEntity
-import com.zjl.mytomato.entity.NTimedTaskEntity
 import com.zjl.mytomato.ui.main.MainActivity
 import com.zjl.mytomato.util.SettingPageUtil
 import com.zjl.mytomato.view.CommonDialog

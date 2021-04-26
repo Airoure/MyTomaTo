@@ -15,28 +15,28 @@ interface FinishTodoEntityDao {
     @Delete
     suspend fun delete(finishTodoEntity: FinishTodoEntity)
 
-    @Query("select * from FinishTodoEntity where finishDate = :date")
-    suspend fun queryByData(date: String): List<FinishTodoEntity>
+    @Query("select * from FinishTodoEntity where finishDate = :date and username = :username")
+    suspend fun queryByData(date: String, username: String): List<FinishTodoEntity>
 
-    @Query("select Count(*) from FinishTodoEntity")
-    suspend fun getFinishTodoNum(): Int
+    @Query("select Count(*) from FinishTodoEntity where username = :username")
+    suspend fun getFinishTodoNum(username: String): Int
 
-    @Query("select sum(hour*60+minute) from FinishTodoEntity")
-    suspend fun getTotalTime(): Int?
+    @Query("select sum(hour*60+minute) from FinishTodoEntity where username = :username")
+    suspend fun getTotalTime(username: String): Int?
 
-    @Query("select sum(hour*60+minute)/(select Count(distinct finishDate)) from FinishTodoEntity")
-    suspend fun getAverageTime(): Int?
+    @Query("select sum(hour*60+minute)/(select Count(distinct finishDate)) from FinishTodoEntity where username = :username")
+    suspend fun getAverageTime(username: String): Int?
 
-    @Query("select Count(*) from FinishTodoEntity where finishDate = :date")
-    suspend fun getNumByDate(date: String): Int
+    @Query("select Count(*) from FinishTodoEntity where finishDate = :date and username = :username")
+    suspend fun getNumByDate(date: String,username: String): Int
 
-    @Query("select sum(hour*60+minute) from FinishTodoEntity where finishDate = :date")
-    suspend fun getTimeByDate(date: String): Int?
+    @Query("select sum(hour*60+minute) from FinishTodoEntity where finishDate = :date and username = :username")
+    suspend fun getTimeByDate(date: String,username: String): Int?
 
-    @Query("select name,sum(hour*60+minute) as time from FinishTodoEntity where finishDate = :date group by name")
-    suspend fun getFinishTodoByDate(date: String): List<FinishTodoType>
+    @Query("select name,sum(hour*60+minute) as time from FinishTodoEntity where finishDate = :date and username = :username group by name")
+    suspend fun getFinishTodoByDate(date: String,username: String): List<FinishTodoType>
 
-    @Query("select * from FinishTodoEntity")
-    suspend fun queryFinishTodoEntityAll(): List<FinishTodoEntity>
+    @Query("select * from FinishTodoEntity where username = :username")
+    suspend fun queryFinishTodoEntityAll(username: String): List<FinishTodoEntity>
 
 }

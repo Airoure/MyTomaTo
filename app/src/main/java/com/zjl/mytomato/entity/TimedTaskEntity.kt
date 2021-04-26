@@ -6,7 +6,7 @@ import cn.bmob.v3.BmobObject
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "TimedTaskEntity", primaryKeys = ["name", "startHour", "startMinute"])
+@Entity(tableName = "TimedTaskEntity", primaryKeys = ["name", "startHour", "startMinute","username"])
 data class TimedTaskEntity(
         var name: String,
         var hour: Int,
@@ -23,7 +23,8 @@ data class TimedTaskEntity(
         var isFriday: Boolean = false,
         var isSaturday: Boolean = false,
         var isSunday: Boolean = false,
-        val requestCode: Long = System.currentTimeMillis()
+        val requestCode: Long = System.currentTimeMillis(),
+        var username: String = ""
 ) : Parcelable, BaseLocalEntity {
     fun toTodoEntity(): TodoEntity {
         return TodoEntity(
@@ -94,6 +95,7 @@ class NTimedTaskEntity(
             isFriday,
             isSaturday,
             isSunday,
-            requestCode
+            requestCode,
+            username
     )
 }

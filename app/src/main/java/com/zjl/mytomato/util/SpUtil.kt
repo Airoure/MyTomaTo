@@ -62,13 +62,13 @@ object SpUtil {
         }
     }
 
-    fun setUsername(username: String?) {
+    fun setUsername(username: String) {
         sp.edit() {
             putString("username", username)
         }
     }
 
-    fun getUsername(): String? {
-        return sp.getString("username", null)
+    fun getUsername(): String {
+        return sp.getString("username", "")!!
     }
 }

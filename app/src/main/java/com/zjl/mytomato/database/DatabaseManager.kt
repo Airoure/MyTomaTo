@@ -6,6 +6,7 @@ import com.zjl.mytomato.entity.FinishTodoEntity
 import com.zjl.mytomato.entity.FinishTodoType
 import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
+import com.zjl.mytomato.util.SpUtil
 
 const val DATABASE_NAME = "Tomato.db"
 
@@ -55,15 +56,15 @@ class DatabaseManager private constructor() {
     }
 
     suspend fun queryTodoEntityByName(name: String): List<TodoEntity> {
-        return todoEntityDao.queryByName(name)
+        return todoEntityDao.queryByName(name,SpUtil.getUsername())
     }
 
     suspend fun queryTodoEntityAll(): MutableList<TodoEntity> {
-        return todoEntityDao.queryAll()
+        return todoEntityDao.queryAll(SpUtil.getUsername())
     }
 
     suspend fun queryTodoEntityAllInSet(): MutableSet<TodoEntity> {
-        return todoEntityDao.queryAll().toMutableSet()
+        return todoEntityDao.queryAll(SpUtil.getUsername()).toMutableSet()
     }
 
     suspend fun insertFinishTodoEntity(finishTodoEntity: FinishTodoEntity) {
@@ -75,31 +76,31 @@ class DatabaseManager private constructor() {
     }
 
     suspend fun queryFinishTodoEntityByDate(date: String): List<FinishTodoEntity> {
-        return finishTodoEntityDao.queryByData(date)
+        return finishTodoEntityDao.queryByData(date,SpUtil.getUsername())
     }
 
     suspend fun getFinishTodoNum(): Int {
-        return finishTodoEntityDao.getFinishTodoNum()
+        return finishTodoEntityDao.getFinishTodoNum(SpUtil.getUsername())
     }
 
     suspend fun getTotalTime(): Int? {
-        return finishTodoEntityDao.getTotalTime()
+        return finishTodoEntityDao.getTotalTime(SpUtil.getUsername())
     }
 
     suspend fun getAverageTime(): Int? {
-        return finishTodoEntityDao.getAverageTime()
+        return finishTodoEntityDao.getAverageTime(SpUtil.getUsername())
     }
 
     suspend fun getNumByDate(date: String): Int {
-        return finishTodoEntityDao.getNumByDate(date)
+        return finishTodoEntityDao.getNumByDate(date,SpUtil.getUsername())
     }
 
     suspend fun getTimeByDate(date: String): Int? {
-        return finishTodoEntityDao.getTimeByDate(date)
+        return finishTodoEntityDao.getTimeByDate(date,SpUtil.getUsername())
     }
 
     suspend fun getFinishTodoByDate(date: String): List<FinishTodoType> {
-        return finishTodoEntityDao.getFinishTodoByDate(date)
+        return finishTodoEntityDao.getFinishTodoByDate(date,SpUtil.getUsername())
     }
 
     suspend fun insertTimedTaskEntity(timedTaskEntity: TimedTaskEntity): Long {
@@ -107,7 +108,7 @@ class DatabaseManager private constructor() {
     }
 
     suspend fun queryTimedTaskEntityAll(): List<TimedTaskEntity> {
-        return timedTaskEntityDao.queryTimedTaskEntityAll()
+        return timedTaskEntityDao.queryTimedTaskEntityAll(SpUtil.getUsername())
     }
 
     suspend fun changeTimedTaskEnable(timedTaskEntity: TimedTaskEntity) {
@@ -121,14 +122,14 @@ class DatabaseManager private constructor() {
     suspend fun getFocusTimeByDate(allThisWeekDay: List<String>): Map<String, Int> {
         val resMap = mutableMapOf<String, Int>()
         for (item in allThisWeekDay) {
-            val value = finishTodoEntityDao.getTimeByDate(item)
+            val value = finishTodoEntityDao.getTimeByDate(item,SpUtil.getUsername())
             resMap[item.substring(5).replace("月", "-").replace("日", "")] = value ?: 0
         }
         return resMap
     }
 
     suspend fun queryFinishTodoEntityAll():MutableSet<FinishTodoEntity> {
-        return finishTodoEntityDao.queryFinishTodoEntityAll().toMutableSet()
+        return finishTodoEntityDao.queryFinishTodoEntityAll(SpUtil.getUsername()).toMutableSet()
     }
 
 

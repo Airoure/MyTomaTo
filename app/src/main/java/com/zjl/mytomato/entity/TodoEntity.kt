@@ -6,13 +6,14 @@ import cn.bmob.v3.BmobObject
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "TodoEntity", primaryKeys = ["name"])
+@Entity(tableName = "TodoEntity", primaryKeys = ["name","username"])
 data class TodoEntity(
         var name: String,
         var hour: Int,
         var minute: Int,
         var second: Int = 0,
-        var imageUrl: String = ""
+        var imageUrl: String = "",
+        var username: String = ""
 ) : Parcelable,BaseLocalEntity {
     override fun toNetwork(username: String) = NetworkTodoEntity(
             this.name,
@@ -45,7 +46,8 @@ class NetworkTodoEntity(
             this.hour,
             this.minute,
             this.second,
-            this.imageUrl
+            this.imageUrl,
+            this.username
     )
 
     override fun equals(other: Any?): Boolean {

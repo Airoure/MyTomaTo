@@ -51,6 +51,67 @@ class MeViewModel : BaseViewModel() {
 
     fun clearNetworkData(username: String) {
         showLoading()
+        innerClearTodoEntity(username)
+        innerClearFinishTodoEntity(username)
+        innerClearTimedTodoEntity(username)
+
+    }
+
+    private fun innerClearFinishTodoEntity(username: String) {
+        BmobQuery<NFinishTodoEntity>().addWhereEqualTo("username", username).findObjects(object : FindListener<NFinishTodoEntity>() {
+            override fun done(datas: MutableList<NFinishTodoEntity>?, exception: BmobException?) {
+                if (exception != null) {
+                    hideLoading()
+                    networkLiveData.postValue(Constant.NETWORK_ERROR)
+                } else if (!datas.isNullOrEmpty()) {
+                    var size = 0
+                    for (data in datas) {
+                        data.delete(object : UpdateListener() {
+                            override fun done(p0: BmobException?) {
+                                size++
+                                if (size == datas.size) {
+                                    hideLoading()
+                                    clearLiveData.postValue(Constant.CLEAR_SUCCESS)
+                                }
+                            }
+                        })
+                    }
+                } else {
+                    hideLoading()
+                    clearLiveData.postValue(Constant.CLEAR_NO_DATA)
+                }
+            }
+        })
+    }
+
+    private fun innerClearTimedTodoEntity(username: String) {
+        BmobQuery<NTimedTaskEntity>().addWhereEqualTo("username", username).findObjects(object : FindListener<NTimedTaskEntity>() {
+            override fun done(datas: MutableList<NTimedTaskEntity>?, exception: BmobException?) {
+                if (exception != null) {
+                    hideLoading()
+                    networkLiveData.postValue(Constant.NETWORK_ERROR)
+                } else if (!datas.isNullOrEmpty()) {
+                    var size = 0
+                    for (data in datas) {
+                        data.delete(object : UpdateListener() {
+                            override fun done(p0: BmobException?) {
+                                size++
+                                if (size == datas.size) {
+                                    hideLoading()
+                                    clearLiveData.postValue(Constant.CLEAR_SUCCESS)
+                                }
+                            }
+                        })
+                    }
+                } else {
+                    hideLoading()
+                    clearLiveData.postValue(Constant.CLEAR_NO_DATA)
+                }
+            }
+        })
+    }
+
+    private fun innerClearTodoEntity(username: String) {
         BmobQuery<NetworkTodoEntity>().addWhereEqualTo("username", username).findObjects(object : FindListener<NetworkTodoEntity>() {
             override fun done(datas: MutableList<NetworkTodoEntity>?, exception: BmobException?) {
                 if (exception != null) {

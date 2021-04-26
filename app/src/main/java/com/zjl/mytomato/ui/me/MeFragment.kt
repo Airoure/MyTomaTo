@@ -15,7 +15,7 @@ import com.zjl.mytomato.view.SetMaxExitTimeDialog
 import com.zjl.mytomato.view.SetTomatoTimeDialog
 
 class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
-    private var username: String? = null
+    private var username: String = ""
     private var localTodoEntities = mutableSetOf<TodoEntity>()
     private var localFinishTodoEntities = mutableSetOf<FinishTodoEntity>()
     private var localTimedTodoEntities = mutableSetOf<TimedTaskEntity>()
@@ -30,21 +30,27 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
                 }.show()
             }
             vUpdateToNetwork.setOnClickListener {
-                if (username.isNullOrBlank()) {
+                if (username.isBlank()) {
                     toast("请先登入")
                     LoginActivity.open(it.context)
                 } else {
                     vm.updateToNetWork(
-                        localTodoEntities,
-                        localFinishTodoEntities,
-                        localTimedTodoEntities,
-                        username!!
+                            localTodoEntities,
+                            localFinishTodoEntities,
+                            localTimedTodoEntities,
+                            username
                     )
 
                 }
             }
             vClearNetworkData.setOnClickListener {
-                clearNetworkData()
+                if (username.isBlank()) {
+                    toast("请先登入")
+                    LoginActivity.open(context!!)
+                } else {
+                    clearNetworkData()
+                }
+
             }
             vChangeTomatoTime.setOnClickListener {
                 SetTomatoTimeDialog(context!!).show()
@@ -53,41 +59,37 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
                 SetMaxExitTimeDialog(context!!).show()
             }
             vLoginArea.setOnClickListener {
-                if (SpUtil.getUsername().isNullOrEmpty()) {
+                if (SpUtil.getUsername().isEmpty()) {
                     LoginActivity.open(it.context)
                 }
             }
             vExit.setOnClickListener {
                 CommonDialog(
-                    context!!,
-                    content = "确定要退出吗",
-                    listener = object : CommonDialog.DialogClickListener {
-                        override fun onConfirm() {
-                            username = null
-                            SpUtil.setUsername(null)
-                            tvTip.setVisiable()
-                            tvAccount.text = "登录账号"
-                            vExit.setGone()
-                        }
-
-                        override fun onCancel() {
-
-                        }
-                    }).show()
+                        context!!,
+                        content = "退出之前请关闭所有定时任务，否则可能导致定时任务错乱",
+                        listener = object : CommonDialog.DialogClickListener {
+                            override fun onConfirm() {
+                                username = ""
+                                SpUtil.setUsername("")
+                                tvTip.setVisiable()
+                                tvAccount.text = "登录账号"
+                                vExit.setGone()
+                            }
+                        }).show()
             }
         }
     }
 
     private fun clearNetworkData() {
         CommonDialog(
-            context!!,
-            content = "确定删除云端数据吗",
-            touchOutCamcel = true,
-            listener = object : CommonDialog.DialogClickListener {
-                override fun onConfirm() {
-                    vm.clearNetworkData(username!!)
-                }
-            }).show()
+                context!!,
+                content = "确定删除云端数据吗",
+                touchOutCamcel = true,
+                listener = object : CommonDialog.DialogClickListener {
+                    override fun onConfirm() {
+                        vm.clearNetworkData(username)
+                    }
+                }).show()
 
     }
 
@@ -114,7 +116,7 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
         vm.getAllFinishedTodo()
         vm.getAllTimedTodo()
         username = SpUtil.getUsername()
-        if (!username.isNullOrBlank()) {
+        if (username.isNotBlank()) {
             ui.apply {
                 tvTip.setGone()
                 tvAccount.text = username
