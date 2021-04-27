@@ -30,9 +30,9 @@ class DatabaseManager private constructor() {
 
     private val database by lazy {
         Room.databaseBuilder(
-                appContext!!,
-                TomatoDatabase::class.java,
-                DATABASE_NAME
+            appContext!!,
+            TomatoDatabase::class.java,
+            DATABASE_NAME
         ).build()
     }
 
@@ -56,7 +56,7 @@ class DatabaseManager private constructor() {
     }
 
     suspend fun queryTodoEntityByName(name: String): List<TodoEntity> {
-        return todoEntityDao.queryByName(name,SpUtil.getUsername())
+        return todoEntityDao.queryByName(name, SpUtil.getUsername())
     }
 
     suspend fun queryTodoEntityAll(): MutableList<TodoEntity> {
@@ -76,7 +76,7 @@ class DatabaseManager private constructor() {
     }
 
     suspend fun queryFinishTodoEntityByDate(date: String): List<FinishTodoEntity> {
-        return finishTodoEntityDao.queryByData(date,SpUtil.getUsername())
+        return finishTodoEntityDao.queryByData(date, SpUtil.getUsername())
     }
 
     suspend fun getFinishTodoNum(): Int {
@@ -92,15 +92,15 @@ class DatabaseManager private constructor() {
     }
 
     suspend fun getNumByDate(date: String): Int {
-        return finishTodoEntityDao.getNumByDate(date,SpUtil.getUsername())
+        return finishTodoEntityDao.getNumByDate(date, SpUtil.getUsername())
     }
 
     suspend fun getTimeByDate(date: String): Int? {
-        return finishTodoEntityDao.getTimeByDate(date,SpUtil.getUsername())
+        return finishTodoEntityDao.getTimeByDate(date, SpUtil.getUsername())
     }
 
     suspend fun getFinishTodoByDate(date: String): List<FinishTodoType> {
-        return finishTodoEntityDao.getFinishTodoByDate(date,SpUtil.getUsername())
+        return finishTodoEntityDao.getFinishTodoByDate(date, SpUtil.getUsername())
     }
 
     suspend fun insertTimedTaskEntity(timedTaskEntity: TimedTaskEntity): Long {
@@ -122,13 +122,13 @@ class DatabaseManager private constructor() {
     suspend fun getFocusTimeByDate(allThisWeekDay: List<String>): Map<String, Int> {
         val resMap = mutableMapOf<String, Int>()
         for (item in allThisWeekDay) {
-            val value = finishTodoEntityDao.getTimeByDate(item,SpUtil.getUsername())
+            val value = finishTodoEntityDao.getTimeByDate(item, SpUtil.getUsername())
             resMap[item.substring(5).replace("月", "-").replace("日", "")] = value ?: 0
         }
         return resMap
     }
 
-    suspend fun queryFinishTodoEntityAll():MutableSet<FinishTodoEntity> {
+    suspend fun queryFinishTodoEntityAll(): MutableSet<FinishTodoEntity> {
         return finishTodoEntityDao.queryFinishTodoEntityAll(SpUtil.getUsername()).toMutableSet()
     }
 

@@ -46,7 +46,11 @@ fun Fragment.longToast(msg: String) {
     Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
 }
 
-fun EditText.addTextListener(beforeTextChanged: (() -> Unit)? = null, onTextChanged: (() -> Unit)? = null, afterTextChanged: (() -> Unit)? = null) {
+fun EditText.addTextListener(
+    beforeTextChanged: (() -> Unit)? = null,
+    onTextChanged: (() -> Unit)? = null,
+    afterTextChanged: (() -> Unit)? = null
+) {
     this.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             beforeTextChanged?.invoke()

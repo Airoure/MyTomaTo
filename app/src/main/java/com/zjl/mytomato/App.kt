@@ -17,9 +17,9 @@ class App : Application() {
         Cyanea.init(this, resources)
         Bugly.init(applicationContext, "ddeb60568a", true)
         val bmobConfig = BmobConfig.Builder(this)
-                .setApplicationId("4ee1de618575da974ffbbb2e729e7a1a")
-                .setConnectTimeout(30)
-                .build()
+            .setApplicationId("4ee1de618575da974ffbbb2e729e7a1a")
+            .setConnectTimeout(30)
+            .build()
         Bmob.resetDomain("https://open3.bmob.cn/8/")
         Bmob.initialize(bmobConfig)
 

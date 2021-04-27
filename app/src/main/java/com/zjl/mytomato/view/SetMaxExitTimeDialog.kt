@@ -7,7 +7,7 @@ import com.zjl.mytomato.databinding.DialogSetMaxExitTimeBinding
 import com.zjl.mytomato.util.SpUtil
 
 class SetMaxExitTimeDialog(context: Context) : Dialog(
-        context, R.style.BaseDialog
+    context, R.style.BaseDialog
 ) {
     private val ui: DialogSetMaxExitTimeBinding
 

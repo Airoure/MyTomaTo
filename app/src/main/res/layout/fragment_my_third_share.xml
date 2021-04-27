@@ -21,7 +21,6 @@
         android:shadowDy="5"
         android:shadowRadius="10"
         android:textSize="20sp"
-        android:text="我刚刚在MyTomato专注了1小时21分钟，真的很不错。你也一起来吧！"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/iv_qrcode"
         app:layout_constraintBottom_toBottomOf="parent"

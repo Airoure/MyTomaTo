@@ -9,7 +9,7 @@ import com.zjl.mytomato.common.Constant
 import com.zjl.mytomato.databinding.FragmentMyFirstShareBinding
 import com.zjl.mytomato.entity.TodoEntity
 
-class MyFirstSharePageFragment() : BaseFragment<FragmentMyFirstShareBinding, SharePageVm>() {
+class MyFirstSharePageFragment : BaseFragment<FragmentMyFirstShareBinding, SharePageVm>() {
     private lateinit var todoEntity: TodoEntity
 
     companion object {
@@ -25,8 +25,15 @@ class MyFirstSharePageFragment() : BaseFragment<FragmentMyFirstShareBinding, Sha
     override fun initViewModel() = ViewModelProvider(this).get(SharePageVm::class.java)
 
     override fun initUi(): FragmentMyFirstShareBinding {
-        todoEntity = arguments?.getParcelable<TodoEntity>("todoEntity")!!
+        todoEntity = arguments?.getParcelable("todoEntity")!!
         return FragmentMyFirstShareBinding.inflate(layoutInflater).apply {
+            tvShareText.text = if (todoEntity.hour > 0) {
+                "我刚刚在MyTomato专注了${todoEntity.hour}小时${todoEntity.minute}分钟，真的很不错。你也一起来吧！"
+            } else {
+                "我刚刚在MyTomato专注了${todoEntity.minute}分钟，真的很不错。你也一起来吧！"
+            }
+
+
             Glide.with(context!!).apply {
                 load("${Constant.BASE_PIC_URL}${todoEntity.imageUrl}").into(ivBackground)
                 load(R.drawable.qrcode).into(ivQrcode)

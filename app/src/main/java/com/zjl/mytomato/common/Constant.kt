@@ -51,4 +51,14 @@ object Constant {
 
     //云端没有数据
     const val CLEAR_NO_DATA = 16
+
+    //成就列表
+    val achievementList = arrayListOf<String>("无", "初出茅庐", "小有所成", "渐入佳境", "一往无前")
+    fun getAchievement(time: Int) = when (time) {
+        0 -> achievementList[0]
+        in 1..10 -> achievementList[1]
+        in 11..60 -> achievementList[2]
+        in 61..180 -> achievementList[3]
+        else -> achievementList[4]
+    }
 }

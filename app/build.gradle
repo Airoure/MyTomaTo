@@ -104,4 +104,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.squareup.okio:okio:2.2.2'
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    //完成待办的动画
+    implementation 'me.samlss:bling:1.0.0'
+
+    debugImplementation 'com.glance.guolindev:glance:1.0.0'
 }

@@ -7,20 +7,20 @@ import android.widget.FrameLayout
 import com.zjl.mytomato.databinding.ViewDayWeekRadioBinding
 
 class DayOrWeekRadio @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyle: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
 ) : FrameLayout(
-        context, attrs, defStyle
+    context, attrs, defStyle
 ) {
     private val ui: ViewDayWeekRadioBinding
     private var listener: OnRadioCheckedListener? = null
 
     init {
         ui = ViewDayWeekRadioBinding.inflate(
-                LayoutInflater.from(context),
-                this,
-                true
+            LayoutInflater.from(context),
+            this,
+            true
         ).apply {
             btnWeek.setOnClickListener {
                 listener?.onRadioChecked(0)

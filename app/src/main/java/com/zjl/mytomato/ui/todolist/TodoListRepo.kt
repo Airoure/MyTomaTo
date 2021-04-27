@@ -10,116 +10,116 @@ import kotlinx.coroutines.CoroutineScope
 class TodoListRepo(coroutineScope: CoroutineScope) : BaseRepo(coroutineScope) {
 
     fun addFinishTodo(
-            finishTodoEntity: FinishTodoEntity
+        finishTodoEntity: FinishTodoEntity
     ) {
         launch(
-                block = {
-                    DatabaseManager.get().insertFinishTodoEntity(finishTodoEntity)
-                }
+            block = {
+                DatabaseManager.get().insertFinishTodoEntity(finishTodoEntity)
+            }
         )
     }
 
     fun getFinishTodoByDate(
-            date: String,
-            finishTodoLiveData: MutableLiveData<List<FinishTodoEntity>>
+        date: String,
+        finishTodoLiveData: MutableLiveData<List<FinishTodoEntity>>
     ) {
         launch(
-                block = {
-                    DatabaseManager.get().queryFinishTodoEntityByDate(date)
-                },
-                success = {
-                    finishTodoLiveData.postValue(it)
-                }
+            block = {
+                DatabaseManager.get().queryFinishTodoEntityByDate(date)
+            },
+            success = {
+                finishTodoLiveData.postValue(it)
+            }
         )
     }
 
     fun getFinishTodoNum(finishTodoNum: MutableLiveData<Int>) {
         launch(
-                block = {
-                    DatabaseManager.get().getFinishTodoNum()
-                },
-                success = {
-                    finishTodoNum.postValue(it)
-                }
+            block = {
+                DatabaseManager.get().getFinishTodoNum()
+            },
+            success = {
+                finishTodoNum.postValue(it)
+            }
         )
     }
 
     fun getTotalTime(totalTime: MutableLiveData<Int>) {
         launch(
-                block = {
-                    DatabaseManager.get().getTotalTime()
-                },
-                success = {
-                    totalTime.postValue(it)
-                }
+            block = {
+                DatabaseManager.get().getTotalTime()
+            },
+            success = {
+                totalTime.postValue(it)
+            }
         )
     }
 
     fun getTotalAverageTime(averageTime: MutableLiveData<Int>) {
         launch(
-                block = {
-                    DatabaseManager.get().getAverageTime()
-                },
-                success = {
-                    averageTime.postValue(it)
-                }
+            block = {
+                DatabaseManager.get().getAverageTime()
+            },
+            success = {
+                averageTime.postValue(it)
+            }
         )
 
     }
 
     fun getNumByDate(date: String, dayNum: MutableLiveData<Int>) {
         launch(
-                block = {
-                    DatabaseManager.get().getNumByDate(date)
-                },
-                success = {
-                    dayNum.postValue(it)
-                }
+            block = {
+                DatabaseManager.get().getNumByDate(date)
+            },
+            success = {
+                dayNum.postValue(it)
+            }
         )
     }
 
     fun getTimeByDate(date: String, dayTime: MutableLiveData<Int>) {
         launch(
-                block = {
-                    DatabaseManager.get().getTimeByDate(date)
-                },
-                success = {
-                    dayTime.postValue(it)
-                }
+            block = {
+                DatabaseManager.get().getTimeByDate(date)
+            },
+            success = {
+                dayTime.postValue(it)
+            }
         )
 
     }
 
     fun getPieChartData(date: String, pieChartData: MutableLiveData<Map<String, Int>>) {
         launch(
-                block = {
-                    DatabaseManager.get().getFinishTodoByDate(date)
-                },
-                success = {
-                    pieChartData.postValue(
-                            it.map { i ->
-                                i.name to i.time
-                            }.toMap()
-                    )
-                }
+            block = {
+                DatabaseManager.get().getFinishTodoByDate(date)
+            },
+            success = {
+                pieChartData.postValue(
+                    it.map { i ->
+                        i.name to i.time
+                    }.toMap()
+                )
+            }
         )
     }
 
     fun getFocusTimeByDate(
-            allThisWeekDay: List<String>,
-            focusWeekTime: MutableLiveData<Map<String, Int>>
+        allThisWeekDay: List<String>,
+        focusWeekTime: MutableLiveData<Map<String, Int>>
     ) {
         launch(
-                block = {
-                    DatabaseManager.get().getFocusTimeByDate(allThisWeekDay)
-                },
-                success = {
-                    Log.e("test", it.toString())
-                    focusWeekTime.postValue(it)
-                },
-                fail = {
-                    Log.e("fail", it.message.toString())
-                }
+            block = {
+                DatabaseManager.get().getFocusTimeByDate(allThisWeekDay)
+            },
+            success = {
+                Log.e("test", it.toString())
+                focusWeekTime.postValue(it)
+            },
+            fail = {
+                Log.e("fail", it.message.toString())
+            }
         )
     }
 

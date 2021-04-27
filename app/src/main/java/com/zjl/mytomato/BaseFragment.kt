@@ -19,9 +19,9 @@ abstract class BaseFragment<V : ViewBinding, T : BaseViewModel> : Fragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         vm = initViewModel()
         vm.setLoadingView(LoadingDialog(context!!))

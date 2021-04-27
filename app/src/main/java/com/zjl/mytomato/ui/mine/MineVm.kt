@@ -21,7 +21,6 @@ class MineVm : BaseViewModel() {
     }
 
 
-
     fun addTimedTask(timedTaskEntity: TimedTaskEntity) {
         repo.addTimedTask(timedTaskEntity, messageLiveData, addedTimedTaskEntity)
     }

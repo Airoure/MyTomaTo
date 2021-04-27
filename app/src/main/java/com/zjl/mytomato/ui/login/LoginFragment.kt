@@ -28,27 +28,27 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginVm>() {
                 activity?.finish()
             }
             etUsername.addTextListener(
-                    onTextChanged = {
-                        if (etUsername.length() > 0) {
-                            vClearUsername.setVisiable()
-                        } else {
-                            vClearUsername.setGone()
-                        }
-                    },
-                    afterTextChanged = { setTvLoginEnable() }
+                onTextChanged = {
+                    if (etUsername.length() > 0) {
+                        vClearUsername.setVisiable()
+                    } else {
+                        vClearUsername.setGone()
+                    }
+                },
+                afterTextChanged = { setTvLoginEnable() }
             )
             etPassword.addTextListener(
-                    onTextChanged = {
-                        if (etPassword.length() > 0) {
-                            vClearPassword.setVisiable()
-                        } else {
-                            vClearPassword.setGone()
-                        }
-                    },
-                    afterTextChanged = { setTvLoginEnable() }
+                onTextChanged = {
+                    if (etPassword.length() > 0) {
+                        vClearPassword.setVisiable()
+                    } else {
+                        vClearPassword.setGone()
+                    }
+                },
+                afterTextChanged = { setTvLoginEnable() }
             )
             etEnsurePassword.addTextListener(
-                    afterTextChanged = { setTvLoginEnable() }
+                afterTextChanged = { setTvLoginEnable() }
             )
             vClearUsername.setOnClickListener {
                 etUsername.setText("")
@@ -67,7 +67,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginVm>() {
                         return@setOnClickListener
                     }
                     vm.register(etUsername.text.toString(), etPassword.text.toString())
-
                 } else {
                     vm.login(etUsername.text.toString(), etPassword.text.toString())
 
@@ -108,7 +107,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginVm>() {
             if (isLogin) {
                 tvLogin.isEnabled = etUsername.text.isNotEmpty() && etPassword.text.isNotEmpty()
             } else {
-                tvLogin.isEnabled = etUsername.text.isNotEmpty() && etPassword.text.isNotEmpty() && etEnsurePassword.text.isNotEmpty()
+                tvLogin.isEnabled =
+                    etUsername.text.isNotEmpty() && etPassword.text.isNotEmpty() && etEnsurePassword.text.isNotEmpty()
             }
 
         }

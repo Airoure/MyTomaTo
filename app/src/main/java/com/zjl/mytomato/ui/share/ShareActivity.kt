@@ -12,12 +12,18 @@ class ShareActivity : BaseActivity<ActivityShareBinding>() {
 
     override fun addFragment() {
         val todoEntity = intent.getParcelableExtra<TodoEntity>("todoEntity")!!
-        supportFragmentManager.beginTransaction().add(R.id.container, ShareFragment.newInstance(todoEntity)).commit()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, ShareFragment.newInstance(todoEntity)).commit()
     }
 
     companion object {
         fun open(context: Context, todoEntity: TodoEntity) {
-            context.startActivity(Intent(context, ShareActivity::class.java).putExtra("todoEntity", todoEntity))
+            context.startActivity(
+                Intent(context, ShareActivity::class.java).putExtra(
+                    "todoEntity",
+                    todoEntity
+                )
+            )
         }
     }
 }

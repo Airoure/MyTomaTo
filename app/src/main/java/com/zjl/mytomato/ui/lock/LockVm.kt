@@ -28,7 +28,7 @@ class LockVm : BaseViewModel() {
         viewModelScope.launch {
             App.isLocking = true
             var totalWorkTime =
-                    (todoEntity.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
+                (todoEntity.hour * 60 * 60 + LockActivity.todoEntity!!.minute * 60 + LockActivity.todoEntity!!.second) * 1000L
             var nowWorkTime = totalWorkTime
             var nowRestTime = onceRestTime
             val workTimer = object : CoroutineScopeTimer() {
@@ -36,7 +36,14 @@ class LockVm : BaseViewModel() {
                     val hour = nowWorkTime / (1000 * 60 * 60)
                     val minute = (nowWorkTime - hour * 1000 * 60 * 60) / (1000 * 60)
                     val second = (nowWorkTime - minute * 1000 * 60 - hour * 1000 * 60 * 60) / 1000
-                    timeLiveData.postValue("$hour 时$minute 分$second 秒")
+                    if (hour > 0) {
+                        timeLiveData.postValue("$hour 小时$minute 分钟$second 秒")
+                    } else if (minute > 0) {
+                        timeLiveData.postValue("$minute 分钟$second 秒")
+                    } else {
+                        timeLiveData.postValue("$second 秒")
+                    }
+
                     nowWorkTime -= 1000
                     if (nowWorkTime == 0L) {
                         totalWorkTime = 0L
@@ -66,14 +73,14 @@ class LockVm : BaseViewModel() {
                         val date = dateFormat.format(Date())
                         val time = timeFormat.format(Date())
                         repo.addFinishTodo(
-                                FinishTodoEntity(
-                                        todoEntity.name,
-                                        todoEntity.imageUrl,
-                                        date,
-                                        time,
-                                        todoEntity.hour,
-                                        todoEntity.minute
-                                )
+                            FinishTodoEntity(
+                                todoEntity.name,
+                                todoEntity.imageUrl,
+                                date,
+                                time,
+                                todoEntity.hour,
+                                todoEntity.minute
+                            )
                         )
                         finishLiveData.postValue(true)
 

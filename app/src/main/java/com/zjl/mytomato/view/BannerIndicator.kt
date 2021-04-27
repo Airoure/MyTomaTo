@@ -8,7 +8,11 @@ import android.util.AttributeSet
 import android.view.View
 import com.zjl.mytomato.util.dp
 
-class BannerIndicator @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyle: Int = 0) : View(context, attributeSet, defStyle) {
+class BannerIndicator @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defStyle: Int = 0
+) : View(context, attributeSet, defStyle) {
     var mCurrentPosition = 0
         set(value) {
             field = value
@@ -30,7 +34,8 @@ class BannerIndicator @JvmOverloads constructor(context: Context, attributeSet: 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        var width: Int = paddingLeft + paddingRight + mCellRadius * 2 * mCellCount + mCellMargin * (mCellCount - 1)
+        var width: Int =
+            paddingLeft + paddingRight + mCellRadius * 2 * mCellCount + mCellMargin * (mCellCount - 1)
         var height = (paddingTop + paddingBottom + mCellRadius * 2).toInt()
         width = resolveSize(width, widthMeasureSpec)
         height = resolveSize(height, heightMeasureSpec)
@@ -46,7 +51,12 @@ class BannerIndicator @JvmOverloads constructor(context: Context, attributeSet: 
                 mPaint.color = Color.GRAY;
             }
             val left = paddingLeft + i * mCellRadius * 2 + mCellMargin * i
-            canvas!!.drawCircle((left + mCellRadius).toFloat(), (height / 2).toFloat(), mCellRadius.toFloat(), mPaint)
+            canvas!!.drawCircle(
+                (left + mCellRadius).toFloat(),
+                (height / 2).toFloat(),
+                mCellRadius.toFloat(),
+                mPaint
+            )
         }
     }
 }

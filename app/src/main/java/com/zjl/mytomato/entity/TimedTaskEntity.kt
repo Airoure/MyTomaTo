@@ -3,10 +3,14 @@ package com.zjl.mytomato.entity
 import android.os.Parcelable
 import androidx.room.Entity
 import cn.bmob.v3.BmobObject
+import com.zjl.mytomato.util.SpUtil
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "TimedTaskEntity", primaryKeys = ["name", "startHour", "startMinute","username"])
+@Entity(
+        tableName = "TimedTaskEntity",
+        primaryKeys = ["name", "startHour", "startMinute", "username"]
+)
 data class TimedTaskEntity(
         var name: String,
         var hour: Int,
@@ -24,7 +28,7 @@ data class TimedTaskEntity(
         var isSaturday: Boolean = false,
         var isSunday: Boolean = false,
         val requestCode: Long = System.currentTimeMillis(),
-        var username: String = ""
+        var username: String = SpUtil.getUsername()
 ) : Parcelable, BaseLocalEntity {
     fun toTodoEntity(): TodoEntity {
         return TodoEntity(
@@ -98,4 +102,15 @@ class NTimedTaskEntity(
             requestCode,
             username
     )
+
+    companion object {
+        fun getInstance() = NTimedTaskEntity(
+                hour = 0,
+                minute = 0,
+                startHour = 0,
+                startMinute = 0,
+                name = "",
+                username = ""
+        )
+    }
 }

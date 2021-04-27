@@ -47,9 +47,9 @@ object ShareUtil {
         out.flush()
         out.close()
         return FileProvider.getUriForFile(
-                context,
-                "com.zjl.mytomato.fileProvider",
-                file
+            context,
+            "com.zjl.mytomato.fileProvider",
+            file
         )
     }
 
@@ -61,13 +61,24 @@ object ShareUtil {
             val locationOfViewInWindow = IntArray(2)
             view.getLocationInWindow(locationOfViewInWindow)
             try {
-                PixelCopy.request(window, Rect(locationOfViewInWindow[0], locationOfViewInWindow[1], locationOfViewInWindow[0] + view.width, locationOfViewInWindow[1] + view.height), bitmap, { copyResult ->
-                    if (copyResult == PixelCopy.SUCCESS) {
-                        callback(bitmap)
-                    }
-                    Log.e("copyResult", copyResult.toString())
-                    // possible to handle other result codes ...
-                }, Handler(Looper.getMainLooper()))
+                PixelCopy.request(
+                    window,
+                    Rect(
+                        locationOfViewInWindow[0],
+                        locationOfViewInWindow[1],
+                        locationOfViewInWindow[0] + view.width,
+                        locationOfViewInWindow[1] + view.height
+                    ),
+                    bitmap,
+                    { copyResult ->
+                        if (copyResult == PixelCopy.SUCCESS) {
+                            callback(bitmap)
+                        }
+                        Log.e("copyResult", copyResult.toString())
+                        // possible to handle other result codes ...
+                    },
+                    Handler(Looper.getMainLooper())
+                )
             } catch (e: IllegalArgumentException) {
                 // PixelCopy may throw IllegalArgumentException, make sure to handle it
                 e.printStackTrace()

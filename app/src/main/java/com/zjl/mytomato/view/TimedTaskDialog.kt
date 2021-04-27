@@ -8,9 +8,9 @@ import com.zjl.mytomato.entity.TimedTaskEntity
 import com.zjl.mytomato.entity.TodoEntity
 
 class TimedTaskDialog(
-        context: Context,
-        todoEntities: List<TodoEntity>,
-        onClick: (TimedTaskEntity) -> Unit
+    context: Context,
+    todoEntities: List<TodoEntity>,
+    onClick: (TimedTaskEntity) -> Unit
 ) : Dialog(context, R.style.BaseDialog) {
 
     private val ui: DialogTimedTaskBinding
@@ -50,23 +50,23 @@ class TimedTaskDialog(
                 val todoEntity = todoEntityMap[pickerType.displayedValues[pickerType.value]]!!
                 with(todoEntity) {
                     onClick.invoke(
-                            TimedTaskEntity(
-                                    name,
-                                    hour,
-                                    minute,
-                                    second,
-                                    imageUrl,
-                                    pickerTimeHour.value,
-                                    pickerTimeMinute.value,
-                                    enable = false,
-                                    isMonday,
-                                    isTuesday,
-                                    isWednesday,
-                                    isThursday,
-                                    isFriday,
-                                    isSaturday,
-                                    isSunday
-                            )
+                        TimedTaskEntity(
+                            name,
+                            hour,
+                            minute,
+                            second,
+                            imageUrl,
+                            pickerTimeHour.value,
+                            pickerTimeMinute.value,
+                            enable = false,
+                            isMonday,
+                            isTuesday,
+                            isWednesday,
+                            isThursday,
+                            isFriday,
+                            isSaturday,
+                            isSunday
+                        )
                     )
                 }
                 dismiss()

@@ -39,9 +39,10 @@ class ShareFragment : BaseFragment<FragmentShareBinding, ShareVm>() {
         todoEntity = arguments?.getParcelable("todoEntity")
         with(todoEntity!!) {
             fragmentList = listOf(
-                    MyFirstSharePageFragment.newInstance(this),
-                    MySecondSharePageFragment.newInstance(this),
-                    MyThirdSharePageFragment.newInstance(this))
+                MyFirstSharePageFragment.newInstance(this),
+                MySecondSharePageFragment.newInstance(this),
+                MyThirdSharePageFragment.newInstance(this)
+            )
         }
         return FragmentShareBinding.inflate(layoutInflater).apply {
             bannerIndicator.mCellCount = fragmentList.size
@@ -68,11 +69,12 @@ class ShareFragment : BaseFragment<FragmentShareBinding, ShareVm>() {
             tvShare.setOnClickListener {
                 ShareUtil.getBitmapFromView(vpShare, activity!!) { bitmap ->
                     startActivityForResult(
-                            Intent.createChooser(
-                                    Intent(Intent.ACTION_SEND).setType("image/*").putExtra(
-                                            Intent.EXTRA_STREAM,
-                                            saveBitmap(it.context, bitmap, "share")), "分享"
-                            ), SHARE_CODE
+                        Intent.createChooser(
+                            Intent(Intent.ACTION_SEND).setType("image/*").putExtra(
+                                Intent.EXTRA_STREAM,
+                                saveBitmap(it.context, bitmap, "share")
+                            ), "分享"
+                        ), SHARE_CODE
                     )
                 }
 

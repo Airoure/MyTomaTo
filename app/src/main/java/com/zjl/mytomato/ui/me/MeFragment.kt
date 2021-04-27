@@ -19,6 +19,7 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
     private var localTodoEntities = mutableSetOf<TodoEntity>()
     private var localFinishTodoEntities = mutableSetOf<FinishTodoEntity>()
     private var localTimedTodoEntities = mutableSetOf<TimedTaskEntity>()
+    private var weekFocusTime = 0
     override fun initViewModel() = ViewModelProvider(this).get(MeViewModel::class.java)
 
     override fun initUi(): FragmentMeBinding {
@@ -35,10 +36,10 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
                     LoginActivity.open(it.context)
                 } else {
                     vm.updateToNetWork(
-                            localTodoEntities,
-                            localFinishTodoEntities,
-                            localTimedTodoEntities,
-                            username
+                        localTodoEntities,
+                        localFinishTodoEntities,
+                        localTimedTodoEntities,
+                        username
                     )
 
                 }
@@ -65,31 +66,32 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
             }
             vExit.setOnClickListener {
                 CommonDialog(
-                        context!!,
-                        content = "退出之前请关闭所有定时任务，否则可能导致定时任务错乱",
-                        listener = object : CommonDialog.DialogClickListener {
-                            override fun onConfirm() {
-                                username = ""
-                                SpUtil.setUsername("")
-                                tvTip.setVisiable()
-                                tvAccount.text = "登录账号"
-                                vExit.setGone()
-                            }
-                        }).show()
+                    context!!,
+                    content = "退出之前请关闭所有定时任务，否则可能导致定时任务错乱",
+                    listener = object : CommonDialog.DialogClickListener {
+                        override fun onConfirm() {
+                            username = ""
+                            SpUtil.setUsername("")
+                            tvTip.setVisiable()
+                            tvAchievement.setGone()
+                            tvAccount.text = "登录账号"
+                            vExit.setGone()
+                        }
+                    }).show()
             }
         }
     }
 
     private fun clearNetworkData() {
         CommonDialog(
-                context!!,
-                content = "确定删除云端数据吗",
-                touchOutCamcel = true,
-                listener = object : CommonDialog.DialogClickListener {
-                    override fun onConfirm() {
-                        vm.clearNetworkData(username)
-                    }
-                }).show()
+            context!!,
+            content = "确定删除云端数据吗",
+            touchOutCamcel = true,
+            listener = object : CommonDialog.DialogClickListener {
+                override fun onConfirm() {
+                    vm.clearNetworkData(username)
+                }
+            }).show()
 
     }
 
@@ -110,15 +112,16 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
         })
     }
 
-
     override fun init() {
         vm.getAllTodo()
         vm.getAllFinishedTodo()
         vm.getAllTimedTodo()
+        vm.getWeekFocusTime()
         username = SpUtil.getUsername()
         if (username.isNotBlank()) {
             ui.apply {
                 tvTip.setGone()
+                tvAchievement.setVisiable()
                 tvAccount.text = username
                 vExit.setVisiable()
             }
@@ -131,6 +134,13 @@ class MeFragment : BaseFragment<FragmentMeBinding, MeViewModel>() {
         })
         vm.localTimedTodoList.observe(this, {
             localTimedTodoEntities = it
+        })
+        vm.focusWeekTime.observe(this, {
+            weekFocusTime = 0
+            for ((_, v) in it) {
+                weekFocusTime += v
+            }
+            ui.tvAchievement.text = Constant.getAchievement(weekFocusTime)
         })
     }
 

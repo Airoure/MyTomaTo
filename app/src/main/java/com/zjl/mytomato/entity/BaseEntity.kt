@@ -1,7 +1,7 @@
 package com.zjl.mytomato.entity
 
 interface BaseLocalEntity {
-    fun toNetwork(username:String) :BaseNetworkEntity
+    fun toNetwork(username: String): BaseNetworkEntity
 }
 
 interface BaseNetworkEntity {
